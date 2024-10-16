@@ -1,0 +1,23 @@
+.tab-content {
+  border-color: #e5e5e5;
+  border-style: solid none none;
+  border-width: 1.11111px 0px 0px;
+  color: #484848;
+  line-height: 28.8px;
+  padding: 10px 0px 0px;
+}
+.p-textsize {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+}
+
+.imgdes {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
