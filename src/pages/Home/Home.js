@@ -1,75 +1,79 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./home.css";
-import image1 from "../../asset/img/image1.png";
-import image2 from "../../asset/img/image2.png";
-import image3 from "../../asset/img/image3.png";
-import image4 from "../../asset/img/image4.png";
-import image5 from "../../asset/img/image5.png";
-import image6 from "../../asset/img/image6.png";
+import imgCollections from "../../asset/img/collection.webp"
+import imgCollections2 from "../../asset/img/collection2.webp"
+import outlet from "../../asset/img/outlet.webp"
 import { NavLink } from "react-router-dom";
 import BestSeller from "../Best Seller/BestSeller";
 
+const images = [
+  {
+    src: imgCollections,
+    alt: "image-collection",
+    link: "/shirt",
+    caption: "",
+  },
+  {
+    src: imgCollections2,
+    alt: "image-collection2",
+    link: "/trouser",
+    caption: "",
+  },
+  {
+    src: outlet,
+    alt: "outlet",
+    link: "",
+    caption: "",
+  },
+  // {
+  //   src: image6,
+  //   alt: "image-6",
+  //   link: "",
+  //   caption: (
+  // <h1>
+  //   Áo / TOP
+  //   <br />
+  //   <p>SHOP NOW</p>
+  // </h1>
+  // ),
+  // },
+];
+
 const Home = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+  };
+
+  // Sử dụng useEffect để tự động chuyển đổi ảnh
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      handleNext();
+    }, 5000); // Chuyển đổi ảnh mỗi 5 giây
+
+    return () => clearInterval(intervalId); // Dọn dẹp interval khi component unmount
+  }, []);
+
   return (
     <div>
-      <div className="grid-container mt-16">
-        <div className="grid-item">
-          <NavLink to="/shirt">
-            <img src={image1} alt="image-1" className="img-fluid" />
-            <div className="caption">
-              <h1>
-                Áo / TOP
-                <br />
-                <p>SHOP NOW</p>
-              </h1>
-            </div>
+      <div className="slideshow-container">
+        <button className="prev" onClick={handlePrev}>
+          &#10094;
+        </button>
+        <div className="slide">
+          <NavLink to={images[currentIndex].link}>
+            <img src={images[currentIndex].src} alt={images[currentIndex].alt} className="img-fluid" />
+            <div className="caption">{images[currentIndex].caption}</div>
           </NavLink>
         </div>
-        <div className="grid-item">
-          <NavLink to="/lakstudio">
-            <img src={image2} alt="image-1" className="img-fluid" />
-            <div className="caption">
-              <h1>
-                LAKSTUDIOS
-                <br />
-                <p>BRAND DESIGN / SHOP NOW</p>
-              </h1>
-            </div>
-          </NavLink>
-        </div>
-        <NavLink to="/accessory">
-          <div className="grid-item">
-            <img src={image3} alt="image-3" className="img-fluid" />
-            <div className="caption">PHỤ KIỆN / ACCESSORY</div>
-          </div>
-        </NavLink>
-        <div className="grid-item">
-          <NavLink to="/shoes">
-            <img src={image4} alt="image-1" className="img-fluid" />
-            <div className="caption">
-              <h1>
-                GIÀY / SHOES
-                <br />
-                <p>SHOP NOW</p>
-              </h1>
-            </div>
-          </NavLink>
-        </div>
-        <div className="grid-item">
-          <NavLink to="/trouser">
-            <img src={image5} alt="image-1" className="img-fluid" />
-            <div className="caption">
-              <h1>
-                QUẦN
-                <br />
-                <p>SHOP NOW</p>
-              </h1>
-            </div>
-          </NavLink>
-        </div>
-        <div className="grid-item last-grid-item">
-          <img src={image6} alt="image-6" className="img-fluid" />
-        </div>
+        <button className="next" onClick={handleNext}>
+          &#10095;
+        </button>
       </div>
       <div>
         <BestSeller />
