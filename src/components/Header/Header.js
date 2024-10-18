@@ -5,11 +5,13 @@ import { AiOutlineSearch } from "react-icons/ai"; // Import search icon
 import { FaUserAlt } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import logo from "../../asset/logo/logo_header.png";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     // Handle user login
@@ -38,6 +40,10 @@ function Header() {
     e.preventDefault();
     console.log("Searching for:", searchQuery);
     // Handle search action (e.g., redirect to search page or filter products)
+  };
+
+  const handleCartClick = () => {
+    navigate("/cart");
   };
 
   return (
@@ -90,8 +96,6 @@ function Header() {
             </NavLink>
           </li>
         </ul>
-
-
         {/* Tìm kiếm */}
         <form className="search-bar" onSubmit={handleSearchSubmit}>
           <button type="submit" className="search-icon">
@@ -151,19 +155,6 @@ function Header() {
 
         {/* Giỏ hàng */}
         <div className="items-center flex-shrink-0 hidden lg:flex cart-font ml-1">
-          {/* <NavLink to="/cart">
-            <button
-              style={{
-                marginLeft: "20px",
-                backgroundColor: "transparent",
-                border: "none",
-                transition: "box-shadow 0.3s ease"
-              }}
-            >
-              <BsCartPlusFill style={{ color: "#fff", fontSize: "30px" }} />
-            </button>
-          </NavLink> */}
-
           <button
             style={{
               marginLeft: "20px",
@@ -171,11 +162,11 @@ function Header() {
               border: "none",
               transition: "box-shadow 0.3s ease"
             }}
+            onClick={handleCartClick}
           >
             <FaCartShopping style={{ color: "#fff", fontSize: "30px" }} />
           </button>
         </div>
-
       </nav>
     </header>
   );
