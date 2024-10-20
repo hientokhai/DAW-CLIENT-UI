@@ -68,7 +68,8 @@ section {
   color: #fff;
   font-size: 14px;
   font-weight: normal;
-  margin: 0;
+  margin-top: 10px;
+  line-height: 23px;
 }
 
 /* Footer Center */
@@ -197,3 +198,28 @@ section {
   vertical-align: middle;
   margin-right: 5px;
 }
+
+/* footer social */
+/* Other styles remain unchanged */
+
+/* Footer Center */
+.footer-social {
+  display: flex; /* Use flexbox for horizontal alignment */
+  justify-content:baseline; /* Center the icons */
+  margin-top: 20px; /* Space above the icons */
+}
+
+.footer-social a {
+  margin: 0 15px; /* Space between icons */
+}
+
+.social-icon {
+  font-size: 30px; /* Increased size for better visibility */
+  color: white; /* Icon color */
+  transition: color 0.3s; /* Transition effect on hover */
+}
+
+.social-icon:hover {
+  color: lightseagreen; /* Change color on hover */
+}
+
