@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ProductApi from "../../api/productApi";
 import "./bestseller.css";
 import { NavLink } from "react-router-dom";
-import { BsFillArrowRightCircleFill } from "react-icons/bs";
-import HotDeal from "../HotDeal/HotDeal";
 
 const BestSeller = () => {
   const [productList, setProductList] = useState([]);
+  const productContainerRef = useRef(null); // Reference to the product container
+  const [currentIndex, setCurrentIndex] = useState(0); // Keep track of the current index
 
   const fetchProductList = async () => {
     try {
@@ -21,13 +21,39 @@ const BestSeller = () => {
     fetchProductList();
   }, []);
 
+  // Function to scroll the product container left or right
+  const scroll = (direction) => {
+    if (productContainerRef.current) {
+      const productWidth = productContainerRef.current.offsetWidth / 4; // 1/4th of the container width
+      const maxIndex = productList.length - 4; // Calculate max index based on product count
+
+      let newIndex = currentIndex + (direction === "left" ? -1 : 1);
+      newIndex = Math.max(0, Math.min(newIndex, maxIndex)); // Ensure index is within bounds
+
+      setCurrentIndex(newIndex);
+      productContainerRef.current.scrollTo({
+        left: newIndex * productWidth, // Scroll based on product width and index
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <div>
+    <div className="carousel-container">
       <div className="mt-28 bestseller">
-        <h1 className="bestsellerh1">BestSeller</h1>
+        <h1 className="bestsellerh1">Bán chạy nhất</h1>
       </div>
-      <div className="product-container">
-        {productList.slice(0, 6).map((product) => (
+
+      <button
+        className="carousel-arrow-left"
+        onClick={() => scroll("left")}
+        disabled={currentIndex === 0} // Disable when at the start
+      >
+        ❮
+      </button>
+
+      <div className="product-container" ref={productContainerRef}>
+        {productList.map((product) => (
           <NavLink
             key={product.id}
             to={`/products/${product.id}`}
@@ -38,26 +64,39 @@ const BestSeller = () => {
               src={product.imgUrl}
               alt={product.name}
             />
-            <h3
-              style={{ fontSize: "18px", marginTop: "40px" }}
-              className="h3-textbestseller "
-            >
-              {product.name}
-            </h3>
+            {/* Rating and Promotion */}
+            <div className="product-rating">
+              <span>{product.rating} ★</span>
+              <span>({product.reviews})</span>
+            </div>
+            {product.promotion && (
+              <div className="promotion-tag">
+                <span>{product.promotion}</span>
+              </div>
+            )}
+            {/* Product details */}
+            <h3 className="h3-textbestseller">{product.name}</h3>
             <p className="p-textprice">
-              {product.price.toLocaleString("vi-VN")} ₫
+              {product.discountPrice
+                ? `${product.discountPrice.toLocaleString("vi-VN")} ₫`
+                : `${product.price.toLocaleString("vi-VN")} ₫`}
             </p>
+            {product.discountPrice && (
+              <p className="p-text-original-price">
+                {product.price.toLocaleString("vi-VN")} ₫
+              </p>
+            )}
           </NavLink>
         ))}
       </div>
-      <div className="butoon-bottom mt-9">
-        <NavLink to="/shirt">
-          <button className="mt-2 button text-sm fa fa-arrow-right mr-5 flex button-sell ">
-            <p style={{ marginLeft: "2.3rem" }}>Xem tất cả</p>
-          </button>
-        </NavLink>
-      </div>
-      <HotDeal />
+
+      <button
+        className="carousel-arrow-right"
+        onClick={() => scroll("right")}
+        disabled={currentIndex === productList.length - 4} // Disable when at the end
+      >
+        ❯
+      </button>
     </div>
   );
 };
