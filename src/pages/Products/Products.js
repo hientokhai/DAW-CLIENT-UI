@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ProductApi from "../../api/productApi";
 import { useEffect, useState } from "react";
 import "./product.css";
+import { IoIosHeart } from "react-icons/io";
 import DetailProduct from "../DetailProduct/DetailProduct";
 
 const Products = () => {
@@ -12,6 +13,21 @@ const Products = () => {
   const buttons = document.querySelectorAll(".product-variation");
 
   const [selectedSize, setSelectedSize] = useState("S"); // default value is "S"
+
+  // color
+  const [selectedColor, setSelectedColor] = useState('');
+
+  const colors = ['#D9C8C7', '#000000', '#A1CDF1'];
+
+  const handleColorClick = (color) => {
+    setSelectedColor(color);
+  };
+
+  const [isLiked, setIsLiked] = useState(false);
+
+  const toggleLike = () => {
+    setIsLiked(!isLiked);
+  };
 
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -100,6 +116,20 @@ const Products = () => {
     });
     setCart(updatedCart);
   }
+
+  const [mainImage, setMainImage] = useState('https://product.hstatic.net/1000360022/product/vo-nam-co-thap-ankle-socks-shoulder-the-strength__3__a50ca0c87b6a4e42a3dba5c36c803f1a_master.jpg');
+
+  const thumbnails = [
+    'https://product.hstatic.net/1000360022/product/vo-nam-co-thap-ankle-socks-shoulder-the-strength__3__a50ca0c87b6a4e42a3dba5c36c803f1a_master.jpg',
+    'https://product.hstatic.net/1000360022/product/ao-polo-nam-hoa-tiet-in-phoi-vai-subtle-shoulder-form-regular__3__2a625c0c248c419ab5a7bec22b8dae35_master.jpg',
+    'https://product.hstatic.net/1000360022/product/ao-polo-nam-hoa-tiet-in-phoi-vai-subtle-shoulder-form-regular__5__c7ae5dfeeffa45c29b273880b30ab1e2_master.jpg',
+    'https://product.hstatic.net/1000360022/product/ao-polo-nam-hoa-tiet-in-phoi-vai-subtle-shoulder-form-regular__4__2a763297699f45b6bc0d11880c89896f_master.jpg',
+  ];
+
+  const handleThumbnailClick = (image) => {
+    setMainImage(image);
+  };
+
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -107,101 +137,134 @@ const Products = () => {
   return (
     <div>
       <div className="product-page">
-        <div className="product-image">
-          <img src={product.imgUrl} alt={product.name} />
+        <div className="product-gallery">
+          <div className="thumbnail-container">
+            {thumbnails.map((thumbnail, index) => (
+              <img
+                key={index}
+                src={thumbnail}
+                alt={`Thumbnail ${index + 1}`}
+                className="thumbnail"
+                onClick={() => handleThumbnailClick(thumbnail)}
+              />
+            ))}
+          </div>
+          <div className="main-image-container">
+            <img src={mainImage} alt="Main Product" className="main-image" />
+          </div>
         </div>
+
         <div className="product-details">
           <h3 className="name-product">{product.name}</h3>
+
+          <div className="product-rating-detail">
+            <span>4.8 ★</span>
+            <span>| 485 (Đánh giá)</span>
+            <span>| 599 (Đã thích)</span>
+          </div>
+
           <p className="price-product">
-            <span
-              style={{ color: "#000", fontSize: "15px", fontWeight: "500" }}
-            >
-              Giá:
-            </span>
-            {product.price.toLocaleString("vi-VN")} ₫
+            {product.price.toLocaleString("vi-VN")}₫
           </p>
-          <p className="mt-3">
+          <p className="product-status">
             Trạng thái :{" "}
-            <span className="text-red-600">Sản phẩm vẫn còn tại cửa hàng</span>
+            <span className="text-green-600 product-quantity">Hiện còn 187 sản phẩm tại cửa hàng</span>
           </p>
-          <div className="size">
-            <p style={{ marginLeft: "278px" }}>Kích thước:</p>
-            <div class="flex items-center bR6mEk sizee">
+
+          <div className="size-container">
+            <p>Kích thước:</p>
+            <div class="flex items-center bR6mEk">
               <button
-                class={`product-variation ${
-                  selectedSize === "S" ? "active" : ""
-                }`}
+                class={`product-variation ${selectedSize === "S" ? "active" : ""
+                  }`}
                 data-value="S"
                 onClick={() => handleSizeSelection("S")}
               >
                 S
               </button>
               <button
-                class={`product-variation ${
-                  selectedSize === "M" ? "active" : ""
-                }`}
+                class={`product-variation ${selectedSize === "M" ? "active" : ""
+                  }`}
                 data-value="M"
                 onClick={() => handleSizeSelection("M")}
               >
                 M
               </button>
               <button
-                class={`product-variation ${
-                  selectedSize === "L" ? "active" : ""
-                }`}
+                class={`product-variation ${selectedSize === "L" ? "active" : ""
+                  }`}
                 data-value="L"
                 onClick={() => handleSizeSelection("L")}
               >
                 L
               </button>
               <button
-                class={`product-variation ${
-                  selectedSize === "XL" ? "active" : ""
-                }`}
+                class={`product-variation ${selectedSize === "XL" ? "active" : ""
+                  }`}
                 data-value="XL"
                 onClick={() => handleSizeSelection("XL")}
               >
                 XL
               </button>
             </div>
-            <p style={{ marginLeft: "287px", marginTop: "34px" }}>Số lượng:</p>
-            <div
-              style={{
-                display: "flex",
-                marginBottom: "-24px",
+          </div>
 
-                marginTop: "10px",
-              }}
-            >
-              <div className="flex ml-4" style={{ marginLeft: "259px" }}>
-                <div style={{ padding: "20px" }}>
-                  <button
-                    style={{ padding: "20px" }}
-                    className="minus"
-                    onClick={handleIncrement}
-                  >
-                    <p className="p-minus">+</p>
-                  </button>
-                </div>
-                <p style={{ marginTop: "36px" }}> {quantity}</p>
-                <div style={{ padding: "20px" }}>
-                  <button
-                    style={{ padding: "20px" }}
-                    className="plus"
-                    onClick={handleDecrement}
-                  >
-                    <p className="p-plus">-</p>
-                  </button>
-                </div>
-              </div>
+          {/* Màu sắc */}
+          <p className="color-name">Màu sắc:</p>
+          <div className="color-container">
+            {colors.map((color) => (
+              <div
+                key={color}
+                className={`color-item ${selectedColor === color ? 'selected' : ''}`}
+                style={{ backgroundColor: color }}
+                onClick={() => handleColorClick(color)}
+              ></div>
+            ))}
+          </div>
+
+
+          <div className="quantity-and-buttons">
+            <div className="quantity-container">
+              <button
+                className="quantity-button"
+                onClick={handleDecrement}
+              >
+                -
+              </button>
+
+              <input
+                type="number"
+                value={quantity}
+                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value)))}
+                className="quantity-input"
+                min="1"
+              />
+
+              <button
+                className="quantity-button"
+                onClick={handleIncrement}
+              >
+                +
+              </button>
+            </div>
+
+            <div className="product-buttons">
+              <button onClick={addToCart} className="add-to-cart">
+                Thêm vào giỏ
+              </button>
+              <button onClick={toggleLike} className="add-to-wishlist">
+                <i className="heart-icon">
+                  <IoIosHeart className={isLiked ? "liked" : ""} />
+                </i>
+              </button>
             </div>
           </div>
 
-          <div className="product-buttons ml-9">
-            <button onClick={addToCart} className="add-to-cart">
-              Add to Cart
-            </button>
-          </div>
+          <button className="buy-product">
+            Mua ngay
+          </button>
+
+
         </div>
       </div>
       <DetailProduct />
