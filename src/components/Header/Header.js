@@ -154,7 +154,7 @@ function Header() {
         </div>
 
         {/* Giỏ hàng */}
-        <div className="items-center flex-shrink-0 hidden lg:flex cart-font ml-1">
+        {/*<div className="items-center flex-shrink-0 hidden lg:flex cart-font ml-1">
           <button
             style={{
               marginLeft: "20px",
@@ -166,7 +166,19 @@ function Header() {
           >
             <FaCartShopping style={{ color: "#fff", fontSize: "30px" }} />
           </button>
+        </div>*/}
+
+        {/* Giỏ hàng */}
+        <div className="cart-container items-center flex-shrink-0 hidden lg:flex cart-font ml-1">
+          <button className="cart-button" onClick={handleCartClick}>
+            <FaCartShopping className="cart-icon" />
+          </button>
+          <div className="cart-info">
+            <span className="cart-quantity">10</span>
+            <span className="cart-total">305.000₫</span>
+          </div>
         </div>
+
       </nav>
     </header>
   );
