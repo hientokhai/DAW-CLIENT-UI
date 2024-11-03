@@ -1,10 +1,9 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductApi from "../../api/productApi";
-import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-
-const HotDeal = () => {
+import { BsFillArrowRightCircleFill } from "react-icons/bs";
+import "./category.css";
+const CategoryPr = () => {
   const [productList, setProductList] = useState([]);
 
   const fetchProductList = async () => {
@@ -23,24 +22,18 @@ const HotDeal = () => {
 
   return (
     <div>
-      <div className="mt-28 bestseller">
-        <h1 className="bestsellerh1">HOT DEAL</h1>
+      <div className="bestseller">
+        <h1 className="bestsellerh1">Áo</h1>
       </div>
       <div className="product-container">
-        {productList.slice(11, 17).map((product) => (
+        {productList.slice(0, 6).map((product) => (
           <NavLink
             key={product.id}
             to={`/products/${product.id}`}
             className="product-item"
           >
-            <img
-              className="transform hover:scale-110 transition"
-              src={product.imgUrl}
-              alt={product.name}
-            />
-            <h3 style={{ fontSize: "18px" ,marginTop:"40px"}} className="h3-textbestseller">
-              {product.name}
-            </h3>
+            <img src={product.imgUrl} alt={product.name} />
+            <h3 className="h3-textbestseller">{product.name}</h3>
             <p className="p-textprice">
               {product.price.toLocaleString("vi-VN")} ₫
             </p>
@@ -58,4 +51,4 @@ const HotDeal = () => {
   );
 };
 
-export default HotDeal;
+export default CategoryPr;

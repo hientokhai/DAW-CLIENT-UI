@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./home.css";
 import imgCollections from "../../asset/img/collection.webp"
 import imgCollections2 from "../../asset/img/collection2.webp"
+import category from "../../asset/img/danhmuc.webp"
 import outlet from "../../asset/img/outlet.webp"
 import { NavLink } from "react-router-dom";
 import BestSeller from "../Best Seller/BestSeller";
+import FeaturedProduct from "../Featured/Featured"
+import CategoryPr from "../Category/Category";
+import Features from "../Features/Features";
 
 const images = [
   {
@@ -75,9 +79,18 @@ const Home = () => {
           &#10095;
         </button>
       </div>
+      <Features />
       <div>
         <BestSeller />
       </div>
+      <div>
+        <FeaturedProduct />
+      </div>
+      {/* Các danh mục khác */}
+      <div className="category-banner">
+        <img src={category} alt="category" />
+      </div>
+      <CategoryPr />
     </div>
   );
 };
