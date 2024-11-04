@@ -6,6 +6,15 @@
   line-height: 30px;
   padding: 10px 0px 0px;
 }
+.p-textsize {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
 
 .imgdes {
   display: flex;
