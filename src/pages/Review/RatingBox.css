@@ -1,0 +1,36 @@
+.rating-box {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 200px;
+    height: 180px;
+}
+
+.rating-box h3 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.rating-score {
+    font-size: 48px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.stars {
+    font-size: 24px;
+    color: #FFD700;
+}
+
+.total-reviews {
+    font-size: 14px;
+    color: #666;
+}

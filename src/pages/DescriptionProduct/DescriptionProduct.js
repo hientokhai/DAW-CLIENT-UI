@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ProductNew from "../ProductNew/ProductNew";
 import "./Des.css";
 import ProductApi from "../../api/productApi";
 
@@ -28,38 +27,18 @@ export default function DescriptionProduct() {
   return (
     <div className="tab-content">
       <p className="p-textsize">
-        <strong className="p-textsize"> Kích thước chi tiết </strong>
-        <div>
-          <strong className="strongsize">
-            {" "}
-            Size 1/S : Dài : 70 cm / Vòng Thân : 98 cm / Vai : 43
-          </strong>
-        </div>
-        <div>
-          <strong className="strongsize">
-            {" "}
-            Size 2/M : Dài : 72 cm / Vòng Thân : 104 cm / Vai : 44{" "}
-          </strong>
-        </div>
-        <div>
-          <strong className="strongsize">
-            {" "}
-            Size 3/L : Dài : 74 cm / Vòng Thân: 108 cm / Vai : 45{" "}
-          </strong>
-        </div>
-        <div>
-          <strong className="strongsize">
-            {" "}
-            Size 4/XL : Dài : 76 cm / Vòng Thân : 112 cm / Vai : 46{" "}
-          </strong>
+        <strong className="p-textsize"> Mô tả chi tiết </strong>
+        <div style={{ textAlign: 'left', padding: "0 170px" }}>
+          <strong>Chất liệu Double Face - Interlock CVC kết hợp giữa cotton và polyester, mang lại sự mềm mại, thoáng mát và giữ form tốt. Vải được dệt công nghệ Interlock giúp hạn chế nhăn và chống xù lông, bền bỉ theo thời gian.
+            <br />
+            Form dáng Regular không quá ôm sát, tôn lên vẻ nam tính mà vẫn giữ được sự thoải mái. Thiết kế này phù hợp với nhiều vóc dáng, đảm bảo sự cân đối và lịch lãm cho người mặc.
+            <br />
+            Phần vai áo được nhấn nhá với chi tiết in cao "ICONDENIM ORGNLS" dọc theo đường nối, tạo điểm nhấn đầy tinh tế. Cổ áo được dệt sọc ngang to bản, mang lại sự khác biệt và phong cách nổi bật nhưng không quá phô trương.</strong>
         </div>
       </p>
-      <div className="imgdes">
-        <img style={{ width: "45%" }} src={product.imgUrl} alt={product.name} />
-      </div>
-      <div>
-        <ProductNew />
-      </div>
+      {/* <div className="imgdes">
+        <img style={{ width: "100%" }} src={product.imgUrl} alt={product.name} />
+      </div> */}
     </div>
   );
 }

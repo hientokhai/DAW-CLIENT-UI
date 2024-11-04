@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import "./product.css";
 import { IoIosHeart } from "react-icons/io";
 import DetailProduct from "../DetailProduct/DetailProduct";
+import Review from "../Review/Review";
 
 const Products = () => {
   const { id } = useParams();
@@ -268,6 +269,7 @@ const Products = () => {
         </div>
       </div>
       <DetailProduct />
+      <Review />
     </div>
   );
 };
