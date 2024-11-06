@@ -24,6 +24,7 @@ import AboutUs from "../pages/AboutUS/AboutUS";
 import Blog from "../pages/Blog/Blog";
 import ContactForm from "../pages/ContactForm/ContactForm";
 import Aboutmenstyle from "../pages/Aboutmenstyle/Aboutmenstyle";
+import ContactPage from "../pages/ContactPage/ContactPage";
 
 export default function Routers() {
   return (
@@ -53,6 +54,7 @@ export default function Routers() {
       <Route path="/blog" element={<Blog />} />
       <Route path="/contactform" element={<ContactForm />} />
       <Route path="/aboutmenstyle" element={<Aboutmenstyle />} />
+      <Route path="/contactpage" element={<ContactPage />} />
     </Routes>
   );
 }
