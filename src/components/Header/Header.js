@@ -83,12 +83,12 @@ function Header() {
             )}
           </li>
           <li>
-            <NavLink className="nav" to="/accessory">
+            <NavLink className="nav" to="/introduce">
               Giới thiệu
             </NavLink>
           </li>
           <li>
-            <NavLink className="nav" to="/accessory">
+            <NavLink className="nav" to="/contactform">
               Liên hệ
             </NavLink>
           </li>

@@ -19,6 +19,11 @@ import Signin from "../pages/Signin/Signin";
 import User from "../pages/User/User";
 import History from "../pages/History/history";
 import SearchPage from "../pages/SearchPage/SearchPage";
+import Introduce from "../pages/Introduce/Introduce";
+import AboutUs from "../pages/AboutUS/AboutUS";
+import Blog from "../pages/Blog/Blog";
+import ContactForm from "../pages/ContactForm/ContactForm";
+import Aboutmenstyle from "../pages/Aboutmenstyle/Aboutmenstyle";
 
 export default function Routers() {
   return (
@@ -43,6 +48,11 @@ export default function Routers() {
       <Route path="/user" element={<User />} />
       <Route path="/history" element={<History />} />
       <Route path="/search-page" element={<SearchPage />} />
+      <Route path="/introduce" element={<Introduce />} />
+      <Route path="/about" element={<AboutUs />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/contactform" element={<ContactForm />} />
+      <Route path="/aboutmenstyle" element={<Aboutmenstyle />} />
     </Routes>
   );
 }
