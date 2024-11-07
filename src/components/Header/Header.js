@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./header.css";
 import { NavLink } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai"; // Import search icon
@@ -6,11 +6,12 @@ import { FaUserAlt } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import logo from "../../asset/logo/logo_header.png";
 import { useNavigate } from "react-router-dom";
+import { SearchContext } from "../../context/SearchContext";
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const { searchQuery, updateSearchQuery } = useContext(SearchContext);
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -33,13 +34,14 @@ function Header() {
   };
 
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
+    updateSearchQuery(e.target.value);
   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log("Searching for:", searchQuery);
-    // Handle search action (e.g., redirect to search page or filter products)
+    if (searchQuery.trim()) {
+      navigate(`/search-page?query=${encodeURIComponent(searchQuery)}`);
+    }
   };
 
   const handleCartClick = () => {
@@ -61,11 +63,6 @@ function Header() {
               Trang chủ
             </NavLink>
           </li>
-          {/* <li>
-            <NavLink className="nav" to="/shirt">
-              Sản phẩm
-            </NavLink>
-          </li> */}
 
           {/* Danh mục menu with hover effect */}
           <li
