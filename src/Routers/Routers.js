@@ -18,6 +18,7 @@ import Signup from "../pages/Signup/Signup";
 import Signin from "../pages/Signin/Signin";
 import User from "../pages/User/User";
 import History from "../pages/History/history";
+import SearchPage from "../pages/SearchPage/SearchPage";
 
 export default function Routers() {
   return (
@@ -41,6 +42,7 @@ export default function Routers() {
       <Route path="/signin" element={<Signin />} />
       <Route path="/user" element={<User />} />
       <Route path="/history" element={<History />} />
+      <Route path="/search-page" element={<SearchPage />} />
     </Routes>
   );
 }

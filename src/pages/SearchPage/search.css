@@ -1,0 +1,224 @@
+/* Sidebar styling */
+.sidebar-filter {
+  float: left;
+  width: 292px;
+  padding: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+  background-color: #f9f9f9;
+}
+.sidebar-filter h1{
+  font-size: 160%;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.h4-filter {
+  font-size: 1.2em;
+  margin-bottom: 16px;
+}
+
+.filter-options {
+  margin-bottom: 24px;
+}
+
+/* Color and Size filter styling */
+.color-filter .color-option,
+.size-filter .size-option {
+  display: inline-block;
+  padding: 10px;
+  margin: 4px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.color-filter .color-option:hover,
+.size-filter .size-option:hover {
+  background-color: #f4f1de; 
+  border-color: #e60000; 
+  color: #e60000;
+}
+
+.color-filter .color-option.selected,
+.size-filter .size-option.selected {
+  background-color: #000000;
+  color: #ffffff; 
+}
+
+
+.price-filter label {
+  display: block;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.price-filter input[type="radio"] {
+  margin-right: 8px;
+}
+
+/* Product grid styling */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 products per row */
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.product-card {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: left;
+  background-color: #fff;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-image {
+  width: 100%; /* Đặt chiều rộng cố định của khung chứa ảnh */
+  height: 400px; /* Đặt chiều cao cố định của khung chứa ảnh */
+  object-fit: cover; /* Đảm bảo ảnh giữ đúng tỷ lệ và không bị biến dạng */
+  object-position: center; /* Đặt ảnh ở giữa khung chứa */
+  border-radius: 8px; /* Bo góc (tuỳ chọn) */
+}
+
+.product-card h1 {
+  font-size: 1em;
+  color: #333;
+  margin-top: 5px;
+}
+
+.product-card p {
+  color: #e60000;
+  font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 products per row on medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 products per row on small screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: 1fr; /* 1 product per row on very small screens */
+  }
+}
+
+
+/* Pagination styling */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.pagination button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.pagination button.active {
+  background-color: #e60000;
+  color: white;
+}
+
+/* category filter */
+.category-select {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  cursor: pointer;
+}
+
+.reset-icon {
+  font-size: 1.2em;
+  margin-top: 10px;
+  color: #333;
+  cursor: pointer;
+}
+
+.reset-icon:hover {
+  color: #e60000;
+}
+.reset{
+  display:flex;
+  justify-content: space-between;
+}
+
+
+/* Định dạng giá sản phẩm */
+.product-price {
+  font-size: 17px;
+  color: #555;
+  text-align: left;
+  margin-top: 8px;
+}
+
+/* Định dạng màu sắc dưới dạng hình tròn */
+.product-color {
+  display: flex;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.color-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #ccc; /* Optional: thêm viền cho hình tròn */
+}
+
+/* Định dạng kích thước với viền */
+.product-size {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.size-box {
+  padding: 2px 7px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 15px;
+  color: #666;
+}
+
+/* Khi được chọn */
+.color-circle.selected {
+  border: 2px solid #e60000; /* Viền đỏ nổi bật */
+  transform: scale(1.1); /* Tăng kích thước nhẹ */
+}
+
+.size-box.selected {
+  border-color: #e60000; /* Viền đỏ nổi bật */
+  color: #e60000; /* Màu chữ đỏ nổi bật */
+  font-weight: bold; /* In đậm kích thước */
+}
