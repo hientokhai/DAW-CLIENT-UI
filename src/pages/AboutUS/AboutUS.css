@@ -1,0 +1,82 @@
+/* Container tổng */
+#about-us {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Tiêu đề chính của trang */
+#about-us h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* Phần mô tả giới thiệu */
+#about-us p {
+    font-size: 1rem;
+    color: #4a4a4a;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+#about-us .intro-text {
+    font-style: italic;
+    font-weight: 600;
+    text-align: justify;
+    color: #333;
+}
+
+/* Hình ảnh */
+#about-us img {
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+/* Tiêu đề phần */
+#about-us h2 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Nội dung của từng phần */
+#about-us section {
+    margin-bottom: 2rem;
+    text-align: justify;
+}
+
+/* Danh sách và điểm đánh dấu */
+#about-us ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+#about-us ul li {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Tiêu đề nhỏ cho các giá trị cốt lõi */
+#about-us .core-value-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-top: 1rem;
+}
+
+/* Màu nền và căn chỉnh tổng thể */
+body {
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
