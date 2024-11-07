@@ -16,6 +16,7 @@
   background-color: white;
   color: black;
 }
+
 .cart-item-image {
   width: 177px;
   height: 248px;
@@ -33,4 +34,36 @@
 .paybutton:hover {
   background-color: black;
   color: white;
+}
+
+/* Style for pagination buttons */
+.pagination-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-buttons button {
+  padding: 8px 10px;
+  background-color: #cecbcb;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.pagination-buttons button:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.pagination-buttons .active {
+  background-color: #f56d6d;
+  color: white;
+}
+
+.pagination-buttons button:hover {
+  background-color: #e0e0e0;
+}
+
+.pagination-buttons .page-info {
+  font-size: 14px;
+  font-weight: bold;
 }
