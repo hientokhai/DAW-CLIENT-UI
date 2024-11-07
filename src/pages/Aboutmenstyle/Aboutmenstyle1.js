@@ -1,10 +1,9 @@
 import React from "react";
 import './Aboutmenstyle.css'; // Import file CSS module để tạo kiểu
 
-const Aboutmenstyle = () => {
+const Aboutmenstyle1 = () => {
 
     return (
-
         <div class="relative">
             <div className="md:container md:mx-auto pb-8 md:pb-10 wrapper">
                 <div className="md:grid md:grid-cols-2 md:gap-3 flex flex-col-reverse gap-10 gridContainer">
@@ -305,7 +304,6 @@ const Aboutmenstyle = () => {
                 <button class="border rounded p-2 hover:bg-gray-200">Prev</button>
                 <a href="/aboutmenstyle" class="border rounded p-2 hover:bg-gray-200 inline-block text-center">1</a>
 
-
                 <a href="/aboutmenstyle1" class="border rounded p-2 hover:bg-gray-200 inline-block text-center">2</a>
 
                 <a href="/aboutmenstyle1" class="border rounded p-2 hover:bg-gray-200 inline-block text-center">3</a>
@@ -317,4 +315,4 @@ const Aboutmenstyle = () => {
     );
 };
 
-export default Aboutmenstyle;
+export default Aboutmenstyle1;
