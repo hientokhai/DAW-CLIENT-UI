@@ -1,10 +1,11 @@
 import React from "react";
+import './Blog.css';
 
 
 const Blog = () => {
     return (
 
-        <div className="overflow-hidden">
+        <div className="overflow-hidden" style={{ padding: "10px 100px" }}>
             <form className="flex items-center">
                 <input
                     type="text"
@@ -20,9 +21,9 @@ const Blog = () => {
                 </button>
             </form>
 
-            <div className="container mx-auto pb-8 md:pb-10">
-                <div className="relative py-8">
-                    <div className="pb-6 md:pb-8">
+            <div className="container-blog">
+                <div className="">
+                    <div className="">
                         <a href="/aboutmenstyle">
                             <h3 className="title">Về MEN'S STYLE </h3>
                         </a>
