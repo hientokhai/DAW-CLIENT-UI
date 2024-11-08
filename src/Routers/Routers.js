@@ -26,6 +26,7 @@ import ContactForm from "../pages/ContactForm/ContactForm";
 import Aboutmenstyle from "../pages/Aboutmenstyle/Aboutmenstyle";
 import ContactPage from "../pages/ContactPage/ContactPage";
 import Aboutmenstyle1 from "../pages/Aboutmenstyle/Aboutmenstyle1";
+import Blog1 from "../pages/DetailBlog/Blog1";
 
 export default function Routers() {
   return (
@@ -57,6 +58,7 @@ export default function Routers() {
       <Route path="/aboutmenstyle" element={<Aboutmenstyle />} />
       <Route path="/contactpage" element={<ContactPage />} />
       <Route path="/aboutmenstyle1" element={<Aboutmenstyle1 />} />
+      <Route path="/blog1" element={<Blog1 />} />
     </Routes>
   );
 }
