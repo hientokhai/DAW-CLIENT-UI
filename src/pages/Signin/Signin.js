@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { userApi } from "../../api/userApi";
-import logologin from "../../asset/logo/LK.png";
+import logologin from "../../asset/logo/logo_header.png";
 import "./signin.css";
 import { NavLink, useNavigate } from "react-router-dom";
+
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google"; // Import GoogleLogin
+import {jwtDecode} from "jwt-decode"; // Import jwtDecode
+
 function Signin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +38,7 @@ function Signin() {
   };
 
   return (
+    <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
     <div className="login-container">
       <img style={{ width: "24%" }} src={logologin} alt="" />
 
@@ -64,7 +69,19 @@ function Signin() {
         </div>
         <button type="submit" className="form-button">
           Đăng nhập
-        </button>
+        </button >
+        {/* Nút đăng nhập vằng gg */}
+        <div style={{ marginTop: "20px" }}>
+          <GoogleLogin
+            onSuccess={(response) => {
+              const userObject = jwtDecode(response.credential); 
+              localStorage.setItem("signup", JSON.stringify(userObject));
+              localStorage.setItem("id", userObject.sub);
+              setMessage(`Đăng nhập thành công với Gmail: ${userObject.email}`);
+            }}
+            onError={() => setMessage("Đăng nhập Google thất bại")}
+          />
+        </div>
         <div className="form-message">{message}</div>
         <span>
           <p className="text-red-500">
@@ -76,6 +93,7 @@ function Signin() {
         </span>
       </form>
     </div>
+    </GoogleOAuthProvider>
   );
 }
 
