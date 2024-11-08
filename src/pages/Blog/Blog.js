@@ -101,7 +101,7 @@ const Blog = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-6">
                         <div className="blog-card">
-                            <a href="/trouser">
+                            <a href="/blog1">
                                 <div className="image-container">
                                     <img
                                         src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/media/articles/yody-top-10-thuong-hieu-thoi-trang.jpg"
