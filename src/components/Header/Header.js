@@ -122,6 +122,9 @@ function Header() {
               <NavLink className="text-slate-950" to="/user" style={{ backgroundColor: "#a3b4a2", color: "black", marginBottom: "12px" }}>
                 Thông tin
               </NavLink>
+              <NavLink className="text-slate-950" to="/history" style={{ backgroundColor: "#a3b4a2", color: "black", marginBottom: "12px" }}>
+                Lịch sử đơn hàng
+              </NavLink>
               <button className="text-slate-950" onClick={handleLogout} style={{ textTransform: "uppercase" }}>
                 Đăng xuất
               </button></>) : (
