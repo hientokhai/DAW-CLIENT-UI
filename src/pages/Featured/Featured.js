@@ -10,7 +10,7 @@ const FeaturedProduct = () => {
 
   const fetchProductList = async () => {
     try {
-      const response = await ProductApi.getAll();
+      const response = await ProductApi.getAllMK();
       setProductList(response);
     } catch (error) {
       console.log("fail", error);

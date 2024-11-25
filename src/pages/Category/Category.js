@@ -8,7 +8,7 @@ const CategoryPr = () => {
 
   const fetchProductList = async () => {
     try {
-      const response = await ProductApi.getAll();
+      const response = await ProductApi.getAllMK();
       setProductList(response);
       console.log(response);
     } catch (error) {

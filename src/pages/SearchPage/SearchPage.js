@@ -52,7 +52,7 @@ const SearchPage = () => {
         price: selectedPrice,
         sortBy,
       };
-      const response = await ProductApi.getAll(params); // Gọi API với các tham số lọc
+      const response = await ProductApi.getAllSearchPage(params); // Gọi API với các tham số lọc
       setProductList(response.data);
     } catch (error) {
       console.error("Error fetching product list:", error);
