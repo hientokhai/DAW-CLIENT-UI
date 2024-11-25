@@ -51,11 +51,11 @@ export default function PaymentPage() {
         }
       } else {
         // Xử lý lỗi nếu phản hồi không hợp lệ
-        console.error('Lỗi khi gọi API:', response);
+        console.error('Lỗi khi gọi APII:', response);
         setErrorMessage('Đã xảy ra lỗi khi thanh toán.');
       }
     } catch (error) {
-      console.error('Lỗi khi gọi API:', error);
+      console.error('Lỗi khi gọi APII:', error);
       setErrorMessage('Đã xảy ra lỗi khi thanh toán.');
     }
   };
