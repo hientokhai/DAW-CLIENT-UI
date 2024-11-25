@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import "./Introduce.css";
-
+import { Helmet } from 'react-helmet';
 // Import ảnh từ thư mục src
 import companyImage from '../../asset/img/image1.png';
 import blogImage from '../../asset/img/image2.png';  // Thêm ảnh thứ hai
@@ -9,6 +9,9 @@ import blogImage from '../../asset/img/image2.png';  // Thêm ảnh thứ hai
 const Introduce = () => {
     return (
         <div className="contact-page">
+            <Helmet>
+                <title>Giới thiệu</title>
+            </Helmet>
             <h1>Trang Liên Hệ</h1>
             <div className="split-container">
                 {/* Phần giới thiệu công ty */}

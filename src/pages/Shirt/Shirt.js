@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./shirt.css";
 import { NavLink } from "react-router-dom";
 import ProductApi from "../../api/productApi";
+import { Helmet } from 'react-helmet';
 const Shirt = () => {
   const [productList, setProductList] = useState([]);
   const [sortBy, setSortBy] = useState(""); // Khởi tạo state để lưu trữ sắp xếp sản phẩm theo giá

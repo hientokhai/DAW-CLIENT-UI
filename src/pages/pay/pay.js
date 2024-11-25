@@ -4,7 +4,7 @@ import "./PaymentPage.css"; // import CSS file
 import { NavLink } from "react-router-dom";
 import CheckoutApi from "../../api/CheckoutApi"; // Import CheckoutApi
 import { FaCheckCircle } from 'react-icons/fa';
-
+import { Helmet } from 'react-helmet';
 export default function PaymentPage() {
   const location = useLocation();
   const initialCart = location.state.cart;

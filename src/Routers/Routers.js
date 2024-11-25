@@ -29,7 +29,7 @@ import Aboutmenstyle1 from "../pages/Aboutmenstyle/Aboutmenstyle1";
 import BlogDetail from "../pages/DetailBlog/BlogDetail";
 import OrderDetailPage from "../pages/OrderDetail/orderDetail";
 import Bag1 from "../pages/Bag/Bag1";
-
+import Wishlist from "../pages/Wishlist/Wishlist";
 export default function Routers() {
   return (
     <Routes>
@@ -63,6 +63,7 @@ export default function Routers() {
       <Route path="/blog/:id" element={<BlogDetail />} />
       <Route path="/order/:orderId" element={<OrderDetailPage />} />
       <Route path="/bag1" element={<Bag1 />} />
+      <Route path="/wishlist" element={<Wishlist />} />
     </Routes>
   );
 }

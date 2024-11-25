@@ -1,11 +1,12 @@
 import React from "react";
 import './Aboutmenstyle.css'; // Import file CSS module để tạo kiểu
-
+import { Helmet } from 'react-helmet';
 const Aboutmenstyle = () => {
 
     return (
 
         <div class="relative">
+            
             <div className="md:container md:mx-auto pb-8 md:pb-10 wrapper">
                 <div className="md:grid md:grid-cols-2 md:gap-3 flex flex-col-reverse gap-10 gridContainer">
                     <div className="md:grid md:grid-cols-12 md:gap-3">

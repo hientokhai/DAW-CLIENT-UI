@@ -5,6 +5,7 @@ import RelatedProduct from "../RelatedProducts/RelatedProduct";
 import { Tabs } from "antd";
 import './detailproduct.css'
 import Specification from "../Specification/Specification";
+import { Helmet } from 'react-helmet';
 const onChange = (key) => {
   console.log(key);
 };

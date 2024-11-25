@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaUserAlt } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
+import { FaHeart } from 'react-icons/fa6';
 import logo from "../../asset/logo/logo_header.png";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
@@ -57,6 +58,9 @@ function Header() {
 
   const handleCartClick = () => {
     navigate("/cart");
+  };
+  const handleHeartClick = () => {
+    navigate("/wishlist");
   };
 
   return (
@@ -184,6 +188,16 @@ function Header() {
           <div className="cart-info">
             <span className="cart-quantity">10</span>
             <span className="cart-total">305.000₫</span>
+          </div>
+        </div>
+        {/* Yeu thích*/}
+        <div className="cart-container items-center flex-shrink-0 hidden lg:flex cart-font ml-1">
+          <button className="cart-button" onClick={handleHeartClick}>
+            <FaHeart className="cart-icon" />
+          </button>
+          <div className="cart-info">
+            {/* <span className="cart-quantity">10</span>
+            <span className="cart-total">305.000₫</span> */}
           </div>
         </div>
       </nav>

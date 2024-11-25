@@ -5,6 +5,7 @@ import "./product.css";
 import { IoIosHeart } from "react-icons/io";
 import DetailProduct from "../DetailProduct/DetailProduct";
 import Review from "../Review/Review";
+import { Helmet } from 'react-helmet';
 
 const Products = () => {
   const { id } = useParams();

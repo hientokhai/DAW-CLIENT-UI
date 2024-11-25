@@ -1,8 +1,12 @@
 import React from 'react';
 import "./AboutUS.css"
+import { Helmet } from 'react-helmet';
 const AboutUs = () => {
     return (
         <div id="about-us" className="container mx-auto p-6">
+            <Helmet>
+                <title>Giới thiệu</title>
+            </Helmet>
             <div className="text-center mb-8">
                 <h1 className="text-3xl font-bold">Về MEN'S STYLE</h1>
                 <p className="text-lg text-gray-600">

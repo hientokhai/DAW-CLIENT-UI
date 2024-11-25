@@ -3,7 +3,7 @@ import RatingBox from './RatingBox';
 import ReviewCard from './ReviewCard';
 import CommentApi from '../../api/commentApi';
 import './Review.css';
-
+import { Helmet } from 'react-helmet';
 const Review = () => {
     const [reviews, setReviews] = useState([]);
     const [averageRating, setAverageRating] = useState(0);

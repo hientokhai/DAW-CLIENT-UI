@@ -9,6 +9,7 @@ import BestSeller from "../Best Seller/BestSeller";
 import FeaturedProduct from "../Featured/Featured"
 import CategoryPr from "../Category/Category";
 import Features from "../Features/Features";
+import { Helmet } from 'react-helmet';
 
 const images = [
   {
@@ -65,6 +66,9 @@ const Home = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Trang chủ</title>
+      </Helmet>
       <div className="slideshow-container">
         <button className="prev" onClick={handlePrev}>
           &#10094;

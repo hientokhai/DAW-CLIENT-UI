@@ -3,6 +3,7 @@ import ProductApi from "../../api/productApi";
 import { NavLink } from "react-router-dom";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import "./category.css";
+import { Helmet } from 'react-helmet';
 const CategoryPr = () => {
   const [productList, setProductList] = useState([]);
 
@@ -23,6 +24,7 @@ const CategoryPr = () => {
   return (
     <div>
       <div className="bestseller">
+
         <h1 className="bestsellerh1">Áo</h1>
       </div>
       <div className="product-container">

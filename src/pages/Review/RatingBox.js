@@ -1,5 +1,6 @@
 import React from 'react';
 import './RatingBox.css';
+import { Helmet } from 'react-helmet';
 
 const RatingBox = ({ averageRating, totalReviews }) => {
     return (

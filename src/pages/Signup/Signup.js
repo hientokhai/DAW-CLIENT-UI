@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { registerApi } from "../../api/registerApi";
 import logologin from "../../asset/logo/logo_header.png";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google"; // Import GoogleLogin
-import {jwtDecode} from "jwt-decode"; // Import jwtDecode
+import { jwtDecode } from "jwt-decode"; // Import jwtDecode
 import "./signup.css";
-
+import { Helmet } from 'react-helmet';
 function Signup() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -39,6 +39,9 @@ function Signup() {
 
   return (
     <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+      <Helmet>
+        <title>Đăng ký</title>
+      </Helmet>
       <div className="login-container">
         <img style={{ width: "24%" }} src={logologin} />
         <form onSubmit={handleSubmit} className="login-form">
@@ -96,16 +99,16 @@ function Signup() {
           <div>{message}</div>
           {/* Nút đăng nhập vằng gg */}
           <div style={{ marginTop: "20px" }}>
-          <GoogleLogin
-            onSuccess={(response) => {
-              const userObject = jwtDecode(response.credential); 
-              localStorage.setItem("signup", JSON.stringify(userObject));
-              localStorage.setItem("id", userObject.sub);
-              setMessage(`Đăng nhập thành công với Gmail: ${userObject.email}`);
-            }}
-            onError={() => setMessage("Đăng nhập Google thất bại")}
-          />
-        </div>
+            <GoogleLogin
+              onSuccess={(response) => {
+                const userObject = jwtDecode(response.credential);
+                localStorage.setItem("signup", JSON.stringify(userObject));
+                localStorage.setItem("id", userObject.sub);
+                setMessage(`Đăng nhập thành công với Gmail: ${userObject.email}`);
+              }}
+              onError={() => setMessage("Đăng nhập Google thất bại")}
+            />
+          </div>
         </form>
       </div>
     </GoogleOAuthProvider>
