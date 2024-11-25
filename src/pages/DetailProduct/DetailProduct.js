@@ -1,6 +1,7 @@
 import React from "react";
 import DescriptionProduct from "../DescriptionProduct/DescriptionProduct";
 import ProductNew from "../ProductNew/ProductNew";
+import RelatedProduct from "../RelatedProducts/RelatedProduct";
 import { Tabs } from "antd";
 import './detailproduct.css'
 import Specification from "../Specification/Specification";
@@ -20,8 +21,8 @@ const items = [
   },
   {
     key: "3",
-    label: `Sản phẩm mới về`,
-    children: <ProductNew />,
+    label: `Sản phẩm liên quan`,
+    children: <RelatedProduct />,
   },
 ];
 const App = () => (

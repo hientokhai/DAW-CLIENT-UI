@@ -2,7 +2,6 @@
 .blog_post {
     background-color: #fff;
     border-radius: 10px;
-    
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -12,14 +11,14 @@
 
 /* Hiệu ứng hover cho blog post */
 .blog_post:hover {
-    transform: translateY(-10px);
+    transform: translate(-50%, -55%) !important;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Chỉnh sửa ảnh blog */
 .blog-img {
     width: 100%;
-    max-height: 900px; /* Chiều cao tối đa cho ảnh */
+    max-height: 500px; /* Chiều cao tối đa cho ảnh */
     object-fit: cover;
     border-bottom: 1px solid #ddd; /* Đường viền dưới ảnh */
 }

@@ -1,44 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import RatingBox from './RatingBox';
 import ReviewCard from './ReviewCard';
+import CommentApi from '../../api/commentApi';
 import './Review.css';
 
 const Review = () => {
-    const reviews = [
-        {
-            name: "Lê Anh Kiệt",
-            date: "26.10.2024",
-            colorSize: "Nâu đậm / M",
-            comment: "Áo có màu đẹp, form đẹp, giặt nhiều lần rồi ít nhăn, lại mau khô",
-            rating: 5
-        },
-        {
-            name: "Nguyễn Quỳnh Chiểu",
-            date: "30.10.2024",
-            colorSize: "Trắng / M",
-            comment: "Sản phẩm rất chất lượng, mẫu mã phù hợp với những người có style simple như mình",
-            rating: 5
-        },
-        {
-            name: "Phạm Hùng Anh",
-            date: "21.10.2024",
-            colorSize: "Trắng / M",
-            comment: "Đuôi áo hơi dài, nếu bỏ áo ngoài quần thì trông không cân đối",
-            response: "MEN'S STYLE xin cảm ơn anh đã tin tưởng...",
-            rating: 4
-        },
-        {
-            name: "Dong Minh Quy",
-            date: "16.10.2024",
-            colorSize: "Xám đậm / XL",
-            comment: "Chất vải đẹp, mặc thoải mái mà vẫn tạo phong cách khoẻ khoắn thanh lịch.",
-            rating: 4
-        }
-    ];
+    const [reviews, setReviews] = useState([]);
+    const [averageRating, setAverageRating] = useState(0);
+    const [totalReviews, setTotalReviews] = useState(0);
+
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const response = await CommentApi.getAll();
+                if (response.status === 'success') {
+                    const reviewData = response.data.map((review) => ({
+                        name: review.user.name,
+                        date: new Date().toLocaleDateString(),
+                        colorSize: `${review.product_variant.color.color_name} / ${review.product_variant.size.size_name}`,
+                        comment: review.comment_text,
+                        response: review.response,
+                        rating: review.rating,
+                    }));
+
+                    // Tính tổng số sao và trung bình rating
+                    const totalRating = reviewData.reduce((acc, curr) => acc + curr.rating, 0);
+                    setAverageRating((totalRating / reviewData.length).toFixed(1));
+                    setTotalReviews(reviewData.length);
+                    setReviews(reviewData);
+                }
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+            }
+        };
+
+        fetchReviews();
+    }, []);
 
     return (
         <div className="reviews">
-            <RatingBox />
+            <RatingBox averageRating={averageRating} totalReviews={totalReviews} />
             <div className="review-list">
                 {reviews.map((review, index) => (
                     <ReviewCard key={index} {...review} />
