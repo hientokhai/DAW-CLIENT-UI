@@ -3,6 +3,7 @@ import ProductApi from "../../api/productApi";
 import { NavLink } from "react-router-dom";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import "./prdnew.css";
+import { Helmet } from 'react-helmet';
 const ProductNew = () => {
   const [productList, setProductList] = useState([]);
 

@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import ProductApi from "../../api/productApi";
 import { FaUndo } from "react-icons/fa";
 import { SearchContext } from "../../context/SearchContext";
-
+import { Helmet } from 'react-helmet';
 const SearchPage = () => {
   const [productList, setProductList] = useState([]);
   const [sortBy, setSortBy] = useState("");

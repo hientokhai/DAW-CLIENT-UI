@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./cart.css";
-
+import { Helmet } from 'react-helmet';
 export default function Cart() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -88,6 +88,9 @@ export default function Cart() {
 
   return (
     <div>
+      <Helmet>
+        <title>Giỏ hàng</title>
+      </Helmet>
       <div className="max-w-4xl mx-auto my-6 p-6 bg-white rounded-lg shadow-md">
         <div className="flex justify-between">
           <h2 className="text-2xl font-semibold mb-6">Giỏ hàng</h2>

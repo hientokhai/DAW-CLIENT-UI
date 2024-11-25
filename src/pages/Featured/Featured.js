@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import ProductApi from "../../api/productApi";
 import "./featured.css";
 import { NavLink } from "react-router-dom";
-
+import { Helmet } from 'react-helmet';
 const FeaturedProduct = () => {
   const [productList, setProductList] = useState([]);
   const productContainerRef = useRef(null);

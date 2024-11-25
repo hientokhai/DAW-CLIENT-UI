@@ -1,6 +1,6 @@
 import React from 'react';
 import './ReviewCard.css';
-
+import { Helmet } from 'react-helmet';
 const ReviewCard = ({ name, date, colorSize, comment, response, rating }) => {
     return (
         <div className="review-card">

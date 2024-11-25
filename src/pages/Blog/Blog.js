@@ -3,6 +3,7 @@ import BlogApi from "../../api/blogApi";
 import './Blog.css';
 import { Link } from 'react-router-dom';
 
+import { Helmet } from 'react-helmet';
 
 const Blog = () => {
     const [blogs, setBlogs] = useState([]);
@@ -12,7 +13,7 @@ const Blog = () => {
         const fetchBlogs = async () => {
             try {
                 const response = await BlogApi.getAll();
-                setBlogs(response.data); 
+                setBlogs(response.data);
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching blogs:", error);
@@ -96,7 +97,9 @@ const Blog = () => {
                 />
             </form>
 
-
+            <Helmet>
+                <title>Blog</title>
+            </Helmet>
 
 
             <div className="container-blog">

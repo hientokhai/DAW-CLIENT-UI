@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./Des.css";
 import ProductApi from "../../api/productApi";
-
+import { Helmet } from 'react-helmet';
 export default function DescriptionProduct() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);

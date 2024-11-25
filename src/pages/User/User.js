@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { reasetpasswordApi } from "../../api/reasetpasswordApi";
 import "./user.css";
-
+import { Helmet } from 'react-helmet';
 function User() {
   const username = localStorage.getItem("username");
   const [passwordVisible, setPasswordVisible] = useState(false);

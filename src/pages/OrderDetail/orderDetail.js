@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './orderDetail.css';
 import OrderApi from '../../api/orderApi';
-
+import { Helmet } from 'react-helmet';
 const OrderDetailPage = () => {
   const { orderId } = useParams(); // Lấy orderId từ URL
   const [order, setOrder] = useState(null);

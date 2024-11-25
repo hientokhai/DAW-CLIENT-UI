@@ -1,7 +1,7 @@
 import React from 'react';
 import './Features.css';
 import { FaTruck, FaUserPlus, FaDollarSign, FaSyncAlt } from 'react-icons/fa';
-
+import { Helmet } from 'react-helmet';
 const Features = () => {
     return (
         <div className="features-container">

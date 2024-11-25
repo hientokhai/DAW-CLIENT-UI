@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './ContactForm.css';
-
+import { Helmet } from 'react-helmet';
 const ContactForm = () => {
     const [formData, setFormData] = useState({
         fullname: '',
@@ -26,6 +26,9 @@ const ContactForm = () => {
 
     return (
         <div className="contact-form">
+            <Helmet>
+                <title>Liên hệ</title>
+            </Helmet>
             <div className="contact-form-container">
                 {/* Contact Form */}
                 <div className="contact-form-left">
