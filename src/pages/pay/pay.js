@@ -1,33 +1,63 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import "./PaymentPage.css"; // import CSS file
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import CheckoutApi from "../../api/CheckoutApi"; // Import CheckoutApi
+import { FaCheckCircle } from 'react-icons/fa';
 
 export default function PaymentPage() {
   const location = useLocation();
-  const cart = location.state.cart;
+  const initialCart = location.state.cart;
+  const [cart, setCart] = useState(initialCart); // State quản lý giỏ hàng
   const navigate = useNavigate();
-
+  const [productId, setProductId] = useState('');
+  const [amount, setAmount] = useState('');
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const formRef = useRef(null);
-
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentSuccess, setPaymentSuccess] = useState(false); // State để kiểm tra thanh toán thành công
+  const [errorMessage, setErrorMessage] = useState(null); // State lưu trữ thông báo lỗi
   const totalPrice = cart.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Gửi thông tin thanh toán tới server ở đây
-    console.log("Email:", email);
-    console.log("Phone:", phone);
-    console.log("Address:", address);
-    console.log("Cart:", cart);
-    console.log("Total Price:", totalPrice);
-    // Chuyển hướng về trang chủ sau khi thanh toán thành công
-    navigate("/");
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // Gửi yêu cầu POST đến API /purchase thông qua CheckoutApi
+    try {
+      const response = await CheckoutApi.createPurchase({
+        product_id: productId,
+        amount: amount,
+        email: email,
+        phone: phone,
+        address: address,
+      });
+
+      // Kiểm tra phản hồi từ API
+      if (response && response.data) {
+        const paymentUrl = response.data; // Lấy URL thanh toán từ phản hồi
+
+        // Chuyển hướng người dùng đến URL thanh toán nếu phương thức là VNPay
+        if (paymentMethod === "vnpay") {
+          window.location.href = paymentUrl; // Chuyển hướng đến trang thanh toán VNPay
+        } else if (paymentMethod === "cod") {
+          // Nếu chọn COD, đánh dấu thanh toán thành công
+          setPaymentSuccess(true);
+          setErrorMessage(null); // Đặt thông báo lỗi về null nếu thành công
+        }
+      } else {
+        // Xử lý lỗi nếu phản hồi không hợp lệ
+        console.error('Lỗi khi gọi APII:', response);
+        setErrorMessage('Đã xảy ra lỗi khi thanh toán.');
+      }
+    } catch (error) {
+      console.error('Lỗi khi gọi APII:', error);
+      setErrorMessage('Đã xảy ra lỗi khi thanh toán.');
+    }
   };
 
   return (
@@ -36,177 +66,144 @@ export default function PaymentPage() {
         <h1 className="payment-page-title">Customer Information</h1>
         <h2 className="payment-page-text">Thông tin giao hàng</h2>
         <div className="payment-page-link">
-        <p className="payment-page-text-size">Bạn đã có tài khoản?</p>
-        <NavLink
-              to="/signin"
-              className="text-blue-400 px-2 rounded-md payment-page-text-size"
-              >
-              Đăng nhập
-            </NavLink>
+          <p className="payment-page-text-size">Bạn đã có tài khoản?</p>
+          <NavLink
+            to="/signin"
+            className="text-blue-400 px-2 rounded-md payment-page-text-size"
+          >
+            Đăng nhập
+          </NavLink>
         </div>
-      <form ref={formRef} onSubmit={handleSubmit} className="payment-page-form">
-        <label className="payment-page-form-label">
-          <input
-            type="hoten"
-            className="payment-page-form-input"
-            placeholder="Họ và tên"
-          />
-        </label>
-        <br />
-        <label className="payment-page-form-label">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="payment-page-form-input-email"
-            placeholder="Email"
-          />
-          <input
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
-            className="payment-page-form-input-phone"
-            placeholder="Số điện thoại"
-          />
-        </label>
-        <br />
-        <label className="payment-page-form-label">
-          <textarea
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            required
-            className="payment-page-form-textarea"
-            placeholder="Địa chỉ"
-          />
-        </label>
-        <label className="payment-page-select">
-          <div>
-            <select className="payment-page-select-option">
-              <option value="0">Chọn tỉnh / thành</option>
-            </select>
+        <form ref={formRef} onSubmit={handleSubmit} className="payment-page-form">
+          <label className="payment-page-form-label">
+            <input
+              type="text"
+              className="payment-page-form-input"
+              placeholder="Họ và tên"
+              required
+            />
+          </label>
+          <br />
+          <label className="payment-page-form-label">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="payment-page-form-input-email"
+              placeholder="Email"
+            />
+            <input
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              className="payment-page-form-input-phone"
+              placeholder="Số điện thoại"
+            />
+          </label>
+          <br />
+          <label className="payment-page-form-label">
+            <textarea
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              required
+              className="payment-page-form-textarea"
+              placeholder="Địa chỉ"
+            />
+          </label>
+          <br />
+          <h2 className="payment-page-text">Phương thức thanh toán</h2>
+          <div className="payment-page-form-input-radio">
+            <div className="payment-page-text-size">
+              <input
+                type="radio"
+                id="cod"
+                name="paymentMethod"
+                value="cod"
+                onChange={(e) => setPaymentMethod(e.target.value)} />
+
+              <label htmlFor="cod">Thanh toán khi nhận hàng (COD)</label>
+            </div>
           </div>
-          <div>
-          <select className="payment-page-select-option">
-            <option value="0">Chọn quận / huyện</option>
-          </select>
+          <div className="payment-page-form-input-radio">
+            <div className="payment-page-text-size">
+              <input
+                type="radio"
+                id="vnpay"
+                name="paymentMethod"
+                value="vnpay"
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              <label htmlFor="vnpay">Thanh toán qua VNPay</label>
+            </div>
           </div>
-          <div>
-          <select className="payment-page-select-option">
-            <option value="0">Chọn phường / xã</option>
-          </select>
+          <NavLink
+            to="/cart"
+            className="text-blue-400 px-2 rounded-md payment-page-text-size"
+          >
+            Đơn hàng
+          </NavLink>
+          <button type="submit" className="payment-page-form-button">
+            Hoàn tất đơn hàng
+          </button>
+        </form>
+        {paymentSuccess && (
+          <div className="payment-success-message">
+            Thanh toán thành công! Cảm ơn bạn đã đặt hàng.
           </div>
-        </label>
-        <br />
-        <h2 className="payment-page-text">Phương thức vận chuyển</h2>
-        <div className="payment-page-form-input-radio">
-          <div className="payment-page-text-size">
-          <input
-            type="radio"
-          />
-          Giao hàng tận nơi
+        )}
+        {errorMessage && (
+          <div className="payment-error-message">
+            {errorMessage}
           </div>
-          <div>
-            35.000đ
-          </div>
-        </div>
-        <br/>
-        <h2 className="payment-page-text">Phương thức thanh toán</h2>
-        <div className="payment-page-form-input-radio">
-          <div className="payment-page-text-size">
-          <input
-            type="radio"
-          />
-          Thanh toán khi nhận hàng (COD)
-          </div>
-        </div>
-        <div className="payment-page-form-input-radio">
-          <div className="payment-page-text-size">
-          <input
-            type="radio"
-          />
-          Thanh toán qua ví MoMo
-          </div>
-        </div>
-        <div className="payment-page-form-input-radio ">
-          <div className="payment-page-text-size">
-          <input
-            type="radio"
-          />
-          Chuyển khoản ngân hàng
-          </div>
-        </div>
-        <NavLink
-              to="/cart"
-              className="text-blue-400 px-2 rounded-md payment-page-text-size"
-              >
-              Đơn hàng
-            </NavLink>
-        <button type="submit" className="payment-page-form-button">
-          Hoàn tất đơn hàng
-        </button>
-      </form>
+        )}
       </div>
 
       <div className="payment-page-payment">
-      <h2 className="payment-page-title">Payment</h2>
-      <ul className="payment-page-cart">
-        {cart.map((item) => (
-          <li className="payment-page-cart-item" key={item.id}>
-            <img
-              src={item.imgUrl}
-              alt={item.name}
-              className="payment-page-cart-item-img"
-            />
-            <div className="payment-page-cart-item-info">
-              <h3 className="payment-page-cart-item-name">{item.name}</h3>
-              <p className="payment-page-cart-item-price">
-                Price: {item.price}
-              </p>
-              <p className="payment-page-cart-item-quantity">
-                Quantity: {item.quantity}
-              </p>
+        <h2 className="payment-page-title">Payment</h2>
+        <ul className="payment-page-cart">
+          {cart.map((item) => (
+            <li className="payment-page-cart-item" key={item.id}>
+              <img
+                src={item.imgUrl}
+                alt={item.name}
+                className="payment-page-cart-item-img"
+              />
+              <div className="payment-page-cart-item-info">
+                <h3 className="payment-page-cart-item-name">{item.name}</h3>
+                <p className="payment-page-cart-item-price">
+                  Price: {item.price}
+                </p>
+                <p className="payment-page-cart-item-quantity">
+                  Quantity: {item.quantity}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className="payment-page-cart-total-title">
+          <div className="payment-page-cart-total">
+            <div>
+              <p>Tạm tính</p>
             </div>
-          </li>
-        ))}
-      </ul>
-      <div className="payment-page-cart-sale">
-        <div>
-          <input
-            type="hoten"
-            className="payment-page-cart-sale-item"
-            placeholder="Mã giảm giá"
-          />
+            <div>
+              <p>{totalPrice} đ</p>
+            </div>
+          </div>
+          <div className="payment-page-cart-total">
+            <div>
+              <p>Phí vận chuyển</p>
+            </div>
+            <div>
+              <p>35.000 đ</p>
+            </div>
+          </div>
         </div>
-        <div>
-        <button type="submit" className="payment-page-cart-button">
-          Sử dụng
-        </button>
+        <div className="payment-page-cart-total">
+          <div><p className="payment-page-total-price">Total Price:</p></div>
+          <div><p className="payment-page-total-price">{totalPrice + 35000} đ</p></div>
         </div>
-      </div>
-      <div className="payment-page-cart-total-title">
-      <div className="payment-page-cart-total">
-        <div>
-          <p>Tạm tính</p>
-        </div>
-        <div>
-        <p>550.000 đ</p>
-        </div>
-      </div>
-      <div className="payment-page-cart-total">
-        <div>
-          <p>Phí vận chuyển</p>
-        </div>
-        <div>
-        <p>35.000 đ</p>
-        </div>
-      </div>
-      </div>
-      <div className="payment-page-cart-total">
-        <div><p className="payment-page-total-price">Total Price:</p></div>
-        <div><p className="payment-page-total-price">{totalPrice} đ</p></div>
-      </div>
       </div>
     </div>
   );

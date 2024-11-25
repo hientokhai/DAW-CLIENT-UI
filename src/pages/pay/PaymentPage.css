@@ -71,14 +71,16 @@
   width: 600px;
   border-radius: 4px;
 }
-.payment-page-form-input-email{
+
+.payment-page-form-input-email {
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 10px;
   width: 400px;
   border-radius: 4px;
 }
-.payment-page-form-input-phone{
+
+.payment-page-form-input-phone {
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 10px;
@@ -108,19 +110,23 @@
 .payment-page-form-button:hover {
   background-color: #0066cc;
 }
-.payment-page-shoppinginformation{
+
+.payment-page-shoppinginformation {
   padding: 56px 66px 0px 0px;
   border-right: 1px solid #ccc;
 }
-.payment-page-payment{
+
+.payment-page-payment {
   padding: 56px 0px 0px 44px;
 }
-.payment-page-select{
+
+.payment-page-select {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
 }
-.payment-page-select-option{
+
+.payment-page-select-option {
   display: block;
   font-weight: bold;
   border: 1px solid #ccc;
@@ -129,17 +135,20 @@
   width: 190px;
   border-radius: 4px;
 }
-.payment-page-link{
+
+.payment-page-link {
   display: flex;
   flex-wrap: nowrap;
 }
-.payment-page-text{
+
+.payment-page-text {
   font-family: "Helvetica Neue", sans-serif;
   font-size: 18px;
   margin-bottom: 10px;
   font-weight: bold;
 }
-.payment-page-form-input-radio{
+
+.payment-page-form-input-radio {
   margin-bottom: 20px;
   padding: 18px;
   border: 1px solid #ccc;
@@ -148,14 +157,17 @@
   flex-wrap: nowrap;
   justify-content: space-between;
 }
-.payment-page-input-radio-text{
+
+.payment-page-input-radio-text {
   padding: 0px 10.5px 0px 0px;
 }
-.payment-page-text-size{
-  font-size:14px;
+
+.payment-page-text-size {
+  font-size: 14px;
   font-family: "Helvetica Neue", sans-serif;
 }
-.payment-page-cart-sale{
+
+.payment-page-cart-sale {
   width: 659.750px;
   display: flex;
   flex-wrap: nowrap;
@@ -163,14 +175,16 @@
   padding: 20px;
   border-bottom: 1px solid #ccc;
 }
-.payment-page-cart-sale-item{
+
+.payment-page-cart-sale-item {
   width: 400px;
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
 }
-.payment-page-cart-button{
+
+.payment-page-cart-button {
   background-color: grey;
   border: none;
   color: #fff;
@@ -180,14 +194,62 @@
   border-radius: 5px;
   cursor: pointer;
 }
-.payment-page-cart-total{
+
+.payment-page-cart-total {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
   padding: 10px;
   width: 659.750px;
 }
-.payment-page-cart-total-title{
+
+.payment-page-cart-total-title {
   border-bottom: 1px solid #ccc;
   width: 659.750px;
+}
+
+.payment-success-message {
+  position: fixed;
+  /* Đặt thông báo cố định trên màn hình */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Căn chỉnh thông báo ở giữa */
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 100;
+  /* Đặt thông báo ở trên các phần tử khác */
+}
+
+.payment-success-icon {
+  font-size: 30px;
+  color: green;
+  /* Màu xanh cho icon */
+  margin-right: 10px;
+}
+
+.payment-success-message {
+  position: fixed;
+  /* Đặt thông báo cố định trên màn hình */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Căn chỉnh thông báo ở giữa */
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 100;
+  /* Đặt thông báo ở trên các phần tử khác */
+  display: flex;
+  /* Sử dụng flexbox để căn chỉnh icon và text */
+  align-items: center;
+  /* Căn chỉnh theo chiều dọc */
+}
+
+.payment-success-icon {
+  font-size: 30px;
+  color: green;
+  /* Màu xanh cho icon */
+  margin-right: 10px;
 }
