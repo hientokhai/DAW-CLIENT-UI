@@ -13,7 +13,7 @@ const ReviewCard = ({ name, date, colorSize, comment, response, rating }) => {
             </div>
             <p className="comment">{comment}</p>
             <p className="date">{date}</p>
-            {response && <div className="response">{response}</div>}
+            {response && <div className="response">Phản hồi: {response}</div>}
         </div>
     );
 };
