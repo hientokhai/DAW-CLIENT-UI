@@ -9,41 +9,104 @@ import Review from "../Review/Review";
 const Products = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [cart, setCart] = useState([]); // danh sách các sản phẩm trong giỏ hàng
+  const [sizes, setSizes] = useState([]);
+  const [colors, setColors] = useState([]);
+  const [colorsOfSize, setColorsOfSize] = useState([]);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [cart, setCart] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  const [mainImage, setMainImage] = useState(""); // Ảnh chính
+  const [isLiked, setIsLiked] = useState(false);
+  const [selectedVariantQuantity, setSelectedVariantQuantity] = useState(0); // Lưu số lượng của biến thể hiện tại
   const navigate = useNavigate();
-  const buttons = document.querySelectorAll(".product-variation");
 
-  const [selectedSize, setSelectedSize] = useState("S"); // default value is "S"
+  const fetchProduct = async () => {
+    try {
+      const response = await ProductApi.get(id);
+      const productData = response.data;
 
-  // color
-  const [selectedColor, setSelectedColor] = useState('');
+      setProduct(productData.product);
+      setSizes(productData.sizes);
+      setColors(productData.colors);
+      setColorsOfSize(productData.colors);
+      setMainImage(productData.product.images[0]);
 
-  const colors = ['#D9C8C7', '#000000', '#A1CDF1'];
+      if (productData.sizes.length > 0) {
+        setSelectedSize(productData.sizes[0].id);
+      }
 
-  const handleColorClick = (color) => {
-    setSelectedColor(color);
+      if (productData.colors.length > 0) {
+        setSelectedColor(productData.colors[0].id);
+      }
+
+    } catch (error) {
+      console.error('Failed to fetch product:', error);
+    }
   };
 
-  const [isLiked, setIsLiked] = useState(false);
+  useEffect(() => {
+    fetchProduct(); // Gọi API khi component mount
+  }, [id]);
+
+  useEffect(() => {
+    // Cập nhật số lượng cho biến thể được chọn (size và color)
+    if (product && selectedSize && selectedColor) {
+      const selectedVariant = product.productVariants.find(
+        (variant) =>
+          variant.size_id === selectedSize && variant.color_id === selectedColor
+      );
+      setSelectedVariantQuantity(selectedVariant ? selectedVariant.quantity : 0);
+    }
+  }, [product, selectedSize, selectedColor]); // Chạy lại khi sản phẩm, size hoặc color thay đổi
+
+  const getAvailableColorsForSize = (sizeId) => {
+    // Lọc các màu sắc có sẵn cho size đã chọn
+    const availableColors = product.productVariants
+      .filter((variant) => variant.size_id === sizeId)  // Lọc biến thể theo size
+      .map((variant) => variant.color_id);              // Lấy color_id của các biến thể đó;
+    return availableColors;  // Trả về danh sách color_id có sẵn
+  };
+
+  useEffect(() => {
+    if (selectedSize) {
+      const availableColors = getAvailableColorsForSize(selectedSize);
+      console.log('Available Colors for Size:', availableColors);
+      if (availableColors.length > 0) {
+        const copyColors = colors;
+        setColorsOfSize(
+          copyColors.filter((color) => availableColors.includes(color.id))
+        );
+      } else {
+        setColorsOfSize([]);
+      }
+
+      // Kiểm tra lại xem màu đã chọn có hợp lệ không
+      if (!availableColors.includes(selectedColor)) {
+        setSelectedColor(availableColors[0]);
+      }
+    }
+  }, [selectedSize]);
+
+  const handleSizeSelection = (sizeId) => {
+    console.log('Selected Size ID:', sizeId);
+    setSelectedSize(sizeId);
+  };
+
+
+  const handleColorClick = (colorId) => {
+    console.log('Selected Color ID:', colorId);
+    setSelectedColor(colorId);
+  };
 
   const toggleLike = () => {
     setIsLiked(!isLiked);
   };
 
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      buttons.forEach((button) => {
-        button.classList.remove("active");
-      });
-      button.classList.add("active");
-    });
-  });
-
-  const [count, setCount] = useState(0);
-  const [quantity, setQuantity] = useState(1);
-
   const handleIncrement = () => {
-    setQuantity(quantity + 1);
+    if (quantity < selectedVariantQuantity) {
+      setQuantity(quantity + 1);
+    }
   };
 
   const handleDecrement = () => {
@@ -51,51 +114,51 @@ const Products = () => {
       setQuantity(quantity - 1);
     }
   };
-  const fetchProduct = async () => {
-    try {
-      const response = await ProductApi.get(id);
-      setProduct(response);
-    } catch (error) {
-      console.log("fail", error);
-    }
+
+  const handleThumbnailClick = (image) => {
+    setMainImage(image);
   };
 
-  useEffect(() => {
-    fetchProduct();
-  }, [id]);
+  const addToCart = () => {
+    if (!selectedSize || !selectedColor) {
+      alert("Vui lòng chọn kích thước và màu sắc!");
+      return;
+    }
 
-  function addToCart() {
     const item = {
       ...product,
       size: selectedSize,
+      color: selectedColor,
       quantity,
     };
 
-    // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
     const existingItem = cart.find(
-      (cartItem) => cartItem.id === item.id && cartItem.size === item.size
+      (cartItem) =>
+        cartItem.id === item.id &&
+        cartItem.size === item.size &&
+        cartItem.color === item.color
     );
 
     if (existingItem) {
-      // Nếu đã có sản phẩm trong giỏ hàng, tăng số lượng lên 1
       const updatedCart = cart.map((cartItem) =>
-        cartItem.id === existingItem.id && cartItem.size === existingItem.size
-          ? { ...cartItem, quantity: cartItem.quantity + 1 }
+        cartItem.id === existingItem.id &&
+          cartItem.size === existingItem.size &&
+          cartItem.color === existingItem.color
+          ? { ...cartItem, quantity: cartItem.quantity + quantity }
           : cartItem
       );
       setCart(updatedCart);
     } else {
-      // Nếu sản phẩm chưa có trong giỏ hàng, thêm vào giỏ hàng
       setCart([...cart, item]);
     }
 
-    setSelectedSize("S"); // reset the selected size to the default
-    navigate("/cart");
-
-    // Lưu thông tin giỏ hàng vào localStorage
+    // Lưu thông tin vào localStorage
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartIndex = savedCart.findIndex(
-      (cartItem) => cartItem.id === item.id && cartItem.size === item.size
+      (cartItem) =>
+        cartItem.id === item.id &&
+        cartItem.size === item.size &&
+        cartItem.color === item.color
     );
     if (cartIndex >= 0) {
       savedCart[cartIndex].quantity += quantity;
@@ -103,32 +166,7 @@ const Products = () => {
       savedCart.push(item);
     }
     localStorage.setItem("cart", JSON.stringify(savedCart));
-  }
-
-  function handleSizeSelection(size, newQuantity) {
-    setSelectedSize(size);
-    const updatedCart = cart.map((item) => {
-      if (item.id === product.id && item.size === size) {
-        // update the item's quantity if it's already in the cart
-        return { ...item, quantity: newQuantity };
-      } else {
-        return item;
-      }
-    });
-    setCart(updatedCart);
-  }
-
-  const [mainImage, setMainImage] = useState('https://product.hstatic.net/1000360022/product/vo-nam-co-thap-ankle-socks-shoulder-the-strength__3__a50ca0c87b6a4e42a3dba5c36c803f1a_master.jpg');
-
-  const thumbnails = [
-    'https://product.hstatic.net/1000360022/product/vo-nam-co-thap-ankle-socks-shoulder-the-strength__3__a50ca0c87b6a4e42a3dba5c36c803f1a_master.jpg',
-    'https://product.hstatic.net/1000360022/product/ao-polo-nam-hoa-tiet-in-phoi-vai-subtle-shoulder-form-regular__3__2a625c0c248c419ab5a7bec22b8dae35_master.jpg',
-    'https://product.hstatic.net/1000360022/product/ao-polo-nam-hoa-tiet-in-phoi-vai-subtle-shoulder-form-regular__5__c7ae5dfeeffa45c29b273880b30ab1e2_master.jpg',
-    'https://product.hstatic.net/1000360022/product/ao-polo-nam-hoa-tiet-in-phoi-vai-subtle-shoulder-form-regular__4__2a763297699f45b6bc0d11880c89896f_master.jpg',
-  ];
-
-  const handleThumbnailClick = (image) => {
-    setMainImage(image);
+    navigate("/cart");
   };
 
   if (!product) {
@@ -140,7 +178,7 @@ const Products = () => {
       <div className="product-page">
         <div className="product-gallery">
           <div className="thumbnail-container">
-            {thumbnails.map((thumbnail, index) => (
+            {product.images.map((thumbnail, index) => (
               <img
                 key={index}
                 src={thumbnail}
@@ -159,92 +197,67 @@ const Products = () => {
           <h3 className="name-product">{product.name}</h3>
 
           <div className="product-rating-detail">
-            <span>4.8 ★</span>
-            <span>| 485 (Đánh giá)</span>
-            <span>| 599 (Đã thích)</span>
+            <span>{product.average_rating} ★</span>
+            <span>| {product.total_reviews} (Đánh giá)</span>
+            <span>| {product.total_likes} (Đã thích)</span>
           </div>
 
           <p className="price-product">
-            {product.price.toLocaleString("vi-VN")}₫
+            {product.sel_price ? new Intl.NumberFormat("vi-VN").format(product.sel_price) + "₫" : "Đang cập nhật..."}
           </p>
+
           <p className="product-status">
-            Trạng thái :{" "}
-            <span className="text-green-600 product-quantity">Hiện còn 187 sản phẩm tại cửa hàng</span>
+            Trạng thái:{" "}
+            <span className="text-green-600 product-quantity">
+              Hiện còn {selectedVariantQuantity} sản phẩm tại cửa hàng
+            </span>
           </p>
 
           <div className="size-container">
             <p>Kích thước:</p>
-            <div class="flex items-center bR6mEk">
-              <button
-                class={`product-variation ${selectedSize === "S" ? "active" : ""
-                  }`}
-                data-value="S"
-                onClick={() => handleSizeSelection("S")}
-              >
-                S
-              </button>
-              <button
-                class={`product-variation ${selectedSize === "M" ? "active" : ""
-                  }`}
-                data-value="M"
-                onClick={() => handleSizeSelection("M")}
-              >
-                M
-              </button>
-              <button
-                class={`product-variation ${selectedSize === "L" ? "active" : ""
-                  }`}
-                data-value="L"
-                onClick={() => handleSizeSelection("L")}
-              >
-                L
-              </button>
-              <button
-                class={`product-variation ${selectedSize === "XL" ? "active" : ""
-                  }`}
-                data-value="XL"
-                onClick={() => handleSizeSelection("XL")}
-              >
-                XL
-              </button>
+            <div className="flex items-center bR6mEk">
+              {sizes.map((size) => (
+                <button
+                  key={size.id}
+                  className={`product-variation ${selectedSize === size.id ? "active" : ""}`}
+                  data-value={size.size_name}
+                  onClick={() => handleSizeSelection(size.id)}
+                >
+                  {size.size_name}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Màu sắc */}
           <p className="color-name">Màu sắc:</p>
           <div className="color-container">
-            {colors.map((color) => (
+            {colorsOfSize.map((color) => (
               <div
-                key={color}
-                className={`color-item ${selectedColor === color ? 'selected' : ''}`}
-                style={{ backgroundColor: color }}
-                onClick={() => handleColorClick(color)}
+                key={color.id}
+                className={`color-item ${selectedColor === color.id ? "selected" : ""}`}
+                style={{ backgroundColor: color.color_code }}
+                onClick={() => handleColorClick(color.id)}
               ></div>
             ))}
           </div>
 
-
           <div className="quantity-and-buttons">
             <div className="quantity-container">
-              <button
-                className="quantity-button"
-                onClick={handleDecrement}
-              >
+              <button className="quantity-button" onClick={handleDecrement}>
                 -
               </button>
 
               <input
                 type="number"
                 value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value)))}
+                onChange={(e) =>
+                  setQuantity(Math.max(1, parseInt(e.target.value) || 1))
+                }
                 className="quantity-input"
                 min="1"
               />
 
-              <button
-                className="quantity-button"
-                onClick={handleIncrement}
-              >
+              <button className="quantity-button" onClick={handleIncrement}>
                 +
               </button>
             </div>
@@ -261,11 +274,7 @@ const Products = () => {
             </div>
           </div>
 
-          <button className="buy-product">
-            Mua ngay
-          </button>
-
-
+          <button className="buy-product">Mua ngay</button>
         </div>
       </div>
       <DetailProduct />
