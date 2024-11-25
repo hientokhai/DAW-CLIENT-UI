@@ -1,0 +1,39 @@
+
+
+.blog-card {
+    border: 2px solid #ccc; /* Thêm border cho từng blog */
+    padding: 10px; /* Khoảng cách bên trong của mỗi card */
+    margin-bottom: 20px; /* Khoảng cách giữa các blog */
+    border-radius: 8px; /* Góc bo tròn */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho các blog */
+}
+
+.blog-card:hover {
+    border-color: #007BFF; /* Thay đổi màu border khi hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Thêm bóng khi hover */
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Điều chỉnh số cột động */
+    gap: 15px; /* Khoảng cách giữa các cột */
+}
+.image-container {
+    width: 100%;
+    height: 200px; /* Thiết lập chiều cao cố định cho ảnh */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px; /* Làm tròn các góc */
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Giữ tỉ lệ ảnh và cắt bớt để hình ảnh luôn đầy */
+}
+.container-blog1{
+    display: flex;
+    justify-content:center;
+}

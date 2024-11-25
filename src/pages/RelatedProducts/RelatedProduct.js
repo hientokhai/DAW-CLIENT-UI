@@ -51,7 +51,7 @@ const RelatedProduct = () => {
       </div>
       <div className="product-container">
         {relatedProducts.length > 0 ? (
-          relatedProducts.slice(0, 6).map((product) => (
+          relatedProducts.slice(0, 4).map((product) => (
             <NavLink
               key={product.id}
               to={`/products/${product.id}`}
