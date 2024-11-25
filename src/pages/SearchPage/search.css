@@ -83,7 +83,7 @@
 
 .product-image {
   width: 100%; /* Đặt chiều rộng cố định của khung chứa ảnh */
-  height: 400px; /* Đặt chiều cao cố định của khung chứa ảnh */
+  height: 300px; /* Đặt chiều cao cố định của khung chứa ảnh */
   object-fit: cover; /* Đảm bảo ảnh giữ đúng tỷ lệ và không bị biến dạng */
   object-position: center; /* Đặt ảnh ở giữa khung chứa */
   border-radius: 8px; /* Bo góc (tuỳ chọn) */
