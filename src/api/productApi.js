@@ -6,7 +6,7 @@ const ProductApi = {
     return axiosClient.get(url, { params });
   },
   get: (id) => {
-    const url = `https://641855f875be53f451dca0ae.mockapi.io/api/products/${id}`;
+    const url = `http://localhost:8000/api/product-detail/${id}`;
     return axiosClient.get(url);
   },
 };
