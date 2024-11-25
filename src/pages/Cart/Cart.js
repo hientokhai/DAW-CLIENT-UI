@@ -97,13 +97,13 @@ export default function Cart() {
         </div>
         {paginatedCart.map((item) => (
           <div key={item.id} className="flex flex-col sm:flex-row sm:justify-between items-center mb-4 pb-4 border-b sm:border-b-0 sm:pb-0">
-            <img className="w-36 h-36 object-cover rounded-lg sm:mr-6 mb-4 sm:mb-0" src={item.imgUrl} alt={item.name} />
+            <img className="w-36 h-36 object-cover rounded-lg sm:mr-6 mb-4 sm:mb-0" src={item.images[0]} alt={item.name} />
             <div className="flex-1 flex flex-col justify-between sm:flex-row sm:items-center">
               <div className="flex-1">
                 <h3 className="text-xl font-semibold" style={{ fontWeight: "500", fontSize: "14px" }}>
                   {item.name}
                 </h3>
-                <p className="text-gray-600">Trắng / {item.size}</p>
+                <p className="text-gray-600">{item.color} / {item.size}</p>
                 <div className="flex items-center text-gray-600 text-sm mt-1">
                   <button onClick={() => handleDecrement(item.id)} className="border rounded" style={{ padding: "2px 10px", borderRadius: "50%" }}>-</button>
                   <span className="mx-2">{item.quantity}</span>
@@ -111,7 +111,7 @@ export default function Cart() {
                 </div>
               </div>
               <div className="flex items-center">
-                <span className="mr-2 font-semibold">{item.price.toLocaleString("vi-VN")} ₫</span>
+                <span className="mr-2 font-semibold">{new Intl.NumberFormat("vi-VN").format(item.sel_price) + "₫"}</span>
                 <button onClick={() => removeFromCart(item.id)} className="text-red-500 hover:text-red-600 cursor-pointer">
                   <FontAwesomeIcon icon={faTrash} />
                 </button>

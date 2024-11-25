@@ -27,6 +27,7 @@ import Aboutmenstyle from "../pages/Aboutmenstyle/Aboutmenstyle";
 import ContactPage from "../pages/ContactPage/ContactPage";
 import Aboutmenstyle1 from "../pages/Aboutmenstyle/Aboutmenstyle1";
 import Blog1 from "../pages/DetailBlog/Blog1";
+import OrderDetailPage from "../pages/OrderDetail/orderDetail";
 import Bag1 from "../pages/Bag/Bag1";
 
 export default function Routers() {
@@ -60,6 +61,7 @@ export default function Routers() {
       <Route path="/contactpage" element={<ContactPage />} />
       <Route path="/aboutmenstyle1" element={<Aboutmenstyle1 />} />
       <Route path="/blog1" element={<Blog1 />} />
+      <Route path="/order/:orderId" element={<OrderDetailPage />} />
       <Route path="/bag1" element={<Bag1 />} />
     </Routes>
   );

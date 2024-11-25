@@ -141,17 +141,17 @@ function Header() {
             <FaUserAlt style={{ color: "#fff", fontSize: "30px" }} />
           </button>
           <div className="user-menu">
-            {isLoggedIn ? (
-              <>
-                <NavLink className="text-slate-950" to="/user" style={{ backgroundColor: "#a3b4a2", color: "black", marginBottom: "12px" }}>
-                  Thông tin
-                </NavLink>
-                <button className="text-slate-950" onClick={handleLogout} style={{ textTransform: "uppercase" }}>
-                  Đăng xuất
-                </button>
-              </>
-            ) : (
-              <>
+            {isLoggedIn ? (<>
+              <NavLink className="text-slate-950" to="/user" style={{ backgroundColor: "#a3b4a2", color: "black", marginBottom: "12px" }}>
+                Thông tin
+              </NavLink>
+              <NavLink className="text-slate-950" to="/history" style={{ backgroundColor: "#a3b4a2", color: "black", marginBottom: "12px" }}>
+                Lịch sử đơn hàng
+              </NavLink>
+              <button className="text-slate-950" onClick={handleLogout} style={{ textTransform: "uppercase" }}>
+                Đăng xuất
+              </button></>) : (
+              <> {/* Đăng nhập, đăng ký */}
                 <NavLink to="/signin">
                   <button
                     className="self-center px-3 py-3 rounded text-white hover:text-green-200 transition-colors duration-300"
