@@ -20,6 +20,7 @@ function Header() {
     const fetchCategories = async () => {
       try {
         const data = await CategoryApi.getAll(); // Gọi API để lấy danh mục
+
         setCategories(data.data); // Giả sử dữ liệu trả về nằm trong thuộc tính 'data'
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -91,20 +92,23 @@ function Header() {
             {isDropdownVisible && (
               <div className="dropdown-content">
                 {categories.map((category) => (
-                  <div key={category.id} className="category-group">
-                    <NavLink className="category" to={`/${category.slug}`}>
-                      {category.name}
-                    </NavLink>
-                    {category.subcategories && category.subcategories.length > 0 && (
-                      <div className="subcategory-content">
-                        {category.subcategories.map((subcategory) => (
-                          <NavLink key={subcategory.id} className="subcategory" to={`/${subcategory.slug}`}>
-                            {subcategory.name}
-                          </NavLink>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                  // Kiểm tra xem danh mục có phải là danh mục con và có is_visible là 1
+                  category.parent_id !== null && category.is_visible === 1 ? (
+                    <div key={category.id} className="category-group">
+                      <NavLink className="category" to={`/${category.slug}`}>
+                        {category.name}
+                      </NavLink>
+                      {category.subcategories && category.subcategories.length > 0 && (
+                        <div className="subcategory-content">
+                          {category.subcategories.map((subcategory) => (
+                            <NavLink key={subcategory.id} className="subcategory" to={`/${subcategory.slug}`}>
+                              {subcategory.name}
+                            </NavLink>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : null
                 ))}
               </div>
             )}
