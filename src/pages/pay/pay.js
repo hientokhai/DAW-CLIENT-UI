@@ -43,11 +43,15 @@ export default function PaymentPage() {
 
         // Chuyển hướng người dùng đến URL thanh toán nếu phương thức là VNPay
         if (paymentMethod === "vnpay") {
-          window.location.href = paymentUrl; // Chuyển hướng đến trang thanh toán VNPay
+          window.open(paymentUrl, "_blank");  // Chuyển hướng đến trang thanh toán VNPay
+          // Xóa giỏ hàng sau khi thanh toán thành công (VNPay)
+          setCart([]); // Xóa giỏ hàng
         } else if (paymentMethod === "cod") {
           // Nếu chọn COD, đánh dấu thanh toán thành công
           setPaymentSuccess(true);
           setErrorMessage(null); // Đặt thông báo lỗi về null nếu thành công
+          // Xóa giỏ hàng sau khi thanh toán thành công (COD)
+          setCart([]); // Xóa giỏ hàng
         }
       } else {
         // Xử lý lỗi nếu phản hồi không hợp lệ

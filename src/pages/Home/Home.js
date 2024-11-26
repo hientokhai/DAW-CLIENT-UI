@@ -10,6 +10,7 @@ import FeaturedProduct from "../Featured/Featured"
 import CategoryPr from "../Category/Category";
 import Features from "../Features/Features";
 import { Helmet } from 'react-helmet';
+import SlideshowAPI from "../../api/slideshowApi";
 
 const images = [
   {
@@ -46,23 +47,28 @@ const images = [
 
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [slideshowImages, setSlideshowImages] = useState([]); // State to store slideshow images
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await SlideshowAPI.getAll();
+        setSlideshowImages(response.data); // Assuming your API returns an array of images
+      } catch (error) {
+        console.error("Error fetching slideshow data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? slideshowImages.length - 1 : prevIndex - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    setCurrentIndex((prevIndex) => (prevIndex === slideshowImages.length - 1 ? 0 : prevIndex + 1));
   };
-
-  // Sử dụng useEffect để tự động chuyển đổi ảnh
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      handleNext();
-    }, 5000); // Chuyển đổi ảnh mỗi 5 giây
-
-    return () => clearInterval(intervalId); // Dọn dẹp interval khi component unmount
-  }, []);
 
   return (
     <div>
@@ -74,10 +80,16 @@ const Home = () => {
           &#10094;
         </button>
         <div className="slide">
-          <NavLink to={images[currentIndex].link}>
-            <img src={images[currentIndex].src} alt={images[currentIndex].alt} className="img-fluid" />
-            <div className="caption">{images[currentIndex].caption}</div>
-          </NavLink>
+          {slideshowImages.length > 0 && (
+            <NavLink to={slideshowImages[currentIndex].link}>
+              <img
+                src={slideshowImages[currentIndex].src}
+                alt={slideshowImages[currentIndex].alt}
+                className="img-fluid"
+              />
+              <div className="caption">{slideshowImages[currentIndex].caption}</div>
+            </NavLink>
+          )}
         </div>
         <button className="next" onClick={handleNext}>
           &#10095;

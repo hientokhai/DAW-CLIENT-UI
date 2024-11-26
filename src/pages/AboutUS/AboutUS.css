@@ -80,3 +80,19 @@ body {
     font-family: Arial, sans-serif;
     color: #333;
 }
+
+/* AboutUS.css */
+#about-us h1 {
+    font-size: 3rem;
+    /* Chữ tiêu đề lớn hơn */
+}
+
+#about-us h2 {
+    font-size: 2rem;
+    /* Chữ tiêu đề con lớn hơn */
+}
+
+#about-us p {
+    font-size: 1.2rem;
+    /* Chữ đoạn văn lớn hơn */
+}

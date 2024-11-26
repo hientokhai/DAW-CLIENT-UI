@@ -97,6 +97,9 @@ const SearchPage = () => {
 
   return (
     <div>
+      <Helmet >
+        <title>Tìm kiếm sản phẩm</title>
+      </Helmet>
       {searchQuery && (
         <div
           style={{
