@@ -30,6 +30,7 @@ import BlogDetail from "../pages/DetailBlog/BlogDetail";
 import OrderDetailPage from "../pages/OrderDetail/orderDetail";
 import Bag1 from "../pages/Bag/Bag1";
 import Wishlist from "../pages/Wishlist/Wishlist";
+
 export default function Routers() {
   return (
     <Routes>
