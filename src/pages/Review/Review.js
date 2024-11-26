@@ -25,7 +25,7 @@ const Review = () => {
 
                     // Tính tổng số sao và trung bình rating
                     const totalRating = reviewData.reduce((acc, curr) => acc + curr.rating, 0);
-                    setAverageRating((totalRating / reviewData.length).toFixed(1));
+                    setAverageRating(reviewData > 0 ??(totalRating / reviewData.length).toFixed(1));
                     setTotalReviews(reviewData.length);
                     setReviews(reviewData);
                 }
