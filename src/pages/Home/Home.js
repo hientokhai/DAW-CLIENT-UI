@@ -12,38 +12,6 @@ import Features from "../Features/Features";
 import { Helmet } from 'react-helmet';
 import SlideshowAPI from "../../api/slideshowApi";
 
-const images = [
-  {
-    src: imgCollections,
-    alt: "image-collection",
-    link: "/shirt",
-    caption: "",
-  },
-  {
-    src: imgCollections2,
-    alt: "image-collection2",
-    link: "/trouser",
-    caption: "",
-  },
-  {
-    src: outlet,
-    alt: "outlet",
-    link: "",
-    caption: "",
-  },
-  // {
-  //   src: image6,
-  //   alt: "image-6",
-  //   link: "",
-  //   caption: (
-  // <h1>
-  //   Áo / TOP
-  //   <br />
-  //   <p>SHOP NOW</p>
-  // </h1>
-  // ),
-  // },
-];
 
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -81,13 +49,13 @@ const Home = () => {
         </button>
         <div className="slide">
           {slideshowImages.length > 0 && (
-            <NavLink to={slideshowImages[currentIndex].link}>
+            <NavLink to={slideshowImages[currentIndex].link_url}>
               <img
-                src={slideshowImages[currentIndex].src}
-                alt={slideshowImages[currentIndex].alt}
+                src={slideshowImages[currentIndex].image_url} // Sửa từ src thành image_url
+                alt={slideshowImages[currentIndex].title}
                 className="img-fluid"
               />
-              <div className="caption">{slideshowImages[currentIndex].caption}</div>
+              <div className="caption">{slideshowImages[currentIndex].description}</div>
             </NavLink>
           )}
         </div>
