@@ -90,6 +90,9 @@ function Header() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    // Xóa lưu trữ trong localStorage
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userData");
   };
 
   const handleMouseEnter = () => {
@@ -162,7 +165,10 @@ function Header() {
                   // Kiểm tra xem danh mục có phải là danh mục con và có is_visible là 1
                   category.parent_id !== null && category.is_visible === 1 ? (
                     <div key={category.id} className="category-group">
-                      <NavLink className="category" to={`/${category.slug}`}>
+                      <NavLink
+                        className="category"
+                        to={`search-page?query=&category=${category.name}`}
+                      >
                         {category.name}
                       </NavLink>
                       {category.subcategories &&
@@ -172,7 +178,7 @@ function Header() {
                               <NavLink
                                 key={subcategory.id}
                                 className="subcategory"
-                                to={`/${subcategory.slug}`}
+                                to={`search-page?query=&category=${subcategory.name}`}
                               >
                                 {subcategory.name}
                               </NavLink>

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import ProductApi from "../../api/productApi";
 import "./bestseller.css";
 import { NavLink } from "react-router-dom";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 const BestSeller = () => {
   const [productList, setProductList] = useState([]);
   const productContainerRef = useRef(null); // Reference to the product container
@@ -11,7 +11,8 @@ const BestSeller = () => {
   const fetchProductList = async () => {
     try {
       const response = await ProductApi.getAllMK();
-      setProductList(response);
+      console.log(response);
+      setProductList(response.data);
     } catch (error) {
       console.log("fail", error);
     }
@@ -60,8 +61,8 @@ const BestSeller = () => {
             className="product-item"
           >
             <img
-              className="transform hover:scale-110 transition"
-              src={product.imgUrl}
+              className="transform hover:scale-110 transition h-80"
+              src={product.images[0].image_url}
               alt={product.name}
             />
             {/* Rating and Promotion */}
@@ -76,7 +77,7 @@ const BestSeller = () => {
             )}
             {/* Product details */}
             <h3 className="h3-textbestseller">{product.name}</h3>
-            <p className="p-textprice">
+            {/* <p className="p-textprice">
               {product.discountPrice
                 ? `${product.discountPrice.toLocaleString("vi-VN")} ₫`
                 : `${product.price.toLocaleString("vi-VN")} ₫`}
@@ -85,7 +86,10 @@ const BestSeller = () => {
               <p className="p-text-original-price">
                 {product.price.toLocaleString("vi-VN")} ₫
               </p>
-            )}
+            )} */}
+            <p className="p-textprice">
+              {`${product.sel_price.toLocaleString("vi-VN")} ₫`}
+            </p>
           </NavLink>
         ))}
       </div>
