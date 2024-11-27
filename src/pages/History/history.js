@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link  } from "react-router-dom"; // Import Link để chuyển hướng
+import { Link } from "react-router-dom"; // Import Link để chuyển hướng
 import "./History.css";
 import OrderApi from "../../api/orderApi";
 import { Button } from "antd";
@@ -171,7 +171,7 @@ const History = () => {
             </div>
             <button onClick={handleRatingSubmit}>Gửi đánh giá</button>
           </div>
-          
+
         </div>
       )}
     </div>

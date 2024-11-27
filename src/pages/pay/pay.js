@@ -1,11 +1,18 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
+import React, { useEffect } from 'react'; // Thêm useEffect vào đây
 import "./PaymentPage.css"; // import CSS file
 import { NavLink } from "react-router-dom";
 import CheckoutApi from "../../api/CheckoutApi"; // Import CheckoutApi
 import { FaCheckCircle } from 'react-icons/fa';
+import OrderApi from "../../api/orderApi";
+import userApi from "../../api/userApi";
+import productApi1 from "../../api/productApi1";
+
 import { Helmet } from 'react-helmet';
 export default function PaymentPage() {
+  const [user, setUser] = useState(null); // State để lưu thông tin người dùng
+  const [loading, setLoading] = useState(true); // State để theo dõi trạng thái tải
   const location = useLocation();
   const initialCart = location.state.cart;
   const [cart, setCart] = useState(initialCart); // State quản lý giỏ hàng
@@ -20,7 +27,7 @@ export default function PaymentPage() {
   const [paymentSuccess, setPaymentSuccess] = useState(false); // State để kiểm tra thanh toán thành công
   const [errorMessage, setErrorMessage] = useState(null); // State lưu trữ thông báo lỗi
   const totalPrice = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + item.sel_price * item.quantity,
     0
   );
 
@@ -63,7 +70,73 @@ export default function PaymentPage() {
       setErrorMessage('Đã xảy ra lỗi khi thanh toán.');
     }
   };
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await productApi1.getAll();
+        if (response.status === 'success') {
+          setProducts(response.data);
+        } else {
+          setError('Failed to fetch products');
+        }
+      } catch (err) {
+        setError('Error: ' + err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+    const fetchUser = async () => {
+      try {
+        const userData = await userApi();
+        // Giả sử bạn muốn lấy người dùng đầu tiên trong danh sách
+        setUser(userData[0]);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+  if (cart.length === 0) {
+    return <div className="payment-page-empty">Giỏ hàng của bạn đang trống.</div>;
+  }
+  const shippingFee = 35000;
+  const grandTotal = totalPrice + shippingFee;
+
+  const handlePayment = async () => {
+    if (!user) {
+      console.error('User  data is not available');
+      return;
+    }
+
+    const orderData = {
+      customer_name: user.username, // Sử dụng tên người dùng
+      total_order_price: grandTotal,
+      order_status: 1, // Ví dụ: 1 cho "Đã thanh toán"
+      payment_method: 1, // Ví dụ: 1 cho "Thẻ tín dụng"
+      payment_status: 0, // 0 cho "Chưa xử lý"
+      created_at: new Date().toISOString(), // Hoặc "N/A" nếu bạn muốn
+    };
+
+    try {
+      const response = await OrderApi.createOrder(orderData);
+      console.log('Order created successfully:', response.data);
+      // Thực hiện các hành động khác sau khi lưu đơn hàng thành công
+    } catch (error) {
+      console.error('Error creating order:', error);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading user data...</div>; // Hiển thị thông báo tải
+  }
   return (
     <div className="payment-page-container">
       <div className="payment-page-shoppinginformation">
@@ -170,14 +243,14 @@ export default function PaymentPage() {
           {cart.map((item) => (
             <li className="payment-page-cart-item" key={item.id}>
               <img
-                src={item.imgUrl}
+                src={item.images}
                 alt={item.name}
                 className="payment-page-cart-item-img"
               />
               <div className="payment-page-cart-item-info">
                 <h3 className="payment-page-cart-item-name">{item.name}</h3>
                 <p className="payment-page-cart-item-price">
-                  Price: {item.price}
+                  Price: {item.sel_price} đ
                 </p>
                 <p className="payment-page-cart-item-quantity">
                   Quantity: {item.quantity}
@@ -200,14 +273,21 @@ export default function PaymentPage() {
               <p>Phí vận chuyển</p>
             </div>
             <div>
-              <p>35.000 đ</p>
+              <p>{shippingFee} đ</p>
             </div>
           </div>
         </div>
         <div className="payment-page-cart-total">
-          <div><p className="payment-page-total-price">Total Price:</p></div>
-          <div><p className="payment-page-total-price">{totalPrice + 35000} đ</p></div>
+          <div>
+            <p>Tổng cộng:</p>
+          </div>
+          <div>
+            <p>{grandTotal} đ</p>
+          </div>
         </div>
+        <button onClick={handlePayment} className="payment-page-button">
+          Thanh toán
+        </button>
       </div>
     </div>
   );

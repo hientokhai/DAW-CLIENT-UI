@@ -6,3 +6,4 @@ export const userApi = async () => {
   );
   return response.data;
 };
+export default userApi;
