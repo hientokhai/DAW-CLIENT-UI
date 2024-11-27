@@ -4,6 +4,9 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { reasetpasswordApi } from "../../api/reasetpasswordApi";
 import "./user.css";
 import { Helmet } from 'react-helmet';
+import { Button } from "antd";
+import { Nav } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 function User() {
   const username = localStorage.getItem("username");
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -58,65 +61,168 @@ function User() {
       console.log(error); // Handle error here
     }
   };
+  // State để điều khiển modal
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  // Hàm mở modal
+  const showModal = () => setModalOpen(true);
+
+  // Hàm đóng modal
+  const closeModal = () => setModalOpen(false);
 
   return (
-    <div className="container">
-      <h1 className="title">Thông tin người dùng</h1>
-      <img
-        src="https://static.vecteezy.com/system/resources/previews/002/002/403/original/man-with-beard-avatar-character-isolated-icon-free-vector.jpg"
-        alt="Avatar"
-        className="avatar-image"
-      />
-      <p className="username">Tên đăng nhập: {username}</p>
-      <div className="password-container">
-        <label htmlFor="password-input" className="password-label">
-          Mật khẩu:
-        </label>
-        <div className="password-input-container">
-          <input
-            type={passwordVisible ? "text" : "password"}
-            value={passwordValue}
-            onChange={handlePasswordChange}
-            readOnly={!passwordVisible}
-            id="password-input"
-            className="password-input"
-          />
-          <button
-            className={`toggle-password ${passwordVisible ? "visible" : ""}`}
-            onClick={handleTogglePassword}
-          >
-            <FontAwesomeIcon icon={passwordVisible ? faEye : faEyeSlash} />
-          </button>
-          <button
-            className="change-password-button"
-            onClick={handlePasswordChangeButtonClick}
-          >
-            Thay đổi mật khẩu
-          </button>
-        </div>
-      </div>
-      {changingPassword && (
-        <div className="new-password-container">
-          <label htmlFor="new-password-input" className="password-label">
-            Mật khẩu mới:
-          </label>
-          <div className="password-input-container">
-            <input
-              type="password"
-              value={newPasswordValue}
-              onChange={handleNewPasswordChange}
-              id="new-password-input"
-              className="password-input"
-            />
+    <div className="columns">
+      <div className="sidebar sidebar-main">
+        {" "}
+        <div className="block block-collapsible-nav">
+          <div className="title block-collapsible-nav-title">
+            <strong> Tài khoản</strong>{" "}
+            <span>
+              Xin chào, <span className="name">Phạm Hửu Tài</span>
+            </span>
           </div>
-          <button className="save-button" onClick={handleSaveButtonClick}>
-            Lưu thông tin
-          </button>
+          <div
+            className="content block-collapsible-nav-content"
+            id="block-collapsible-nav"
+          >
+            <ul className="nav items">
+              <li className="nav item">
+                <Button><NavLink to="/wishlist">Sản phẩm yêu thích</NavLink></Button>
+              </li>
+            </ul>
+            <ul className="nav items">
+              <li className="nav item">
+                <Button><NavLink to="/wishlist">Danh sách đơn hàng</NavLink></Button>
+              </li>
+            </ul>
+            <ul className="nav items">
+              <li className="nav item">
+                <Button><NavLink to="/wishlist">Sản phẩm đã chấm điểm</NavLink></Button>
+              </li>
+            </ul>
+          </div>
+        </div>{" "}
+      </div>
+      <div className="column main">
+        {" "}
+        <div className="page-title-wrapper">
+          <h1 className="page-title">
+            <span className="base" data-ui-id="page-title-wrapper">
+              Tài khoản của tôi
+            </span>
+          </h1>
+          <img
+            src="https://static.vecteezy.com/system/resources/previews/002/002/403/original/man-with-beard-avatar-character-isolated-icon-free-vector.jpg"
+            alt="Avatar"
+            className="avatar-image"
+          />
         </div>
-      )}
-      {showSuccessMessage && (
-        <div className="success-message">Thay đổi mật khẩu thành công</div>
-      )}
+        <input name="form_key" type="hidden" defaultValue="rnTIcVPm7bRWr6N9" />{" "}
+        <div />{" "}
+        <form
+          className="form form-edit-account"
+          action="https://owen.vn/customer/account/editPost/"
+          method="post"
+          id="form-validate"
+          encType="multipart/form-data"
+          data-hasrequired="* Bắt buộc"
+          autoComplete="off"
+          noValidate="novalidate"
+        >
+          <fieldset className="fieldset info">
+            <input name="form_key" type="hidden" defaultValue="rnTIcVPm7bRWr6N9" />{" "}
+            <div className="field field-name-firstname required">
+              <label htmlFor="firstname" className="label">
+                <span>Họ và tên</span> 04/12/2002
+              </label>{" "}
+              <div className="control">
+              </div>
+            </div>{" "}
+            <div className="field field-name-firstname required">
+              <label htmlFor="firstname" className="label">
+                <span>Email</span> 04/12/2002
+              </label>{" "}
+              <div className="control">
+              </div>
+            </div>{" "}
+            <div className="field field-name-firstname required">
+              <label htmlFor="firstname" className="label">
+                <span>Số điện thoại</span> 04/12/2002
+              </label>{" "}
+              <div className="control">
+              </div>
+            </div>{" "}
+            <div className="field field-name-firstname required">
+              <label htmlFor="firstname" className="label">
+                <span>Địa chỉ giao hàng</span> 04/12/2002
+              </label>{" "}
+              <div className="control">
+              </div>
+            </div>{" "}
+            <div className="field field-name-firstname required">
+              <label htmlFor="firstname" className="label">
+                <span>Ngày sinh</span> 04/12/2002
+              </label>{" "}
+              <div className="control">
+              </div>
+            </div>{" "}
+          </fieldset>{" "}
+          <div className="actions-toolbar">
+            <div className="primary">
+              <button
+                type="button"
+                className="action save primary"
+                title="Lưu lại"
+                onClick={showModal}
+              >
+                <span>Cập nhật</span>
+              </button>
+            </div>
+          </div>
+          {/* Modal */}
+          {isModalOpen && (
+            <div className="modal-overlay">
+              <div className="modal">
+                <h2>Cập nhật Thông Tin</h2>
+                <form>
+                  <div className="form-group">
+                    <label htmlFor="name">Họ và Tên:</label>
+                    <input type="text" id="name" name="name" placeholder="Nhập họ và tên" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Nhập email" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="phone">Số Điện Thoại:</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="address">Địa Chỉ Giao Hàng:</label>
+                    <input type="text" id="address" name="address" placeholder="Nhập địa chỉ" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="dob">Ngày Sinh:</label>
+                    <input type="date" id="dob" name="dob" />
+                  </div>
+                  <div className="modal-actions">
+                    <button type="submit" className="action save primary">
+                      Lưu Thông Tin
+                    </button>
+                    <button
+                      type="button"
+                      className="action cancel secondary"
+                      onClick={closeModal}
+                    >
+                      Đóng
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 }
