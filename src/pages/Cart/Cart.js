@@ -71,7 +71,7 @@ export default function Cart() {
   };
 
   const totalPrice = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + item.sel_price * item.quantity,
     0
   );
 
@@ -150,7 +150,7 @@ export default function Cart() {
           <div className="max-w-4xl mx-auto my-6 p-6 bg-white rounded-lg shadow-md">
             <div className="flex justify-between font-semibold mb-4">
               <span>Tổng giá trị sản phẩm:</span>
-              <span>{totalPrice.toLocaleString("vi-VN")} ₫</span>
+              <span>{totalPrice > 0 ? totalPrice.toLocaleString("vi-VN") : '0'} ₫</span>
             </div>
             <div className="flex justify-end">
               <NavLink to="/" className="bg-red-400 text-white px-4 py-2 rounded-md hover:bg-red-600 mr-10 font-semibold text-sm">
