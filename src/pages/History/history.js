@@ -1,110 +1,181 @@
-import React from "react";
-import "./History.css"; // import CSS file
-import { NavLink } from "react-router-dom";
-import { Helmet } from 'react-helmet';
+import React, { useState, useEffect } from "react";
+import { Link  } from "react-router-dom"; // Import Link để chuyển hướng
+import "./History.css";
+import OrderApi from "../../api/orderApi";
+
+
 
 const History = () => {
-    return (
+  const [orders, setOrders] = useState([]); // Danh sách tất cả đơn hàng
+  const [filteredOrders, setFilteredOrders] = useState([]); // Danh sách đơn hàng sau khi lọc
+  const [filterStatus, setFilterStatus] = useState(0); // Trạng thái đang lọc (0 = Tất cả)
+  const [loading, setLoading] = useState(false); // Trạng thái tải dữ liệu
+  const [showRatingModal, setShowRatingModal] = useState(false); // Trạng thái hiển thị pop-up
+  const [selectedOrder, setSelectedOrder] = useState(null); // Đơn hàng đang được đánh giá
+  const [rating, setRating] = useState(0); // Đánh giá của người dùng
 
-        <div className="history-container">
-            <Helmet>
-                <title>Lịch sử Đơn hàng</title>
-            </Helmet>
-            <h1 className="history-text-title">Lịch sử Đơn hàng</h1>
-            <label className="payment-page-form-label">
-                <input
-                    type="hoten"
-                    className="payment-page-form-input"
-                    placeholder="Tìm kiếm theo mã đơn hàng, tên khách hàng, SĐT khách hàng"
-                />
-                <button type="submit" className="payment-page-cart-button">
-                    tìm kiếm
-                </button>
-            </label>
-            <table>
-                <thead>
-                    <tr>
-                        <th className="history-checked-title">
-                            <label class="history-checked-container">
-                                <input type="checkbox" />
-                                <span class="history-checkmark"></span>
-                            </label>
-                        </th>
-                        <th>Mã Đơn Hàng</th>
-                        <th>Khách Hàng</th>
-                        <th>Số điện thoại</th>
-                        <th>Trạng Thái</th>
-                        <th>Tổng giá trị</th>
-                        <th>Ngày Tạo Đơn</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <label class="history-checked-container">
-                                <input type="checkbox" />
-                                <span class="history-checkmark"></span>
-                            </label>
-                        </td>
-                        <td><NavLink
-                            to="#"
-                            className="text-blue-400"
-                        >
-                            #123456
-                        </NavLink></td>
-                        <th>Hiên</th>
-                        <th>0312345678</th>
-                        <td><span class="status">Đã giao</span></td>
-                        <td>
-                            1.200.000 đ
-                        </td>
-                        <td>15/10/2024</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="history-checked-container">
-                                <input type="checkbox" />
-                                <span class="history-checkmark"></span>
-                            </label>
-                        </td>
-                        <td><NavLink
-                            to="#"
-                            className="text-blue-400"
-                        >
-                            #123457
-                        </NavLink></td>
-                        <th>Thi</th>
-                        <th>0311133322</th>
-                        <td><span class="status">Đang xử lý</span></td>
-                        <td>
-                            500.000 đ
-                        </td>
-                        <td>16/10/2024</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="history-checked-container">
-                                <input type="checkbox" />
-                                <span class="history-checkmark"></span>
-                            </label>
-                        </td>
-                        <td><NavLink
-                            to="#"
-                            className="text-blue-400"
-                        >
-                            #123458
-                        </NavLink></td>
-                        <th>Thiện</th>
-                        <th>0399922239</th>
-                        <td><span class="status">Đã hủy</span></td>
-                        <td>
-                            700.000 đ
-                        </td>
-                        <td>17/10/2024</td>
-                    </tr>
-                </tbody>
-            </table>
+  // Mã trạng thái đơn hàng
+  const statusMapping = {
+    0: "Tất cả",
+    1: "Chờ thanh toán",
+    2: "Vận chuyển",
+    3: "Hoàn thành",
+    4: "Đã hủy",
+  };
+
+  // Hàm tải dữ liệu từ API
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        setLoading(true);
+        const response = await OrderApi.getAll();
+        const ordersData = response?.data || []; // Nếu `response.data` không tồn tại, gán mảng rỗng
+        setOrders(ordersData);
+        setFilteredOrders(ordersData); // Hiển thị tất cả đơn hàng ban đầu
+      } catch (error) {
+        console.error("Lỗi khi tải dữ liệu đơn hàng:", error);
+        setOrders([]);
+        setFilteredOrders([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  // Hàm lọc đơn hàng theo trạng thái
+  const handleFilterChange = (status) => {
+    setFilterStatus(status);
+    if (status === 0) {
+      setFilteredOrders(orders); // Hiển thị tất cả
+    } else {
+      setFilteredOrders(orders.filter((order) => order.order_status === status));
+    }
+  };
+
+  // Hàm mở pop-up đánh giá
+  const handleRatingClick = (order) => {
+    setSelectedOrder(order);
+    setShowRatingModal(true); // Hiển thị pop-up đánh giá
+  };
+
+  // Hàm đóng pop-up
+  const closeRatingModal = () => {
+    setShowRatingModal(false);
+    setSelectedOrder(null);
+    setRating(0); // Reset rating khi đóng pop-up
+  };
+
+  // Hàm xử lý đánh giá
+  const handleRatingSubmit = () => {
+    // Xử lý logic lưu đánh giá ở đây (gửi lên API, lưu vào state, v.v.)
+    console.log(`Đánh giá cho đơn hàng ${selectedOrder.id}: ${rating}`);
+    closeRatingModal(); // Đóng pop-up sau khi submit
+  };
+
+  return (
+    <div className="history-container">
+      <h1 className="history-text-title">Lịch sử Đơn hàng</h1>
+
+      {/* Tabs trạng thái */}
+      <div className="status-tabs">
+        {Object.keys(statusMapping).map((key) => (
+          <button
+            key={key}
+            className={`status-tab ${filterStatus === parseInt(key) ? "active" : ""}`}
+            onClick={() => handleFilterChange(parseInt(key))}
+          >
+            {statusMapping[key]}
+          </button>
+        ))}
+      </div>
+
+      {/* Kiểm tra trạng thái loading */}
+      {loading ? (
+        <div className="loading">Đang tải dữ liệu...</div>
+      ) : (
+        <div className="order-list">
+          {/* Kiểm tra có dữ liệu hay không */}
+          {Array.isArray(filteredOrders) && filteredOrders.length > 0 ? (
+            filteredOrders.map((order, index) => (
+              <div className="order-item" key={index}>
+                {/* Thông tin chi tiết sản phẩm */}
+                <div className="order-details">
+                  {Array.isArray(order.order_details) &&
+                    order.order_details.map((product, idx) => (
+                      <div key={idx} className="product-info">
+                        {/* Phần bên trái: hình ảnh, tên sản phẩm và số lượng */}
+                        <div className="product-left">
+                          {Array.isArray(product.images) && product.images.length > 0 ? (
+                            product.images.map((imageUrl, imgIdx) => (
+                              <img
+                                key={imgIdx}
+                                src={imageUrl}
+                                alt={product.product_name}
+                                className="product-image"
+                              />
+                            ))
+                          ) : (
+                            <div className="no-image">Không có ảnh</div>
+                          )}
+                          <div>
+                            <div className="product-name">{product.product_name}</div>
+                            <div className="product-quantity">Số lượng: {product.quantity}</div>
+                            <Link to={`/products/${product.id}`} className="view-product-link">
+                            Xem chi tiết
+                          </Link>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+
+                {/* Tổng tiền và trạng thái */}
+                <div className="order-footer">
+                  <div className="order-total">Tổng cộng: {order.total_order_price}</div>
+
+                  {/* Nút đánh giá cho đơn hoàn thành */}
+                  {order.order_status === 3 && (
+                    <button
+                      className="rate-button"
+                      onClick={() => handleRatingClick(order)}
+                    >
+                      Đánh giá
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="no-orders">Không có đơn hàng phù hợp.</div>
+          )}
         </div>
-    );
-}
+      )}
+
+      {/* Pop-up đánh giá */}
+      {showRatingModal && (
+        <div className="rating-modal">
+          <div className="rating-modal-content">
+            <span className="close" onClick={closeRatingModal}>&times;</span>
+            <h3>Đánh giá cho đơn hàng {selectedOrder.id}</h3>
+            <div className="rating-stars">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <span
+                  key={star}
+                  className={`star ${rating >= star ? "filled" : ""}`}
+                  onClick={() => setRating(star)}
+                >
+                  &#9733;
+                </span>
+              ))}
+            </div>
+            <button onClick={handleRatingSubmit}>Gửi đánh giá</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export default History;

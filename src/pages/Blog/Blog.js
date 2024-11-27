@@ -9,6 +9,8 @@ const Blog = () => {
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
+    const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
+    const [blogsPerPage] = useState(4); // Số lượng blog trên mỗi trang
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
@@ -42,6 +44,18 @@ const Blog = () => {
         groups[categoryId].blogs.push(blog);
         return groups;
     }, {});
+
+    // Tính toán số trang cho mỗi loại blog
+    const paginateBlogs = (blogs) => {
+        const indexOfLastBlog = currentPage * blogsPerPage;
+        const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+        return blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+    };
+
+    // Hàm chuyển trang
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
     return (
 
         <div className="overflow-hidden" style={{ padding: "10px 100px" }}>
@@ -120,7 +134,7 @@ const Blog = () => {
                                 <div key={categoryId} style={{ width: '100%', maxWidth: '1200px' }}>
                                     <h2 style={{ fontWeight: 'bold' }}>{groupedBlogs[categoryId].categoryName}</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-6 justify-center">
-                                        {groupedBlogs[categoryId].blogs.map(blog => (
+                                        {paginateBlogs(groupedBlogs[categoryId].blogs).map(blog => (
                                             <div key={blog.id} className="blog-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}>
                                                 <Link to={`/blog/${blog.id}`} style={{ textAlign: 'center' }}>
                                                     <div className="image-container" style={{ marginBottom: '10px' }}>
@@ -131,6 +145,26 @@ const Blog = () => {
                                                     </div>
                                                 </Link>
                                             </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Pagination */}
+                                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                                        {Array.from({ length: Math.ceil(groupedBlogs[categoryId].blogs.length / blogsPerPage) }, (_, index) => (
+                                            <button
+                                                key={index + 1}
+                                                onClick={() => handlePageChange(index + 1)}
+                                                style={{
+                                                    padding: '5px 10px',
+                                                    margin: '0 5px',
+                                                    borderRadius: '5px',
+                                                    cursor: 'pointer',
+                                                    backgroundColor: currentPage === index + 1 ? '#4CAF50' : '#ccc',
+                                                    color: 'white',
+                                                }}
+                                            >
+                                                {index + 1}
+                                            </button>
                                         ))}
                                     </div>
                                 </div>

@@ -1,109 +1,190 @@
-/* body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f4f4f4;
-} */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #ffffff;
+.history-container {
+  padding: 20px;
+  background-color: #f8f8f8;
 }
-table, th, td {
-    border: 1px solid #ddd;
+
+.history-text-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
 }
-th, td {
-    padding: 10px;
-    text-align: left;
+
+.status-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
-th {
-    background-color: #f2f2f2;
+
+.status-tab {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  cursor: pointer;
+  margin: 0 5px;
 }
-.order-items {
-    list-style-type: none;
-    padding: 0;
+
+.status-tab.active {
+  background-color: #4caf50;
+  color: #fff;
 }
-.order-items li {
-    margin: 5px 0;
+
+.order-list {
+  margin-top: 20px;
 }
-.status {
-    font-weight: bold;
-    color: green;
+
+.order-item {
+  background-color: #fff;
+  padding: 15px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
-.history-container{
-    margin: 20px;
+/* Phần bên trái: hình ảnh, tên sản phẩm và số lượng */
+.product-left {
+  display: flex;
+  align-items: center;
 }
-.history-text-title{
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 20px;
+/* Container của mỗi sản phẩm */
+.product-info {
+  display: flex;
+  justify-content: space-between; /* Căn đều không gian giữa phần bên trái và bên phải */
+  align-items: center;
+  margin-bottom: 20px;
 }
-.history-checked-container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  
-  /* Hide the browser's default checkbox */
-  .history-checked-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .history-checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: #eee;
-  }
-  
-  /* On mouse-over, add a grey background color */
-  .history-checked-container:hover input ~ .history-checkmark {
-    background-color: #ccc;
-  }
-  
-  /* When the checkbox is checked, add a blue background */
-  .history-checked-container input:checked ~ .history-checkmark {
-    background-color: #2196F3;
-  }
-  
-  /* Create the history-checkmark/indicator (hidden when not checked) */
-  .history-checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
-  
-  /* Show the history-checkmark when checked */
-  .history-checked-container input:checked ~ .history-checkmark:after {
-    display: block;
-  }
-  
-  /* Style the history-checkmark/indicator */
-  .history-checked-container .history-checkmark:after {
-    left: 9px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-  }
-  .history-checked-title{
-    width: 50px;
-  }
+
+/* Hình ảnh sản phẩm */
+.product-image {
+  width: 80px !important; /* Kích thước nhỏ hơn */
+  height: 80px !important;
+  object-fit: cover !important;
+  margin-right: 10px;
+}
+
+/* Tên sản phẩm và số lượng */
+.product-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.product-quantity, .product-price {
+  font-size: 14px;
+  color: #555;
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-total {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.order-status {
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.status-1 {
+  background-color: #ff9800;
+}
+
+.status-2 {
+  background-color: #2196f3;
+}
+
+.status-3 {
+  background-color: #4caf50;
+}
+
+.status-4 {
+  background-color: #f44336;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.no-orders {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+}
+/* Nút đánh giá */
+.rate-button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 20px;
+}
+
+.rate-button:hover {
+  background-color: #45a049;
+}
+
+/* Pop-up đánh giá */
+.rating-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rating-modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  text-align: center;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.rating-stars {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.star {
+  cursor: pointer;
+  color: #ccc;
+}
+
+.star.filled {
+  color: #f60;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: black;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
