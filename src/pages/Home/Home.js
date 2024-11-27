@@ -16,6 +16,7 @@ import SlideshowAPI from "../../api/slideshowApi";
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideshowImages, setSlideshowImages] = useState([]); // State to store slideshow images
+  const [autoSlideInterval, setAutoSlideInterval] = useState(null); // State to manage interval
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +29,14 @@ const Home = () => {
     };
 
     fetchData();
+
+    // Start auto slide interval
+    const interval = setInterval(() => {
+      handleNext();
+    }, 5000); // 5 seconds
+
+    // Clear interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   const handlePrev = () => {
@@ -51,7 +60,7 @@ const Home = () => {
           {slideshowImages.length > 0 && (
             <NavLink to={slideshowImages[currentIndex].link_url}>
               <img
-                src={slideshowImages[currentIndex].image_url} // Sửa từ src thành image_url
+                src={slideshowImages[currentIndex].image_url}
                 alt={slideshowImages[currentIndex].title}
                 className="img-fluid"
               />
