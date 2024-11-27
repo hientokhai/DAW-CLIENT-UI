@@ -293,145 +293,142 @@
   font-weight: bold;
 }
 
-/* Nền overlay cho modal */
+/* Định dạng tổng thể cho overlay (phần che nền khi modal mở) */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Nền tối mờ */
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu nền tối mờ */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  align-items: center; /* Căn giữa theo trục dọc */
+  justify-content: center; /* Căn giữa theo trục ngang */
+  z-index: 1000; /* Hiển thị trên các thành phần khác */
 }
 
-/* Nội dung chính của modal */
+/* Nội dung của modal */
 .modal-content {
-  background-color: #ffffff; /* Màu nền trắng */
-  padding: 20px;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng */
-  position: relative;
-  text-align: center;
+  width: 90%;
+  max-width: 400px; /* Độ rộng tối đa */
+  background: #ffffff; /* Màu nền trắng */
+  border-radius: 10px; /* Bo góc */
+  padding: 20px; /* Khoảng cách bên trong */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Hiệu ứng đổ bóng */
+  animation: fadeIn 0.3s ease-in-out; /* Hiệu ứng xuất hiện */
+  position: relative; /* Để nút đóng có thể căn chỉnh */
 }
 
-/* Tiêu đề modal */
+/* Hiệu ứng fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9); /* Nhỏ hơn một chút */
+  }
+  to {
+    opacity: 1;
+    transform: scale(1); /* Trở lại kích thước ban đầu */
+  }
+}
+
+/* Tiêu đề "Đăng nhập" */
 .modal-content h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333333; /* Màu chữ chính */
-  font-weight: bold;
+  font-size: 24px; /* Kích thước chữ lớn */
+  font-weight: bold; /* Đậm chữ */
+  color: #333; /* Màu chữ đen */
+  text-align: center; /* Căn giữa */
+  margin-bottom: 20px; /* Khoảng cách dưới */
 }
 
-/* Form group */
-.form-group {
-  margin-bottom: 15px;
-  text-align: left;
-
-}
-
-/* Label */
-.form-group label {
-  font-size: 14px;
-  color: #110303; /* Màu nhạt hơn */
-  margin-bottom: 5px;
-  display: block;
-}
-
-
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  color: #333333; /* Màu chữ chính khi nhập */
-  border: 1px solid #cccccc;
-  border-radius: 5px;
-  outline: none;
-  transition: border-color 0.3s;
-  background-color: #ffffff; /* Nền trắng */
-}
-
-.form-group input:focus {
-  border-color: #3b82f6; /* Màu viền khi focus */
-  color: #000000; /* Đảm bảo chữ khi nhập luôn rõ */
-}
-
-/* Nút Đăng nhập */
-.form-button {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  color: #ffffff;
-  background-color: #3b82f6; /* Màu xanh chủ đạo */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.form-button:hover {
-  background-color: #2563eb; /* Xanh đậm hơn khi hover */
-}
-
-/* Footer trong modal */
-.modal-footer {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
-  padding: 0 10px;
-}
-
-
-.signup-link {
-  font-size: 14px;
-  color: #3b82f6; /* Màu xanh nhạt */
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s;
-}
-
-.signup-link:hover {
-  color: #2563eb; /* Xanh đậm hơn khi hover */
-}
-
-
-.modal-footer {
-  display: flex;
-  justify-content: space-between; /* Căn đều giữa "Đăng ký" và "Quên mật khẩu" */
-  margin-top: 15px;
-  font-size: 14px;
-}
-
-.signup-link,
-.forgot-password-link {
-  color: #3b82f6; /* Màu xanh dương nhấn mạnh */
-  text-decoration: none; /* Xóa gạch chân */
-  transition: color 0.3s ease;
-}
-
-.signup-link:hover,
-.forgot-password-link:hover {
-  color: #1d4ed8; /* Màu xanh đậm hơn khi hover */
-  text-decoration: underline; /* Gạch chân khi hover */
-}
-
+/* Nút đóng modal */
 .close-modal {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: transparent;
+  background: none;
   border: none;
   font-size: 20px;
   color: #333;
   cursor: pointer;
-  transition: color 0.3s ease;
 }
 
-.close-modal:hover {
-  color: #f44336; /* Màu đỏ khi hover */
+/* Định dạng form bên trong modal */
+.modal-content form {
+  display: flex;
+  flex-direction: column;
 }
-  
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  color: #333; /* Màu chữ đen để dễ nhìn */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9; /* Màu nền sáng nhẹ */
+}
+
+input::placeholder {
+  color: #888; /* Màu placeholder */
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  background-color: #fff; /* Nền trắng khi focus */
+}
+
+.form-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+  background-color: #0056b3;
+}
+
+/* Footer của modal */
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.signup-link,
+.forgot-password-link {
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.signup-link:hover,
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+/* Thêm khoảng cách giữa các thành phần để bố cục thoáng hơn */
+.form-group input,
+.form-group label {
+  margin-bottom: 8px;
+}

@@ -36,6 +36,7 @@ function Header() {
   // Hàm xử lý khi người dùng submit form đăng nhập
   const handleLoginSubmit = (e) => {
     e.preventDefault();
+    //gọi hàm để thực hiênj với thông tin đăng nhập email, password.
     handleLogin(email, password);
   };
   const handleLogin = (email, password) => {
@@ -44,7 +45,7 @@ function Header() {
       .then((response) => {
         // Lưu thông tin người dùng vào localStorage
         localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("userData", JSON.stringify(response.data)); 
+        localStorage.setItem("userData", JSON.stringify(response.data));
         // console.log(response.data);
         setIsLoggedIn(true);
         setIsLoginModalOpen(false); // Đóng modal khi đăng nhập thành công
@@ -57,11 +58,9 @@ function Header() {
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     if (isLoggedIn) {
-      setIsLoggedIn(true);
+      setIsLoggedIn(true); // xác nhận trạng thái người dùng đã đăng nhập
     }
   }, []);
-  
-  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [categories, setCategories] = useState([]); // State để lưu danh mục
@@ -69,6 +68,7 @@ function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false); // Modal đăng ký
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false); //Modal đăng nhập
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -117,7 +117,6 @@ function Header() {
   const handleHeartClick = () => {
     navigate("/wishlist");
   };
-
   const handleOpenModal = () => {
     setIsLoginModalOpen(true);
   };
@@ -159,27 +158,30 @@ function Header() {
 
             {isDropdownVisible && (
               <div className="dropdown-content">
-                {categories.map((category) => (
-                  <div key={category.id} className="category-group">
-                    <NavLink className="category" to={`/${category.slug}`}>
-                      {category.name}
-                    </NavLink>
-                    {category.subcategories &&
-                      category.subcategories.length > 0 && (
-                        <div className="subcategory-content">
-                          {category.subcategories.map((subcategory) => (
-                            <NavLink
-                              key={subcategory.id}
-                              className="subcategory"
-                              to={`/${subcategory.slug}`}
-                            >
-                              {subcategory.name}
-                            </NavLink>
-                          ))}
-                        </div>
-                      )}
-                  </div>
-                ))}
+                {categories.map((category) =>
+                  // Kiểm tra xem danh mục có phải là danh mục con và có is_visible là 1
+                  category.parent_id !== null && category.is_visible === 1 ? (
+                    <div key={category.id} className="category-group">
+                      <NavLink className="category" to={`/${category.slug}`}>
+                        {category.name}
+                      </NavLink>
+                      {category.subcategories &&
+                        category.subcategories.length > 0 && (
+                          <div className="subcategory-content">
+                            {category.subcategories.map((subcategory) => (
+                              <NavLink
+                                key={subcategory.id}
+                                className="subcategory"
+                                to={`/${subcategory.slug}`}
+                              >
+                                {subcategory.name}
+                              </NavLink>
+                            ))}
+                          </div>
+                        )}
+                    </div>
+                  ) : null
+                )}
               </div>
             )}
           </li>
@@ -264,7 +266,7 @@ function Header() {
                 >
                   Đăng nhập
                 </button>
-                {/* <NavLink to="/signup">
+                <NavLink to="/signup">
                   <button
                     className="self-center px-3 py-3 rounded text-white hover:text-green-200 transition-colors duration-300"
                     style={{
@@ -274,61 +276,59 @@ function Header() {
                   >
                     Đăng ký
                   </button>
-                </NavLink> */}
+                </NavLink>
               </>
             )}
           </div>
         </div>
-
         {/* Modal đăng nhập */}
         {isLoginModalOpen && (
-      <div className="modal-overlay">
-        <div className="modal-content">
-          <h2>Đăng nhập</h2>
-          <form onSubmit={handleLoginSubmit}>
-            <div className="form-group">
-              <label>Email:</label>
-              <input
-                type="email"
-                placeholder="Nhập email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h2>Đăng nhập</h2>
+              <form onSubmit={handleLoginSubmit}>
+                <div className="form-group">
+                  <label>Email:</label>
+                  <input
+                    type="email"
+                    placeholder="Nhập email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Mật khẩu:</label>
+                  <input
+                    type="password"
+                    placeholder="Nhập mật khẩu"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <button type="submit" className="form-button">
+                  Đăng nhập
+                </button>
+              </form>
+              <div className="modal-footer">
+                <button onClick={handleOpenSignupModal} className="signup-link">
+                  Đăng ký
+                </button>
+                <NavLink to="/forgot-password" className="forgot-password-link">
+                  Quên mật khẩu?
+                </NavLink>
+              </div>
+              {/* Nút Đóng Modal */}
+              <button
+                onClick={() => setIsLoginModalOpen(false)}
+                className="close-modal"
+              >
+                ✖
+              </button>
             </div>
-            <div className="form-group">
-              <label>Mật khẩu:</label>
-              <input
-                type="password"
-                placeholder="Nhập mật khẩu"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <button type="submit" className="form-button">
-              Đăng nhập
-            </button>
-          </form>
-          <div className="modal-footer">
-            <button onClick={handleOpenSignupModal} className="signup-link">
-              Đăng ký
-            </button>
-            <NavLink to="/forgot-password" className="forgot-password-link">
-              Quên mật khẩu?
-            </NavLink>
           </div>
-          {/* Nút Đóng Modal */}
-          <button
-            onClick={() => setIsLoginModalOpen(false)}
-            className="close-modal"
-          >
-            ✖
-          </button>
-        </div>
-      </div>
-    )}
-
+        )}
 
         {/* Giỏ hàng */}
         <div className="cart-container items-center flex-shrink-0 hidden lg:flex cart-font ml-1">

@@ -113,7 +113,7 @@ const History = () => {
                                 key={imgIdx}
                                 src={imageUrl}
                                 alt={product.product_name}
-                                className="product-image"
+                                className="product-image-history"
                               />
                             ))
                           ) : (
@@ -122,9 +122,7 @@ const History = () => {
                           <div>
                             <div className="product-name">{product.product_name}</div>
                             <div className="product-quantity">Số lượng: {product.quantity}</div>
-                            <Link to={`/products/${product.id}`} className="view-product-link">
-                            Xem chi tiết
-                          </Link>
+                            <Link to={`/order/${order.id}`}>Xem chi tiết</Link>
                           </div>
                         </div>
                       </div>
@@ -138,7 +136,7 @@ const History = () => {
                   {/* Nút đánh giá cho đơn hoàn thành */}
                   {order.order_status === 3 && (
                     <button
-                      className="rate-button"
+                      className="rate-button-danhgia"
                       onClick={() => handleRatingClick(order)}
                     >
                       Đánh giá
@@ -155,15 +153,15 @@ const History = () => {
 
       {/* Pop-up đánh giá */}
       {showRatingModal && (
-        <div className="rating-modal">
-          <div className="rating-modal-content">
-            <span className="close" onClick={closeRatingModal}>&times;</span>
+        <div className="rating-modal-danhgia">
+          <div className="rating-modal-content-danhgia">
+            <span className="close-danhgia" onClick={closeRatingModal}>&times;</span>
             <h3>Đánh giá cho đơn hàng {selectedOrder.id}</h3>
-            <div className="rating-stars">
+            <div className="rating-stars-danhgia">
               {[1, 2, 3, 4, 5].map((star) => (
                 <span
                   key={star}
-                  className={`star ${rating >= star ? "filled" : ""}`}
+                  className={`star-danhgia ${rating >= star ? "filled" : ""}`}
                   onClick={() => setRating(star)}
                 >
                   &#9733;

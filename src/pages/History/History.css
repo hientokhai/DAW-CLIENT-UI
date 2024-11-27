@@ -56,9 +56,9 @@
 }
 
 /* Hình ảnh sản phẩm */
-.product-image {
-  width: 80px !important; /* Kích thước nhỏ hơn */
-  height: 80px !important;
+.product-image-history {
+  width: 70px !important; /* Kích thước nhỏ hơn */
+  height: 70px !important;
   object-fit: cover !important;
   margin-right: 10px;
 }
@@ -119,7 +119,7 @@
   color: #555;
 }
 /* Nút đánh giá */
-.rate-button {
+.rate-button-danhgia {
   padding: 10px 20px;
   background-color: #4caf50;
   color: white;
@@ -129,12 +129,12 @@
   margin-left: 20px;
 }
 
-.rate-button:hover {
+.rate-button-danhgia:hover {
   background-color: #45a049;
 }
 
 /* Pop-up đánh giá */
-.rating-modal {
+.rating-modal-danhgia {
   position: fixed;
   top: 0;
   left: 0;
@@ -146,7 +146,7 @@
   align-items: center;
 }
 
-.rating-modal-content {
+.rating-modal-content-danhgia {
   background-color: white;
   padding: 20px;
   border-radius: 5px;
@@ -154,7 +154,7 @@
   text-align: center;
 }
 
-.close {
+.close-danhgia {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -162,29 +162,29 @@
   cursor: pointer;
 }
 
-.rating-stars {
+.rating-stars-danhgia {
   font-size: 24px;
   margin: 10px 0;
 }
 
-.star {
+.star-danhgia{
   cursor: pointer;
   color: #ccc;
 }
 
-.star.filled {
+.star-danhgia.filled {
   color: #f60;
 }
 
-button {
+.status-tabs button{
   padding: 10px 20px;
-  background-color: #4caf50;
+  background-color: #f0c347;
   color: black;
   border: none;
   cursor: pointer;
   border-radius: 5px;
 }
 
-button:hover {
-  background-color: #45a049;
+.status-tabs button:hover {
+  background-color: hsl(2, 100%, 51%);
 }
