@@ -30,7 +30,7 @@ import BlogDetail from "../pages/DetailBlog/BlogDetail";
 import OrderDetailPage from "../pages/OrderDetail/orderDetail";
 import Bag1 from "../pages/Bag/Bag1";
 import Wishlist from "../pages/Wishlist/Wishlist";
-
+import CategoryPage from "../pages/Category/Category";
 export default function Routers() {
   return (
     <Routes>
@@ -65,6 +65,7 @@ export default function Routers() {
       <Route path="/order/:orderId" element={<OrderDetailPage />} />
       <Route path="/bag1" element={<Bag1 />} />
       <Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/category/:slug" element={<CategoryPage />} />
     </Routes>
   );
 }
