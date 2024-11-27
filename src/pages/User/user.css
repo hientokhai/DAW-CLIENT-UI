@@ -12,7 +12,6 @@
   min-height: 100vh;
 }
 
-<<<<<<< Updated upstream
 /* Header */
 .header {
   background-color: #000000;
@@ -20,7 +19,8 @@
   padding: 20px;
   font-size: 20px;
   font-weight: bold;
-=======
+}
+
 .title {
   font-size: 36px;
   margin-bottom: 20px;
@@ -50,7 +50,6 @@
   height: 150px;
   border-radius: 50%;
   margin-bottom: 40px;
->>>>>>> Stashed changes
 }
 
 /* Main Content */
@@ -169,7 +168,6 @@ Content Section .content {
   margin-bottom: 15px;
 }
 
-<<<<<<< Updated upstream
 label {
   font-size: 14px;
   color: #555;
@@ -258,7 +256,8 @@ img {
   max-width: 150px;
   border-radius: 50%;
   margin-top: 10px;
-=======
+}
+
 /* Tổng bố cục */
 .columns {
   display: flex;
@@ -503,5 +502,4 @@ img {
     opacity: 1;
     transform: scale(1);
   }
->>>>>>> Stashed changes
 }
