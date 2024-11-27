@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link  } from "react-router-dom"; // Import Link để chuyển hướng
 import "./History.css";
 import OrderApi from "../../api/orderApi";
-
-
+import { Button } from "antd";
+import { NavLink } from "react-router-dom";
 
 const History = () => {
   const [orders, setOrders] = useState([]); // Danh sách tất cả đơn hàng
@@ -150,6 +150,7 @@ const History = () => {
           )}
         </div>
       )}
+      <Button><NavLink to="/user">Trở lại</NavLink></Button>
 
       {/* Pop-up đánh giá */}
       {showRatingModal && (
@@ -170,6 +171,7 @@ const History = () => {
             </div>
             <button onClick={handleRatingSubmit}>Gửi đánh giá</button>
           </div>
+          
         </div>
       )}
     </div>
