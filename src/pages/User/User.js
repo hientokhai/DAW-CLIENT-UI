@@ -60,63 +60,45 @@ function User() {
   };
 
   return (
-    <div className="container">
-      <h1 className="title">Thông tin người dùng</h1>
-      <img
-        src="https://static.vecteezy.com/system/resources/previews/002/002/403/original/man-with-beard-avatar-character-isolated-icon-free-vector.jpg"
-        alt="Avatar"
-        className="avatar-image"
-      />
-      <p className="username">Tên đăng nhập: {username}</p>
-      <div className="password-container">
-        <label htmlFor="password-input" className="password-label">
-          Mật khẩu:
-        </label>
-        <div className="password-input-container">
-          <input
-            type={passwordVisible ? "text" : "password"}
-            value={passwordValue}
-            onChange={handlePasswordChange}
-            readOnly={!passwordVisible}
-            id="password-input"
-            className="password-input"
-          />
-          <button
-            className={`toggle-password ${passwordVisible ? "visible" : ""}`}
-            onClick={handleTogglePassword}
-          >
-            <FontAwesomeIcon icon={passwordVisible ? faEye : faEyeSlash} />
-          </button>
-          <button
-            className="change-password-button"
-            onClick={handlePasswordChangeButtonClick}
-          >
-            Thay đổi mật khẩu
-          </button>
-        </div>
-      </div>
-      {changingPassword && (
-        <div className="new-password-container">
-          <label htmlFor="new-password-input" className="password-label">
-            Mật khẩu mới:
-          </label>
-          <div className="password-input-container">
-            <input
-              type="password"
-              value={newPasswordValue}
-              onChange={handleNewPasswordChange}
-              id="new-password-input"
-              className="password-input"
-            />
+    <div class="main-content">
+      <aside class="sidebar">
+        <ul class="nav">
+          <li class="nav-item">Danh sách các đơn hàng</li>
+          <li class="nav-item">Danh sách sản phẩm yêu thích</li>
+          <li class="nav-item">Sản phẩm đã chấm điểm</li>
+        </ul>
+      </aside>
+      <section className="content">
+        <form className="personal-info-form" action="#" method="POST">
+          <div class="content">
+            <h2>THÔNG TIN CÁ NHÂN</h2>
+            <div class="info-group">
+              <label for="name">Họ và Tên:</label>
+              <p id="name">Nguyễn Văn A</p>
+            </div>
+            <div class="info-group">
+              <label for="email">Email:</label>
+              <p id="email">example@email.com</p>
+            </div>
+            <div class="info-group">
+              <label for="phone">Số Điện Thoại:</label>
+              <p id="phone">0123456789</p>
+            </div>
+            <div class="info-group">
+              <label for="address">Địa Chỉ Giao Hàng:</label>
+              <p id="address">123 Đường ABC, Quận 1, TP. HCM</p>
+            </div>
+            <div class="info-group">
+              <label for="dob">Ngày Sinh:</label>
+              <p id="dob">01/01/1990</p>
+            </div>
+            <div class="info-group">
+              <label for="avatar">Ảnh Đại Diện:</label>
+              <img id="avatar" src="https://via.placeholder.com/150" alt="Ảnh đại diện" />
+            </div>
           </div>
-          <button className="save-button" onClick={handleSaveButtonClick}>
-            Lưu thông tin
-          </button>
-        </div>
-      )}
-      {showSuccessMessage && (
-        <div className="success-message">Thay đổi mật khẩu thành công</div>
-      )}
+        </form>
+      </section>
     </div>
   );
 }
