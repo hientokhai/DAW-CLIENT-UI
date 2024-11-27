@@ -12,6 +12,7 @@
   min-height: 100vh;
 }
 
+<<<<<<< Updated upstream
 /* Header */
 .header {
   background-color: #000000;
@@ -19,6 +20,37 @@
   padding: 20px;
   font-size: 20px;
   font-weight: bold;
+=======
+.title {
+  font-size: 36px;
+  margin-bottom: 20px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.change-password-button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-right: -176px;
+  margin-left: 40px;
+}
+
+.change-password-button:hover {
+  background-color: #4a4a48;
+}
+
+.new-password-container {
+  margin-right: -19px;
+}
+
+.avatar-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 40px;
+>>>>>>> Stashed changes
 }
 
 /* Main Content */
@@ -137,6 +169,7 @@ Content Section .content {
   margin-bottom: 15px;
 }
 
+<<<<<<< Updated upstream
 label {
   font-size: 14px;
   color: #555;
@@ -225,4 +258,250 @@ img {
   max-width: 150px;
   border-radius: 50%;
   margin-top: 10px;
+=======
+/* Tổng bố cục */
+.columns {
+  display: flex;
+  flex-direction: row;
+  /* Cột trái - phải */
+  gap: 20px;
+  /* Khoảng cách giữa các cột */
+  margin: 20px;
+}
+
+.sidebar {
+  color: #484848;
+  font-size: 14px;
+  line-height: 25px;
+  padding: 0px 15px;
+  width: 293px;
+  height: 500px;
+}
+
+/* Menu bên trái */
+.sidebar.sidebar-main {
+  flex: 1;
+  /* Chiếm 1 phần bố cục */
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.block-collapsible-nav .title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.block-collapsible-nav .content {
+  padding-left: 10px;
+}
+
+.nav.items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav.item {
+  margin-bottom: 10px;
+}
+
+.nav.item a {
+  text-decoration: none;
+  color: #333;
+}
+
+.nav.item a:hover {
+  text-decoration: underline;
+}
+
+/* Thông tin tài khoản bên phải */
+.column.main {
+  flex: 2;
+  /* Chiếm nhiều diện tích hơn */
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.page-title-wrapper {
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-edit-account {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.fieldset.info {
+  border: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+.field .label span {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.field .control input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.actions-toolbar {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.action.save {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.action.save:hover {
+  background-color: #0056b3;
+}
+
+.action.back {
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.action.back:hover {
+  text-decoration: underline;
+}
+
+.avatar-image {
+  display: block;
+  /* Biến hình ảnh thành phần khối */
+  margin: 20px auto;
+  /* Căn giữa ngang */
+  width: 100px;
+  /* Chiều rộng cố định */
+  height: 100px;
+  /* Chiều cao cố định */
+  border-radius: 50%;
+  /* Tạo hình tròn */
+  border: 2px solid #ddd;
+  /* Viền nhẹ quanh avatar */
+  object-fit: cover;
+  /* Đảm bảo hình ảnh không bị méo */
+}
+
+/* Cách trang trí tiêu đề */
+.page-title-wrapper {
+  text-align: center;
+  /* Căn giữa cả tiêu đề và hình ảnh */
+}
+
+/* Overlay cho modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Hộp modal */
+.modal {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Tiêu đề modal */
+.modal h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* Form nhóm */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Nút trong modal */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.action {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action.save {
+  background-color: #007bff;
+  color: white;
+}
+
+.action.cancel {
+  background-color: #ccc;
+  color: black;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+>>>>>>> Stashed changes
 }
