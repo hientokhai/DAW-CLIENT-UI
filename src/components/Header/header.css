@@ -292,3 +292,146 @@
   margin-left: 15px;
   font-weight: bold;
 }
+
+/* Nền overlay cho modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Nền tối mờ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Nội dung chính của modal */
+.modal-content {
+  background-color: #ffffff; /* Màu nền trắng */
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+  position: relative;
+  text-align: center;
+}
+
+/* Tiêu đề modal */
+.modal-content h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333333; /* Màu chữ chính */
+  font-weight: bold;
+}
+
+/* Form group */
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+
+}
+
+/* Label */
+.form-group label {
+  font-size: 14px;
+  color: #110303; /* Màu nhạt hơn */
+  margin-bottom: 5px;
+  display: block;
+}
+
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  color: #333333; /* Màu chữ chính khi nhập */
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
+  background-color: #ffffff; /* Nền trắng */
+}
+
+.form-group input:focus {
+  border-color: #3b82f6; /* Màu viền khi focus */
+  color: #000000; /* Đảm bảo chữ khi nhập luôn rõ */
+}
+
+/* Nút Đăng nhập */
+.form-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #3b82f6; /* Màu xanh chủ đạo */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-button:hover {
+  background-color: #2563eb; /* Xanh đậm hơn khi hover */
+}
+
+/* Footer trong modal */
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  padding: 0 10px;
+}
+
+
+.signup-link {
+  font-size: 14px;
+  color: #3b82f6; /* Màu xanh nhạt */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.signup-link:hover {
+  color: #2563eb; /* Xanh đậm hơn khi hover */
+}
+
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between; /* Căn đều giữa "Đăng ký" và "Quên mật khẩu" */
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.signup-link,
+.forgot-password-link {
+  color: #3b82f6; /* Màu xanh dương nhấn mạnh */
+  text-decoration: none; /* Xóa gạch chân */
+  transition: color 0.3s ease;
+}
+
+.signup-link:hover,
+.forgot-password-link:hover {
+  color: #1d4ed8; /* Màu xanh đậm hơn khi hover */
+  text-decoration: underline; /* Gạch chân khi hover */
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+  color: #f44336; /* Màu đỏ khi hover */
+}
+  
