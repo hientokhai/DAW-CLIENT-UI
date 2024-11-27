@@ -92,7 +92,7 @@ function User() {
             </ul>
             <ul className="nav items">
               <li className="nav item">
-                <Button><NavLink to="/wishlist">Danh sách đơn hàng</NavLink></Button>
+                <Button><NavLink to="/history">Xem lịch sử mua hàng</NavLink></Button>
               </li>
             </ul>
             <ul className="nav items">
