@@ -292,3 +292,143 @@
   margin-left: 15px;
   font-weight: bold;
 }
+
+/* Định dạng tổng thể cho overlay (phần che nền khi modal mở) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu nền tối mờ */
+  display: flex;
+  align-items: center; /* Căn giữa theo trục dọc */
+  justify-content: center; /* Căn giữa theo trục ngang */
+  z-index: 1000; /* Hiển thị trên các thành phần khác */
+}
+
+/* Nội dung của modal */
+.modal-content {
+  width: 90%;
+  max-width: 400px; /* Độ rộng tối đa */
+  background: #ffffff; /* Màu nền trắng */
+  border-radius: 10px; /* Bo góc */
+  padding: 20px; /* Khoảng cách bên trong */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Hiệu ứng đổ bóng */
+  animation: fadeIn 0.3s ease-in-out; /* Hiệu ứng xuất hiện */
+  position: relative; /* Để nút đóng có thể căn chỉnh */
+}
+
+/* Hiệu ứng fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9); /* Nhỏ hơn một chút */
+  }
+  to {
+    opacity: 1;
+    transform: scale(1); /* Trở lại kích thước ban đầu */
+  }
+}
+
+/* Tiêu đề "Đăng nhập" */
+.modal-content h2 {
+  font-size: 24px; /* Kích thước chữ lớn */
+  font-weight: bold; /* Đậm chữ */
+  color: #333; /* Màu chữ đen */
+  text-align: center; /* Căn giữa */
+  margin-bottom: 20px; /* Khoảng cách dưới */
+}
+
+/* Nút đóng modal */
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Định dạng form bên trong modal */
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  color: #333; /* Màu chữ đen để dễ nhìn */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9; /* Màu nền sáng nhẹ */
+}
+
+input::placeholder {
+  color: #888; /* Màu placeholder */
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  background-color: #fff; /* Nền trắng khi focus */
+}
+
+.form-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+  background-color: #0056b3;
+}
+
+/* Footer của modal */
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.signup-link,
+.forgot-password-link {
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.signup-link:hover,
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+/* Thêm khoảng cách giữa các thành phần để bố cục thoáng hơn */
+.form-group input,
+.form-group label {
+  margin-bottom: 8px;
+}
