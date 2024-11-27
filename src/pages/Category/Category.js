@@ -3,15 +3,14 @@ import ProductApi from "../../api/productApi";
 import { NavLink } from "react-router-dom";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import "./category.css";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 const CategoryPr = () => {
   const [productList, setProductList] = useState([]);
 
   const fetchProductList = async () => {
     try {
       const response = await ProductApi.getAllMK();
-      setProductList(response);
-      console.log(response);
+      setProductList(response.data);
     } catch (error) {
       console.log("fail", error);
     }
@@ -24,7 +23,6 @@ const CategoryPr = () => {
   return (
     <div>
       <div className="bestseller">
-
         <h1 className="bestsellerh1">Áo</h1>
       </div>
       <div className="product-container">
@@ -34,10 +32,14 @@ const CategoryPr = () => {
             to={`/products/${product.id}`}
             className="product-item"
           >
-            <img src={product.imgUrl} alt={product.name} />
+            <img
+              className="transform hover:scale-110 transition h-80"
+              src={product.images[0].image_url}
+              alt={product.name}
+            />
             <h3 className="h3-textbestseller">{product.name}</h3>
             <p className="p-textprice">
-              {product.price.toLocaleString("vi-VN")} ₫
+              {product.sel_price.toLocaleString("vi-VN")} ₫
             </p>
           </NavLink>
         ))}
