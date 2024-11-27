@@ -4,12 +4,14 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { FaUserAlt } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
-import logo from "../../asset/logo/logo_header.png";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import CategoryApi from "../../api/CategoryApi";
-import "./header.css";
 import axios from "axios";
+import "./header.css";
+
+// import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+// import { jwtDecode } from "jwt-decode";
 
 function Header() {
   //Logo Header VT
@@ -66,13 +68,13 @@ function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false); // Modal đăng ký
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false); //Modal đăng nhập
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const data = await CategoryApi.getAll(); // Gọi API để lấy danh mục
-
         setCategories(data.data); // Giả sử dữ liệu trả về nằm trong thuộc tính 'data'
       } catch (error) {
         console.error("Error fetching categories:", error);
