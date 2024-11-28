@@ -34,7 +34,6 @@ export default function PaymentPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Gửi yêu cầu POST đến API /purchase thông qua CheckoutApi
     try {
       const response = await CheckoutApi.createPurchase({
         product_id: productId,
@@ -44,29 +43,25 @@ export default function PaymentPage() {
         address: address,
       });
 
-      // Kiểm tra phản hồi từ API
       if (response && response.data) {
-        const paymentUrl = response.data; // Lấy URL thanh toán từ phản hồi
+        const paymentUrl = response.data;
 
-        // Chuyển hướng người dùng đến URL thanh toán nếu phương thức là VNPay
         if (paymentMethod === "vnpay") {
-          window.open(paymentUrl, "_blank");  // Chuyển hướng đến trang thanh toán VNPay
-          // Xóa giỏ hàng sau khi thanh toán thành công (VNPay)
+          window.open(paymentUrl, "_blank");
           setCart([]); // Xóa giỏ hàng
+          // Có thể cần thêm logic để kiểm tra trạng thái thanh toán ở đây
         } else if (paymentMethod === "cod") {
-          // Nếu chọn COD, đánh dấu thanh toán thành công
           setPaymentSuccess(true);
-          setErrorMessage(null); // Đặt thông báo lỗi về null nếu thành công
-          // Xóa giỏ hàng sau khi thanh toán thành công (COD)
-          setCart([]); // Xóa giỏ hàng
+          setErrorMessage(null);
+          setCart([]);
+          await handlePayment(); // Lưu đơn hàng
         }
       } else {
-        // Xử lý lỗi nếu phản hồi không hợp lệ
-        console.error('Lỗi khi gọi APII:', response);
+        console.error('Lỗi khi gọi API:', response);
         setErrorMessage('Đã xảy ra lỗi khi thanh toán.');
       }
     } catch (error) {
-      console.error('Lỗi khi gọi APII:', error);
+      console.error('Lỗi khi gọi API:', error);
       setErrorMessage('Đã xảy ra lỗi khi thanh toán.');
     }
   };
@@ -116,40 +111,45 @@ export default function PaymentPage() {
       return;
     }
 
-    // Lấy thông tin sản phẩm từ giỏ hàng
-    const orderDetails = cart.map(item => ({
-      product_name: item.name, // Tên sản phẩm
-      quantity: item.quantity, // Số lượng sản phẩm
-      price: item.sel_price, // Giá sản phẩm
-      images: [item.images] // Mảng chứa URL hình ảnh sản phẩm
-    }));
-
     const orderData = {
-      customer_name: user.username, // Tên người dùng
-      email: email, // Email người dùng
-      phone: phone, // Số điện thoại người dùng
-      address: address, // Địa chỉ người dùng
-      total_order_price: grandTotal, // Tổng giá trị đơn hàng
+      customer_name: user.username, // Sử dụng tên người dùng
+      total_order_price: grandTotal,
       order_status: 1, // Ví dụ: 1 cho "Đã thanh toán"
-      payment_method: paymentMethod === "cod" ? 2 : 1, // 1 cho "Thẻ tín dụng", 2 cho "COD"
-      payment_status: paymentMethod === "cod" ? 1 : 0, // 1 cho "Đã thanh toán", 0 cho "Chưa xử lý"
-      created_at: new Date().toISOString(), // Thời gian tạo đơn hàng
-      order_details: orderDetails, // Danh sách sản phẩm trong đơn hàng
+      payment_method: paymentMethod === "vnpay" ? 2 : 1, // 2 cho "VNPay", 1 cho "COD"
+      payment_status: 1, // 1 cho "Đã thanh toán"
+      created_at: new Date().toISOString(), // Hoặc "N/A" nếu bạn muốn
     };
 
     try {
       const response = await OrderApi.createOrder(orderData);
       console.log('Order created successfully:', response.data);
-      // Thực hiện các hành động khác sau khi lưu đơn hàng thành công
-      // Ví dụ: Xóa giỏ hàng sau khi thanh toán thành công
-      setCart([]); // Xóa giỏ hàng
-      setPaymentSuccess(true); // Đánh dấu thanh toán thành công
-      setErrorMessage(null); // Đặt thông báo lỗi về null nếu thành công
+
+      // Lưu chi tiết đơn hàng
+      const orderId = response.data.id; // Giả sử API trả về id của đơn hàng đã tạo
+      await saveOrderDetails(orderId);
+
     } catch (error) {
       console.error('Error creating order:', error);
-      setErrorMessage('Đã xảy ra lỗi khi tạo đơn hàng.');
     }
   };
+
+  // Hàm lưu chi tiết đơn hàng
+  const saveOrderDetails = async (orderId) => {
+    const orderDetails = cart.map(item => ({
+      product_name: item.name,
+      quantity: item.quantity,
+      price: item.sel_price,
+      images: [item.images], // Giả sử bạn muốn lưu mảng hình ảnh
+    }));
+
+    try {
+      await OrderApi.createOrderDetails(orderId, orderDetails); // Gọi API để lưu chi tiết đơn hàng
+      console.log('Order details saved successfully');
+    } catch (error) {
+      console.error('Error saving order details:', error);
+    }
+  };
+
 
   if (loading) {
     return <div>Loading user data...</div>; // Hiển thị thông báo tải
@@ -238,7 +238,7 @@ export default function PaymentPage() {
           >
             Đơn hàng
           </NavLink>
-          <button type="submit" className="payment-page-form-button">
+          <button onClick={handlePayment} type="submit" className="payment-page-form-button">
             Hoàn tất đơn hàng
           </button>
         </form>
@@ -302,9 +302,7 @@ export default function PaymentPage() {
             <p>{grandTotal} đ</p>
           </div>
         </div>
-        <button onClick={handlePayment} className="payment-page-button">
-          Thanh toán
-        </button>
+
       </div>
     </div>
   );
