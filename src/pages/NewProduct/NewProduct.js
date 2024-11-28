@@ -12,9 +12,9 @@ const NewProduct = () => {
     try {
       const response = await ProductApi.getAllMK();
       const products = [...response.data];
-      products.sort((a, b) => b.id - a.id);
+      products.sort((a, b) => b.id - a.id); //sắp xếp theo id sp có id lớn hơn đứng trước
       console.log(products);
-      setProductList(products);
+      setProductList(products); // Lưu ds sp đã sắp xếp 
     } catch (error) {
       console.log("fail", error);
     }

@@ -285,46 +285,59 @@ function Header() {
         </div>
         {/* Modal đăng nhập */}
         {isLoginModalOpen && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <h2>Đăng nhập</h2>
-              <form onSubmit={handleLoginSubmit}>
-                <div className="form-group">
-                  <label>Email:</label>
+          <div className="loginModalOverlay">
+            <div className="loginModalContent">
+              <h2 className="loginModalTitle">Đăng nhập</h2>
+              <form onSubmit={handleLoginSubmit} className="loginForm">
+                <div className="loginFormGroup">
+                  <label htmlFor="email" className="loginLabel">
+                    Email:
+                  </label>
                   <input
+                    id="email"
                     type="email"
                     placeholder="Nhập email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    className="loginInput"
                   />
                 </div>
-                <div className="form-group">
-                  <label>Mật khẩu:</label>
+                <div className="loginFormGroup">
+                  <label htmlFor="password" className="loginLabel">
+                    Mật khẩu:
+                  </label>
                   <input
+                    id="password"
                     type="password"
                     placeholder="Nhập mật khẩu"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    className="loginInput"
                   />
                 </div>
-                <button type="submit" className="form-button">
+                <button type="submit" className="loginSubmitButton">
                   Đăng nhập
                 </button>
               </form>
-              <div className="modal-footer">
-                <button onClick={handleOpenSignupModal} className="signup-link">
+              <div className="loginModalFooter">
+                <button
+                  onClick={handleOpenSignupModal}
+                  className="loginSignupLink"
+                >
                   Đăng ký
                 </button>
-                <NavLink to="/forgot-password" className="forgot-password-link">
+                <NavLink
+                  to="/forgot-password"
+                  className="loginForgotPasswordLink"
+                >
                   Quên mật khẩu?
                 </NavLink>
               </div>
-              {/* Nút Đóng Modal */}
               <button
                 onClick={() => setIsLoginModalOpen(false)}
-                className="close-modal"
+                className="loginCloseModal"
               >
                 ✖
               </button>

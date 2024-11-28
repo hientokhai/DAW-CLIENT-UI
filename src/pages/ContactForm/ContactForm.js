@@ -3,11 +3,8 @@ import "./ContactForm.css";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 const ContactForm = () => {
+
   const [formData, setFormData] = useState({
-    // fullname: "",
-    // email: "",
-    // phone: "",
-    // address: "",
     title: "",
     message: "",
   });
