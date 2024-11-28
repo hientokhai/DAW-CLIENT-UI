@@ -11,7 +11,7 @@ const FeaturedProduct = () => {
   const fetchProductList = async () => {
     try {
       const response = await ProductApi.getAllMK();
-      setProductList(response.data?.filter((item) => item.is_featured === 1));
+      setProductList(response.data?.filter((item) => item.is_featured === 1)); //lọc các sp có is_featured là 1 là nổi bật
     } catch (error) {
       console.log("fail", error);
     }
@@ -23,7 +23,7 @@ const FeaturedProduct = () => {
 
   const scroll = (direction) => {
     if (productContainerRef.current) {
-      const productWidth = productContainerRef.current.offsetWidth / 4;
+      const productWidth = productContainerRef.current.offsetWidth / 4; // Chia hiển thị 4sp
       const maxIndex = productList.length - 4;
 
       let newIndex = currentIndex + (direction === "left" ? -1 : 1);
