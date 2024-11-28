@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import ProductApi from "../../api/productApi";
 import "./featured.css";
 import { NavLink } from "react-router-dom";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 const FeaturedProduct = () => {
   const [productList, setProductList] = useState([]);
   const productContainerRef = useRef(null);
@@ -11,7 +11,7 @@ const FeaturedProduct = () => {
   const fetchProductList = async () => {
     try {
       const response = await ProductApi.getAllMK();
-      setProductList(response);
+      setProductList(response.data?.filter((item) => item.is_featured === 1)); //lọc các sp có is_featured là 1 là nổi bật
     } catch (error) {
       console.log("fail", error);
     }
@@ -21,10 +21,9 @@ const FeaturedProduct = () => {
     fetchProductList();
   }, []);
 
-
   const scroll = (direction) => {
     if (productContainerRef.current) {
-      const productWidth = productContainerRef.current.offsetWidth / 4;
+      const productWidth = productContainerRef.current.offsetWidth / 4; // Chia hiển thị 4sp
       const maxIndex = productList.length - 4;
 
       let newIndex = currentIndex + (direction === "left" ? -1 : 1);
@@ -60,8 +59,8 @@ const FeaturedProduct = () => {
             className="product-item"
           >
             <img
-              className="transform hover:scale-110 transition"
-              src={product.imgUrl}
+              className="transform hover:scale-110 transition h-80"
+              src={product.images[0].image_url}
               alt={product.name}
             />
 
@@ -76,7 +75,7 @@ const FeaturedProduct = () => {
             )}
 
             <h3 className="h3-textbestseller">{product.name}</h3>
-            <p className="p-textprice">
+            {/* <p className="p-textprice">
               {product.discountPrice
                 ? `${product.discountPrice.toLocaleString("vi-VN")} ₫`
                 : `${product.price.toLocaleString("vi-VN")} ₫`}
@@ -85,7 +84,10 @@ const FeaturedProduct = () => {
               <p className="p-text-original-price">
                 {product.price.toLocaleString("vi-VN")} ₫
               </p>
-            )}
+            )} */}
+            <p className="p-textprice">
+              `${product.sel_price.toLocaleString("vi-VN")} ₫`
+            </p>
           </NavLink>
         ))}
       </div>

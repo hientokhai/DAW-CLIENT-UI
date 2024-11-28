@@ -90,6 +90,9 @@ function Header() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    // Xóa lưu trữ trong localStorage
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userData");
   };
 
   const handleMouseEnter = () => {
@@ -162,7 +165,10 @@ function Header() {
                   // Kiểm tra xem danh mục có phải là danh mục con và có is_visible là 1
                   category.parent_id !== null && category.is_visible === 1 ? (
                     <div key={category.id} className="category-group">
-                      <NavLink className="category" to={`/${category.slug}`}>
+                      <NavLink
+                        className="category"
+                        to={`search-page?query=&category=${category.name}`}
+                      >
                         {category.name}
                       </NavLink>
                       {category.subcategories &&
@@ -172,7 +178,7 @@ function Header() {
                               <NavLink
                                 key={subcategory.id}
                                 className="subcategory"
-                                to={`/${subcategory.slug}`}
+                                to={`search-page?query=&category=${subcategory.name}`}
                               >
                                 {subcategory.name}
                               </NavLink>
@@ -283,46 +289,59 @@ function Header() {
         </div>
         {/* Modal đăng nhập */}
         {isLoginModalOpen && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <h2>Đăng nhập</h2>
-              <form onSubmit={handleLoginSubmit}>
-                <div className="form-group">
-                  <label>Email:</label>
+          <div className="loginModalOverlay">
+            <div className="loginModalContent">
+              <h2 className="loginModalTitle">Đăng nhập</h2>
+              <form onSubmit={handleLoginSubmit} className="loginForm">
+                <div className="loginFormGroup">
+                  <label htmlFor="email" className="loginLabel">
+                    Email:
+                  </label>
                   <input
+                    id="email"
                     type="email"
                     placeholder="Nhập email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    className="loginInput"
                   />
                 </div>
-                <div className="form-group">
-                  <label>Mật khẩu:</label>
+                <div className="loginFormGroup">
+                  <label htmlFor="password" className="loginLabel">
+                    Mật khẩu:
+                  </label>
                   <input
+                    id="password"
                     type="password"
                     placeholder="Nhập mật khẩu"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    className="loginInput"
                   />
                 </div>
-                <button type="submit" className="form-button">
+                <button type="submit" className="loginSubmitButton">
                   Đăng nhập
                 </button>
               </form>
-              <div className="modal-footer">
-                <button onClick={handleOpenSignupModal} className="signup-link">
+              <div className="loginModalFooter">
+                <button
+                  onClick={handleOpenSignupModal}
+                  className="loginSignupLink"
+                >
                   Đăng ký
                 </button>
-                <NavLink to="/forgot-password" className="forgot-password-link">
+                <NavLink
+                  to="/forgot-password"
+                  className="loginForgotPasswordLink"
+                >
                   Quên mật khẩu?
                 </NavLink>
               </div>
-              {/* Nút Đóng Modal */}
               <button
                 onClick={() => setIsLoginModalOpen(false)}
-                className="close-modal"
+                className="loginCloseModal"
               >
                 ✖
               </button>

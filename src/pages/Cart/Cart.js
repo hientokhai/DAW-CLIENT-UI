@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./cart.css";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 export default function Cart() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -76,7 +76,10 @@ export default function Cart() {
   );
 
   const totalPages = Math.ceil(cart.length / itemsPerPage);
-  const paginatedCart = cart.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedCart = cart.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const handleDeleteAll = () => {
     setCart([]);
@@ -94,28 +97,60 @@ export default function Cart() {
       <div className="max-w-4xl mx-auto my-6 p-6 bg-white rounded-lg shadow-md">
         <div className="flex justify-between">
           <h2 className="text-2xl font-semibold mb-6">Giỏ hàng</h2>
-          <button onClick={handleDeleteAll} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 font-semibold text-sm">
+          <button
+            onClick={handleDeleteAll}
+            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 font-semibold text-sm"
+          >
             Xóa hết
           </button>
         </div>
         {paginatedCart.map((item) => (
-          <div key={item.id} className="flex flex-col sm:flex-row sm:justify-between items-center mb-4 pb-4 border-b sm:border-b-0 sm:pb-0">
-            <img className="w-36 h-36 object-cover rounded-lg sm:mr-6 mb-4 sm:mb-0" src={item.images[0]} alt={item.name} />
+          <div
+            key={item.id}
+            className="flex flex-col sm:flex-row sm:justify-between items-center mb-4 pb-4 border-b sm:border-b-0 sm:pb-0"
+          >
+            <img
+              className="w-36 h-36 object-cover rounded-lg sm:mr-6 mb-4 sm:mb-0"
+              src={item.images[0]}
+              alt={item.name}
+            />
             <div className="flex-1 flex flex-col justify-between sm:flex-row sm:items-center">
               <div className="flex-1">
-                <h3 className="text-xl font-semibold" style={{ fontWeight: "500", fontSize: "14px" }}>
+                <h3
+                  className="text-xl font-semibold"
+                  style={{ fontWeight: "500", fontSize: "14px" }}
+                >
                   {item.name}
                 </h3>
-                <p className="text-gray-600">{item.color} / {item.size}</p>
+                <p className="text-gray-600">
+                  {item.color} / {item.size}
+                </p>
                 <div className="flex items-center text-gray-600 text-sm mt-1">
-                  <button onClick={() => handleDecrement(item.id)} className="border rounded" style={{ padding: "2px 10px", borderRadius: "50%" }}>-</button>
+                  <button
+                    onClick={() => handleDecrement(item.id)}
+                    className="border rounded"
+                    style={{ padding: "2px 10px", borderRadius: "50%" }}
+                  >
+                    -
+                  </button>
                   <span className="mx-2">{item.quantity}</span>
-                  <button onClick={() => handleIncrement(item.id)} className="border rounded" style={{ padding: "2px 10px", borderRadius: "50%" }}>+</button>
+                  <button
+                    onClick={() => handleIncrement(item.id)}
+                    className="border rounded"
+                    style={{ padding: "2px 10px", borderRadius: "50%" }}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
               <div className="flex items-center">
-                <span className="mr-2 font-semibold">{new Intl.NumberFormat("vi-VN").format(item.sel_price) + "₫"}</span>
-                <button onClick={() => removeFromCart(item.id)} className="text-red-500 hover:text-red-600 cursor-pointer">
+                <span className="mr-2 font-semibold">
+                  {new Intl.NumberFormat("vi-VN").format(item.sel_price) + "₫"}
+                </span>
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="text-red-500 hover:text-red-600 cursor-pointer"
+                >
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
               </div>
@@ -124,7 +159,11 @@ export default function Cart() {
         ))}
         <div className="flex justify-center">
           <div className="flex justify-between items-center">
-            <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">
+            <button
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
+            >
               Trước
             </button>
             <div className="pagination-buttons flex justify-center">
@@ -132,37 +171,51 @@ export default function Cart() {
                 <button
                   key={index + 1}
                   onClick={() => handlePageClick(index + 1)}
-                  className={`px-4 py-2 mx-1 rounded-md ${currentPage === index + 1 ? 'bg-orange-400 text-black' : 'text-white'}`}
+                  className={`px-4 py-2 mx-1 rounded-md ${
+                    currentPage === index + 1
+                      ? "bg-orange-400 text-black"
+                      : "text-white"
+                  }`}
                 >
                   {index + 1}
                 </button>
               ))}
             </div>
-            <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">
+            <button
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
+            >
               Sau
             </button>
           </div>
         </div>
       </div>
 
-      {
-        cart.length > 0 && (
-          <div className="max-w-4xl mx-auto my-6 p-6 bg-white rounded-lg shadow-md">
-            <div className="flex justify-between font-semibold mb-4">
-              <span>Tổng giá trị sản phẩm:</span>
-              <span>{totalPrice > 0 ? totalPrice.toLocaleString("vi-VN") : '0'} ₫</span>
-            </div>
-            <div className="flex justify-end">
-              <NavLink to="/" className="bg-red-400 text-white px-4 py-2 rounded-md hover:bg-red-600 mr-10 font-semibold text-sm">
-                Tiếp tục mua sắm
-              </NavLink>
-              <button onClick={handleCheckout} className="bg-orange-400 text-white px-4 py-2 rounded-md hover:bg-orange-500">
-                Thanh toán
-              </button>
-            </div>
+      {cart.length > 0 && (
+        <div className="max-w-4xl mx-auto my-6 p-6 bg-white rounded-lg shadow-md">
+          <div className="flex justify-between font-semibold mb-4">
+            <span>Tổng giá trị sản phẩm:</span>
+            <span>
+              {totalPrice > 0 ? totalPrice.toLocaleString("vi-VN") : "0"} ₫
+            </span>
           </div>
-        )
-      }
-    </div >
+          <div className="flex justify-end">
+            <NavLink
+              to="/"
+              className="bg-red-400 text-white px-4 py-2 rounded-md hover:bg-red-600 mr-10 font-semibold text-sm"
+            >
+              Tiếp tục mua sắm
+            </NavLink>
+            <button
+              onClick={handleCheckout}
+              className="bg-orange-400 text-white px-4 py-2 rounded-md hover:bg-orange-500"
+            >
+              Thanh toán
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
