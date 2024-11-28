@@ -491,15 +491,137 @@ img {
   color: black;
 }
 
-/* Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
+.sidebar {
+  width: 25%;
+  background-color: #ffffff;
+  padding: 20px;
+  height: 600px;
+  margin: 3px;
+  align-self: start;
+}
 
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+.nav-user {
+  list-style: none;
+}
+
+.nav-item {
+  padding: 10px 0;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.profile-user {
+  background-color: #ffffff;
+  padding: 40px;
+  height: 800px;
+  margin: -1000px;
+  margin-top: -600px;
+  margin-left: -50px;
+  width: calc(100% + 100px);
+}
+
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  /* Căn giữa theo chiều ngang */
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  height: 100vh;
+  /* Chiều cao toàn bộ trang */
+  background-color: #f9f9f9;
+  /* Tùy chọn nền */
+}
+
+.avatar-image {
+  width: 150px;
+  /* Chiều rộng ảnh */
+  height: 150px;
+  /* Chiều cao ảnh */
+  border-radius: 50%;
+  /* Bo tròn để tạo hình tròn */
+  object-fit: cover;
+  /* Đảm bảo ảnh không bị méo */
+  border: 2px solid #ccc;
+  /* Đường viền tùy chọn */
+  margin-left: 140px;
+}
+
+.edit-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  width: 400px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.avatar-preview {
+  margin-top: 10px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.submit-button,
+.cancel-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.submit-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: #fff;
 }

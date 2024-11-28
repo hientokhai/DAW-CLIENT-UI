@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import ProductApi from "../../api/productApi";
-import "./featured.css";
+import "./NewProduct.css";
 import { NavLink } from "react-router-dom";
-import { Helmet } from "react-helmet";
-const FeaturedProduct = () => {
+
+const NewProduct = () => {
   const [productList, setProductList] = useState([]);
   const productContainerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -11,7 +11,10 @@ const FeaturedProduct = () => {
   const fetchProductList = async () => {
     try {
       const response = await ProductApi.getAllMK();
-      setProductList(response.data?.filter((item) => item.is_featured === 1));
+      const products = [...response.data];
+      products.sort((a, b) => b.id - a.id);
+      console.log(products);
+      setProductList(products);
     } catch (error) {
       console.log("fail", error);
     }
@@ -40,7 +43,7 @@ const FeaturedProduct = () => {
   return (
     <div className="carousel-container">
       <div className="mt-10 bestseller">
-        <h1 className="bestsellerh1">Sản phẩm nổi bật</h1>
+        <h1 className="bestsellerh1">Sản phẩm mới</h1>
       </div>
 
       <button
@@ -103,4 +106,4 @@ const FeaturedProduct = () => {
   );
 };
 
-export default FeaturedProduct;
+export default NewProduct;
