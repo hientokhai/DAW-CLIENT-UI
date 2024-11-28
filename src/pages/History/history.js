@@ -107,18 +107,15 @@ const History = () => {
                       <div key={idx} className="product-info">
                         {/* Phần bên trái: hình ảnh, tên sản phẩm và số lượng */}
                         <div className="product-left">
-                          {Array.isArray(product.images) && product.images.length > 0 ? (
-                            product.images.map((imageUrl, imgIdx) => (
-                              <img
-                                key={imgIdx}
-                                src={imageUrl}
-                                alt={product.product_name}
-                                className="product-image-history"
-                              />
-                            ))
-                          ) : (
-                            <div className="no-image">Không có ảnh</div>
-                          )}
+                        {Array.isArray(product.images) && product.images.length > 0 ? (
+                          <img
+                            src={product.images[0]} // Hiển thị ảnh đầu tiên
+                            alt={product.product_name}
+                            className="product-image-history"
+                          />
+                        ) : (
+                          <div className="no-image">Không có ảnh</div>
+                        )}
                           <div>
                             <div className="product-name">{product.product_name}</div>
                             <div className="product-quantity">Số lượng: {product.quantity}</div>
