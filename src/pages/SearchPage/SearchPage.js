@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import "./search.css";
 import { NavLink } from "react-router-dom";
 import ProductApi from "../../api/productApi";
 import { FaUndo } from "react-icons/fa";
 import { SearchContext } from "../../context/SearchContext";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 const SearchPage = () => {
   const [productList, setProductList] = useState([]);
   const [sortBy, setSortBy] = useState("");
@@ -18,6 +19,7 @@ const SearchPage = () => {
   const [categories, setCategories] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // Refs for focusing filters
   const categoryRef = useRef(null);
@@ -54,6 +56,12 @@ const SearchPage = () => {
       };
       const response = await ProductApi.getAllSearchPage(params); // Gọi API với các tham số lọc
       setProductList(response.data);
+
+      // Đặt selectedCategory theo query params
+      if (searchParams.get("category")) {
+        setSelectedCategory(searchParams.get("category"));
+        setSearchParams({ query: searchParams.query });
+      }
     } catch (error) {
       console.error("Error fetching product list:", error);
     }
@@ -66,7 +74,14 @@ const SearchPage = () => {
     if (selectedCategory) categoryRef.current?.focus();
     else if (selectedColor) colorRef.current?.focus();
     else if (selectedSize) sizeRef.current?.focus();
-  }, [searchQuery, selectedCategory, selectedColor, selectedSize, selectedPrice, sortBy]);
+  }, [
+    searchQuery,
+    selectedCategory,
+    selectedColor,
+    selectedSize,
+    selectedPrice,
+    sortBy,
+  ]);
 
   // Reset Filters
   const handleResetFilters = () => {
@@ -81,7 +96,8 @@ const SearchPage = () => {
   };
 
   // Filter Handlers
-  const handleCategoryChange = (event) => setSelectedCategory(event.target.value);
+  const handleCategoryChange = (event) =>
+    setSelectedCategory(event.target.value);
   const handleColorChange = (color) => setSelectedColor(color.color_name);
   const handleSizeChange = (size) => setSelectedSize(size.size_name);
   const handlePriceChange = (price) => setSelectedPrice(price);
@@ -89,7 +105,10 @@ const SearchPage = () => {
   // Pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = productList.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = productList.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   const totalPages = Math.ceil(productList.length / productsPerPage);
 
@@ -97,7 +116,7 @@ const SearchPage = () => {
 
   return (
     <div>
-      <Helmet >
+      <Helmet>
         <title>Tìm kiếm sản phẩm</title>
       </Helmet>
       {searchQuery && (
@@ -117,7 +136,11 @@ const SearchPage = () => {
       <div className="sidebar-filter">
         <div className="reset">
           <h1>Bộ lọc</h1>
-          <FaUndo className="reset-icon" onClick={handleResetFilters} title="Reset Filters" />
+          <FaUndo
+            className="reset-icon"
+            onClick={handleResetFilters}
+            title="Reset Filters"
+          />
         </div>
 
         {/* Category Filter Dropdown */}
@@ -132,7 +155,11 @@ const SearchPage = () => {
             Danh mục
           </option>
           {categories?.map((cate) => {
-            return <option key={cate.id} value={cate.name}>{cate.name}</option>;
+            return (
+              <option key={cate.id} value={cate.name}>
+                {cate.name}
+              </option>
+            );
           })}
         </select>
 
@@ -142,7 +169,9 @@ const SearchPage = () => {
             <div
               key={color.id}
               onClick={() => handleColorChange(color)}
-              className={`color-option ${selectedColor === color.color_name ? "selected" : ""}`}
+              className={`color-option ${
+                selectedColor === color.color_name ? "selected" : ""
+              }`}
             >
               {color.color_name}
             </div>
@@ -155,7 +184,9 @@ const SearchPage = () => {
             <div
               key={size.id}
               onClick={() => handleSizeChange(size)}
-              className={`size-option ${selectedSize === size.size_name ? "selected" : ""}`}
+              className={`size-option ${
+                selectedSize === size.size_name ? "selected" : ""
+              }`}
             >
               {size.size_name}
             </div>
@@ -165,15 +196,30 @@ const SearchPage = () => {
         <h2 className="h4-filter">Theo giá</h2>
         <div className="filter-options price-filter">
           <label>
-            <input type="radio" name="price" value="below350" onChange={() => handlePriceChange("below350")} />
+            <input
+              type="radio"
+              name="price"
+              value="below350"
+              onChange={() => handlePriceChange("below350")}
+            />
             Dưới 350.000₫
           </label>
           <label>
-            <input type="radio" name="price" value="between350And750" onChange={() => handlePriceChange("between350And750")} />
+            <input
+              type="radio"
+              name="price"
+              value="between350And750"
+              onChange={() => handlePriceChange("between350And750")}
+            />
             Từ 350.000₫ - 750.000₫
           </label>
           <label>
-            <input type="radio" name="price" value="above750" onChange={() => handlePriceChange("above750")} />
+            <input
+              type="radio"
+              name="price"
+              value="above750"
+              onChange={() => handlePriceChange("above750")}
+            />
             Trên 750.000₫
           </label>
         </div>
@@ -183,7 +229,11 @@ const SearchPage = () => {
         {currentProducts.map((product) => (
           <div key={product.id} className="product-card">
             <NavLink to={`/products/${product.id}`}>
-              <img src={product.imgUrl} alt={product.name} className="product-image" />
+              <img
+                src={product.imgUrl}
+                alt={product.name}
+                className="product-image"
+              />
               <h1 className="product-name">{product.name}</h1>
               <p className="product-price">
                 {new Intl.NumberFormat("vi-VN").format(product.price) + "₫"}
@@ -193,14 +243,21 @@ const SearchPage = () => {
                   {product.color.map((color, index) => (
                     <span
                       key={index}
-                      className={`color-circle ${selectedColor === color ? "selected" : ""}`}
+                      className={`color-circle ${
+                        selectedColor === color ? "selected" : ""
+                      }`}
                       style={{ backgroundColor: color }}
                     ></span>
                   ))}
                 </div>
                 <div className="product-size">
                   {product.size.map((size, index) => (
-                    <span key={index} className={`size-box ${selectedSize === size ? "selected" : ""}`}>
+                    <span
+                      key={index}
+                      className={`size-box ${
+                        selectedSize === size ? "selected" : ""
+                      }`}
+                    >
                       {size}
                     </span>
                   ))}
@@ -212,7 +269,10 @@ const SearchPage = () => {
       </div>
 
       <div className="pagination">
-        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
           Trước
         </button>
         {Array.from({ length: totalPages }, (_, index) => (
@@ -224,7 +284,10 @@ const SearchPage = () => {
             {index + 1}
           </button>
         ))}
-        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
           Sau
         </button>
       </div>
