@@ -116,21 +116,38 @@ export default function PaymentPage() {
       return;
     }
 
+    // Lấy thông tin sản phẩm từ giỏ hàng
+    const orderDetails = cart.map(item => ({
+      product_name: item.name, // Tên sản phẩm
+      quantity: item.quantity, // Số lượng sản phẩm
+      price: item.sel_price, // Giá sản phẩm
+      images: [item.images] // Mảng chứa URL hình ảnh sản phẩm
+    }));
+
     const orderData = {
-      customer_name: user.username, // Sử dụng tên người dùng
-      total_order_price: grandTotal,
+      customer_name: user.username, // Tên người dùng
+      email: email, // Email người dùng
+      phone: phone, // Số điện thoại người dùng
+      address: address, // Địa chỉ người dùng
+      total_order_price: grandTotal, // Tổng giá trị đơn hàng
       order_status: 1, // Ví dụ: 1 cho "Đã thanh toán"
-      payment_method: 1, // Ví dụ: 1 cho "Thẻ tín dụng"
-      payment_status: 0, // 0 cho "Chưa xử lý"
-      created_at: new Date().toISOString(), // Hoặc "N/A" nếu bạn muốn
+      payment_method: paymentMethod === "cod" ? 2 : 1, // 1 cho "Thẻ tín dụng", 2 cho "COD"
+      payment_status: paymentMethod === "cod" ? 1 : 0, // 1 cho "Đã thanh toán", 0 cho "Chưa xử lý"
+      created_at: new Date().toISOString(), // Thời gian tạo đơn hàng
+      order_details: orderDetails, // Danh sách sản phẩm trong đơn hàng
     };
 
     try {
       const response = await OrderApi.createOrder(orderData);
       console.log('Order created successfully:', response.data);
       // Thực hiện các hành động khác sau khi lưu đơn hàng thành công
+      // Ví dụ: Xóa giỏ hàng sau khi thanh toán thành công
+      setCart([]); // Xóa giỏ hàng
+      setPaymentSuccess(true); // Đánh dấu thanh toán thành công
+      setErrorMessage(null); // Đặt thông báo lỗi về null nếu thành công
     } catch (error) {
       console.error('Error creating order:', error);
+      setErrorMessage('Đã xảy ra lỗi khi tạo đơn hàng.');
     }
   };
 
