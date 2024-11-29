@@ -105,19 +105,31 @@ export default function PaymentPage() {
   const shippingFee = 35000;
   const grandTotal = totalPrice + shippingFee;
 
+  const updateProductQuantities = async () => {
+    for (const item of cart) {
+      const newQuantity = item.product_variants[0].quantity - item.quantity; // Calculate new quantity
+      try {
+        await productApi1.updateProductQuantity(item.id, newQuantity); // Update quantity in the database
+      } catch (error) {
+        console.error(`Error updating quantity for product ID ${item.id}:`, error);
+      }
+    }
+  };
+
   const handlePayment = async () => {
+
     if (!user) {
       console.error('User  data is not available');
       return;
     }
 
     const orderData = {
-      customer_name: user.username, // Sử dụng tên người dùng
+      customer_name: user.username,
       total_order_price: grandTotal,
       order_status: 1, // Ví dụ: 1 cho "Đã thanh toán"
       payment_method: paymentMethod === "vnpay" ? 2 : 1, // 2 cho "VNPay", 1 cho "COD"
       payment_status: 1, // 1 cho "Đã thanh toán"
-      created_at: new Date().toISOString(), // Hoặc "N/A" nếu bạn muốn
+      created_at: new Date().toISOString(),
     };
 
     try {
@@ -127,6 +139,14 @@ export default function PaymentPage() {
       // Lưu chi tiết đơn hàng
       const orderId = response.data.id; // Giả sử API trả về id của đơn hàng đã tạo
       await saveOrderDetails(orderId);
+
+      // Cập nhật số lượng sản phẩm
+      await updateProductQuantities();
+
+      // Xóa giỏ hàng
+      setCart([]); // Xóa tất cả sản phẩm trong giỏ hàng
+      setPaymentSuccess(true); // Đánh dấu thanh toán thành công
+      setErrorMessage(null); // Đặt thông báo lỗi thành null
 
     } catch (error) {
       console.error('Error creating order:', error);
@@ -268,6 +288,12 @@ export default function PaymentPage() {
                 <h3 className="payment-page-cart-item-name">{item.name}</h3>
                 <p className="payment-page-cart-item-price">
                   Price: {item.sel_price} đ
+                </p>
+                <p className="payment-page-cart-item-price">
+                  Size: {item.size_id}
+                </p>
+                <p className="payment-page-cart-item-quantity">
+                  Color: {item.color_id}
                 </p>
                 <p className="payment-page-cart-item-quantity">
                   Quantity: {item.quantity}
