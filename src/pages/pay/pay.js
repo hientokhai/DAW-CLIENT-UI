@@ -14,7 +14,7 @@ export default function PaymentPage() {
   const [user, setUser] = useState(null); // State để lưu thông tin người dùng
   const [loading, setLoading] = useState(true); // State để theo dõi trạng thái tải
   const location = useLocation();
-  const initialCart = location.state.cart;
+  const initialCart = location.state?.cart || [];
   const [cart, setCart] = useState(initialCart); // State quản lý giỏ hàng
   const navigate = useNavigate();
   const [productId, setProductId] = useState('');
@@ -31,44 +31,45 @@ export default function PaymentPage() {
     0
   );
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
 
-    try {
-      const response = await CheckoutApi.createPurchase({
-        product_id: productId,
-        amount: amount,
-        email: email,
-        phone: phone,
-        address: address,
-      });
+  //   try {
+  //     const response = await CheckoutApi.createPurchase({
+  //       product_id: productId,
+  //       amount: amount,
+  //       email: email,
+  //       phone: phone,
+  //       address: address,
+  //     });
 
-      if (response && response.data) {
-        const paymentUrl = response.data;
+  //     if (response && response.data) {
+  //       const paymentUrl = response.data;
 
-        if (paymentMethod === "vnpay") {
-          window.open(paymentUrl, "_blank");
-          setCart([]); // Xóa giỏ hàng
-          // Có thể cần thêm logic để kiểm tra trạng thái thanh toán ở đây
-        } else if (paymentMethod === "cod") {
-          setPaymentSuccess(true);
-          setErrorMessage(null);
-          setCart([]);
-          await handlePayment(); // Lưu đơn hàng
-        }
-      } else {
-        console.error('Lỗi khi gọi API:', response);
-        setErrorMessage('Đã xảy ra lỗi khi thanh toán.');
-      }
-    } catch (error) {
-      console.error('Lỗi khi gọi API:', error);
-      setErrorMessage('Đã xảy ra lỗi khi thanh toán.');
-    }
-  };
+  //       if (paymentMethod === "vnpay") {
+  //         window.open(paymentUrl, "_blank");
+  //         setCart([]); // Xóa giỏ hàng
+  //         // Có thể cần thêm logic để kiểm tra trạng thái thanh toán ở đây
+  //       } else if (paymentMethod === "cod") {
+  //         setPaymentSuccess(true);
+  //         setErrorMessage(null);
+  //         setCart([]);
+  //         await handlePayment(); // Lưu đơn hàng
+  //       }
+  //     } else {
+  //       console.error('Lỗi khi gọi API:', response);
+  //       setErrorMessage('Đã xảy ra lỗi khi thanh toán.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Lỗi khi gọi API:', error);
+  //     setErrorMessage('Đã xảy ra lỗi khi thanh toán.');
+  //   }
+  // };
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log(cart);
     const fetchProducts = async () => {
       try {
         const response = await productApi1.getAll();
@@ -116,60 +117,40 @@ export default function PaymentPage() {
     }
   };
 
-  const handlePayment = async () => {
+  const handlePayment = async (event) => {
+    event.preventDefault();
 
-    if (!user) {
-      console.error('User  data is not available');
-      return;
-    }
+    // Lấy danh sách chi tiết đơn hàng từ giỏ hàng
+    const orderDetails = cart?.map((item) => ({
+      product_variant_id: 1,
+      quantity: 5,
+    }));
 
+    // Dữ liệu gửi tới API
     const orderData = {
-      customer_name: user.username,
+      user_id: 1, // Sử dụng ID người dùng đăng nhập, giả định ở đây là 1
       total_order_price: grandTotal,
-      order_status: 1, // Ví dụ: 1 cho "Đã thanh toán"
-      payment_method: paymentMethod === "vnpay" ? 2 : 1, // 2 cho "VNPay", 1 cho "COD"
-      payment_status: 1, // 1 cho "Đã thanh toán"
-      created_at: new Date().toISOString(),
+      order_status: 0, // Đơn hàng mới
+      payment_method: 1, // 1: COD, 2: Vnpay
+      payment_status: 0, // Chưa thanh toán
+      order_details: orderDetails,
     };
 
     try {
+      // Gửi dữ liệu tới API
       const response = await OrderApi.createOrder(orderData);
-      console.log('Order created successfully:', response.data);
+      console.log(response);
 
-      // Lưu chi tiết đơn hàng
-      const orderId = response.data.id; // Giả sử API trả về id của đơn hàng đã tạo
-      await saveOrderDetails(orderId);
-
-      // Cập nhật số lượng sản phẩm
-      await updateProductQuantities();
-
-      // Xóa giỏ hàng
-      setCart([]); // Xóa tất cả sản phẩm trong giỏ hàng
-      setPaymentSuccess(true); // Đánh dấu thanh toán thành công
-      setErrorMessage(null); // Đặt thông báo lỗi thành null
-
+      if (response) {
+        setPaymentSuccess(true); // Đặt trạng thái thanh toán thành công
+        setCart([]); // Xóa giỏ hàng
+        navigate('/history');
+      }
     } catch (error) {
       console.error('Error creating order:', error);
+      setErrorMessage('Đã xảy ra lỗi khi xử lý đơn hàng. Vui lòng thử lại.');
     }
   };
-
-  // Hàm lưu chi tiết đơn hàng
-  const saveOrderDetails = async (orderId) => {
-    const orderDetails = cart.map(item => ({
-      product_name: item.name,
-      quantity: item.quantity,
-      price: item.sel_price,
-      images: [item.images], // Giả sử bạn muốn lưu mảng hình ảnh
-    }));
-
-    try {
-      await OrderApi.createOrderDetails(orderId, orderDetails); // Gọi API để lưu chi tiết đơn hàng
-      console.log('Order details saved successfully');
-    } catch (error) {
-      console.error('Error saving order details:', error);
-    }
-  };
-
 
   if (loading) {
     return <div>Loading user data...</div>; // Hiển thị thông báo tải
@@ -188,7 +169,7 @@ export default function PaymentPage() {
             Đăng nhập
           </NavLink>
         </div>
-        <form ref={formRef} onSubmit={handleSubmit} className="payment-page-form">
+        <form ref={formRef} className="payment-page-form">
           <label className="payment-page-form-label">
             <input
               type="text"
@@ -234,7 +215,7 @@ export default function PaymentPage() {
                 type="radio"
                 id="cod"
                 name="paymentMethod"
-                value="cod"
+                value="1"
                 onChange={(e) => setPaymentMethod(e.target.value)} />
 
               <label htmlFor="cod">Thanh toán khi nhận hàng (COD)</label>
@@ -246,7 +227,7 @@ export default function PaymentPage() {
                 type="radio"
                 id="vnpay"
                 name="paymentMethod"
-                value="vnpay"
+                value="2"
                 onChange={(e) => setPaymentMethod(e.target.value)}
               />
               <label htmlFor="vnpay">Thanh toán qua VNPay</label>

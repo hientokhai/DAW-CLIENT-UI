@@ -4,10 +4,10 @@ import imgCollections from "../../asset/img/collection.webp";
 import imgCollections2 from "../../asset/img/collection2.webp";
 import category from "../../asset/img/danhmuc.webp";
 import outlet from "../../asset/img/outlet.webp";
+
 import { NavLink } from "react-router-dom";
 import BestSeller from "../Best Seller/BestSeller";
 import FeaturedProduct from "../Featured/Featured";
-import NewProduct from "../NewProduct/NewProduct";
 import CategoryPr from "../Category/Category";
 import Features from "../Features/Features";
 import { Helmet } from "react-helmet";
@@ -93,13 +93,13 @@ const Home = () => {
         <FeaturedProduct />
       </div>
       <div>
-        <NewProduct />
+
       </div>
       {/* Các danh mục khác */}
       <div className="category-banner">
         <img src={category} alt="category" />
       </div>
-      <CategoryPage />
+      <CategoryPr />
     </div>
   );
 };
