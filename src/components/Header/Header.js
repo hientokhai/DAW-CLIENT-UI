@@ -268,7 +268,7 @@ function Header() {
                 >
                   Đăng nhập
                 </button>
-                <NavLink to="/signup">
+                {/* <NavLink to="/signup">
                   <button
                     className="self-center px-3 py-3 rounded text-white hover:text-green-200 transition-colors duration-300"
                     style={{
@@ -278,7 +278,7 @@ function Header() {
                   >
                     Đăng ký
                   </button>
-                </NavLink>
+                </NavLink> */}
               </>
             )}
           </div>

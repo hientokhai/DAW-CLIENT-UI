@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link  } from "react-router-dom"; // Import Link để chuyển hướng
+import { Link } from "react-router-dom"; // Import Link để chuyển hướng
 import "./History.css";
 import OrderApi from "../../api/orderApi";
 import { Button } from "antd";
@@ -108,14 +108,11 @@ const History = () => {
                         {/* Phần bên trái: hình ảnh, tên sản phẩm và số lượng */}
                         <div className="product-left">
                           {Array.isArray(product.images) && product.images.length > 0 ? (
-                            product.images.map((imageUrl, imgIdx) => (
-                              <img
-                                key={imgIdx}
-                                src={imageUrl}
-                                alt={product.product_name}
-                                className="product-image-history"
-                              />
-                            ))
+                            <img
+                              src={product.images[0]}
+                              alt={product.product_name}
+                              className="product-image-history"
+                            />
                           ) : (
                             <div className="no-image">Không có ảnh</div>
                           )}
